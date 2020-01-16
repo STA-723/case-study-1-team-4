@@ -270,10 +270,154 @@ Thus, we can mirror the boxplot with DDE and premature also in this case.
 \includegraphics[width=\maxwidth]{figure/unnamed-chunk-11-2} 
 
 \end{knitrout}
-We see that the results are very similar. This suggests that the approaches will lead to the same results. \
-As a last result 
+We see that the results are very similar. This suggests that the approaches will lead to the same results. 
+At last, we isolate the results between environment and not environment (as raphael suggested). 
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{cor}\hlstd{(data} \hlopt{%>%} \hlkwd{select}\hlstd{(triglycerides, cholesterol))}
+\end{alltt}
+\begin{verbatim}
+##               triglycerides cholesterol
+## triglycerides     1.0000000   0.3610952
+## cholesterol       0.3610952   1.0000000
+\end{verbatim}
+\begin{alltt}
+\hlstd{data} \hlkwb{=} \hlstd{data} \hlopt{%>%} \hlkwd{rowwise}\hlstd{()} \hlopt{%>%} \hlkwd{mutate}\hlstd{(}\hlkwc{trigl_chol_sum} \hlstd{=} \hlkwd{sum}\hlstd{(triglycerides, cholesterol))} \hlopt{%>%} \hlstd{ungroup}
+\hlstd{data}\hlopt{$}\hlstd{dde_env} \hlkwb{=} \hlstd{data}\hlopt{$}\hlstd{dde}\hlopt{/}\hlstd{data}\hlopt{$}\hlstd{trigl_chol_sum}
+\hlstd{data}\hlopt{$}\hlstd{pcb_sum_env} \hlkwb{=} \hlstd{data}\hlopt{$}\hlstd{pcb_sum}\hlopt{/}\hlstd{data}\hlopt{$}\hlstd{trigl_chol_sum}
+\hlkwd{ggplot}\hlstd{(data)} \hlopt{+}
+  \hlkwd{geom_boxplot}\hlstd{(}\hlkwd{aes}\hlstd{(}\hlkwc{x}\hlstd{=premature,} \hlkwc{y}\hlstd{= pcb_sum_env))}
+\end{alltt}
 
 
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: Removed 1 rows containing non-finite values (stat\_boxplot).}}\end{kframe}
+\includegraphics[width=\maxwidth]{figure/unnamed-chunk-12-1} 
+
+\end{knitrout}
+
+One last thing. How are the premature women distributed across the centers?
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{data}\hlopt{$}\hlstd{premature} \hlkwb{=} \hlkwd{as.numeric}\hlstd{(data}\hlopt{$}\hlstd{premature)}
+\hlkwd{barplot}\hlstd{(}\hlkwd{table}\hlstd{(data}\hlopt{$}\hlstd{premature, data}\hlopt{$}\hlstd{center))}
+\end{alltt}
+\end{kframe}
+\includegraphics[width=\maxwidth]{figure/unnamed-chunk-13-1} 
+
+\end{knitrout}
+From a first glance,the labs seem eterogeneous. This is a problem we need to deal with. 
+
+\section{A first approach: logistic regression}
+We run a very simple logistic regression. First, we focus on the complete cases (to add all regressors). We start in the simple case of the dde and pcb_sum without the environment effect.
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{logit_model_1} \hlkwb{<-} \hlkwd{glm}\hlstd{(premature} \hlopt{~} \hlstd{dde} \hlopt{+} \hlstd{pcb_sum} \hlopt{+} \hlstd{race} \hlopt{+} \hlstd{maternal_age} \hlopt{+} \hlstd{score_occupation} \hlopt{+} \hlstd{center} \hlopt{+} \hlstd{score_income} \hlopt{+} \hlstd{score_education,} \hlkwc{data} \hlstd{= data,} \hlkwc{family} \hlstd{=} \hlstr{"binomial"}\hlstd{)}
+\hlkwd{summary}\hlstd{(logit_model_1)}
+\end{alltt}
+\begin{verbatim}
+## 
+## Call:
+## glm(formula = premature ~ dde + pcb_sum + race + maternal_age + 
+##     score_occupation + center + score_income + score_education, 
+##     family = "binomial", data = data)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -1.3080  -0.6143  -0.4804  -0.3578   2.7137  
+## 
+## Coefficients:
+##                   Estimate Std. Error z value Pr(>|z|)    
+## (Intercept)      -2.116247   0.421263  -5.024 5.07e-07 ***
+## dde               0.009322   0.003254   2.865  0.00417 ** 
+## pcb_sum           0.107112   0.039410   2.718  0.00657 ** 
+## raceblack         0.258101   0.241582   1.068  0.28535    
+## raceother         0.803932   0.494812   1.625  0.10422    
+## maternal_age     -0.004595   0.011105  -0.414  0.67906    
+## score_occupation -0.003767   0.002830  -1.331  0.18322    
+## center10         -0.870941   0.495521  -1.758  0.07881 .  
+## center15          0.580670   0.371618   1.563  0.11816    
+## center31         -1.003980   0.592436  -1.695  0.09014 .  
+## center37          0.652792   0.303428   2.151  0.03145 *  
+## center45         -0.028248   0.357586  -0.079  0.93704    
+## center50          0.032301   0.367842   0.088  0.93003    
+## center55         -0.448572   0.599546  -0.748  0.45435    
+## center60          0.251547   0.366731   0.686  0.49276    
+## center66          0.024323   0.314908   0.077  0.93843    
+## center71         -0.137112   0.362607  -0.378  0.70533    
+## center82          0.325151   0.367403   0.885  0.37616    
+## score_income     -0.002296   0.002782  -0.825  0.40934    
+## score_education  -0.004091   0.003124  -1.310  0.19036    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 1549.5  on 1831  degrees of freedom
+## Residual deviance: 1453.4  on 1812  degrees of freedom
+##   (516 observations deleted due to missingness)
+## AIC: 1493.4
+## 
+## Number of Fisher Scoring iterations: 5
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{logit_model_2} \hlkwb{<-} \hlkwd{glm}\hlstd{(premature} \hlopt{~} \hlstd{dde_env} \hlopt{+} \hlstd{pcb_sum_env} \hlopt{+} \hlstd{race} \hlopt{+} \hlstd{maternal_age} \hlopt{+} \hlstd{score_occupation} \hlopt{+} \hlstd{center} \hlopt{+} \hlstd{score_income} \hlopt{+} \hlstd{score_education,} \hlkwc{data} \hlstd{= data,} \hlkwc{family} \hlstd{=} \hlstr{"binomial"}\hlstd{)}
+\hlkwd{summary}\hlstd{(logit_model_2)}
+\end{alltt}
+\begin{verbatim}
+## 
+## Call:
+## glm(formula = premature ~ dde_env + pcb_sum_env + race + maternal_age + 
+##     score_occupation + center + score_income + score_education, 
+##     family = "binomial", data = data)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -1.0686  -0.6225  -0.4909  -0.3649   2.6527  
+## 
+## Coefficients:
+##                   Estimate Std. Error z value Pr(>|z|)    
+## (Intercept)      -1.922867   0.418335  -4.596  4.3e-06 ***
+## dde_env           3.042856   1.353676   2.248   0.0246 *  
+## pcb_sum_env      20.220561  16.410417   1.232   0.2179    
+## raceblack         0.279208   0.244582   1.142   0.2536    
+## raceother         0.719970   0.491241   1.466   0.1428    
+## maternal_age      0.000080   0.011020   0.007   0.9942    
+## score_occupation -0.003359   0.002816  -1.193   0.2330    
+## center10         -0.821461   0.492568  -1.668   0.0954 .  
+## center15          0.431834   0.368169   1.173   0.2408    
+## center31         -0.971114   0.587981  -1.652   0.0986 .  
+## center37          0.607774   0.302309   2.010   0.0444 *  
+## center45         -0.029969   0.354556  -0.085   0.9326    
+## center50         -0.094126   0.364143  -0.258   0.7960    
+## center55         -0.507646   0.593630  -0.855   0.3925    
+## center60          0.129617   0.363120   0.357   0.7211    
+## center66         -0.019042   0.312753  -0.061   0.9515    
+## center71         -0.195226   0.360729  -0.541   0.5884    
+## center82          0.191025   0.365205   0.523   0.6009    
+## score_income     -0.002060   0.002756  -0.748   0.4547    
+## score_education  -0.004532   0.003105  -1.460   0.1444    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 1549.5  on 1831  degrees of freedom
+## Residual deviance: 1466.5  on 1812  degrees of freedom
+##   (516 observations deleted due to missingness)
+## AIC: 1506.5
+## 
+## Number of Fisher Scoring iterations: 5
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
 
 
 

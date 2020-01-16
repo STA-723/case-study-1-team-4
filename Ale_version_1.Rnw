@@ -129,7 +129,7 @@ ggplot(data) +
 ggplot(data) +
   geom_boxplot(aes(x=premature, y= pcb_sum))
 @
-We see that the results are very similar. This suggests that the approaches will lead to the same results. \
+We see that the results are very similar. This suggests that the approaches will lead to the same results. 
 At last, we isolate the results between environment and not environment (as raphael suggested). 
 <<>>=
 cor(data %>% select(triglycerides, cholesterol))
@@ -144,6 +144,10 @@ One last thing. How are the premature women distributed across the centers?
 <<>>=
 data$premature = as.numeric(data$premature)
 barplot(table(data$premature, data$center))
+
+data %>%
+  ggplot(aes(x=center, fill = as.factor(premature))) +
+  geom_bar(position = "fill")
 @
 From a first glance,the labs seem eterogeneous. This is a problem we need to deal with. 
 

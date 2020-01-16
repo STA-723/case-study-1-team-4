@@ -1,0 +1,74 @@
+---
+title: "Data Prep"
+author: "Raphaël Morsomme"
+date: "January 16, 2020"
+output: pdf_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(fig.height = 4,
+                      fig.width = 6,
+                      echo = FALSE)
+
+library(tidyverse)
+library(GGally) # ggpairs()
+library(tidyimpute) # NA imputation
+library(na.tools) # NA imputation
+
+my_standardize <- function(x) (x - mean(x, na.rm = T)) / sd(x, na.rm = T)
+```
+
+## Data Preparation
+
+- drop albumin
+- remove female with length of gestation superior to 45 weeks and dichotomize the variable
+- aggregate scaled PCB's
+- total fat
+- exposure (quantity of chemical in environment)
+
+```{r data prep}
+d <- readRDS("Longnecker.rds") %>%
+  
+  mutate_at(vars(center, smoking_status), factor) %>%
+  select(-albumin) %>% # too many NAs
+  
+  # Dependent Variable
+  filter(gestational_age <= 45) %>% # more accurate treatment would be to allow for error in measurement since the number of weeks is only estimated (there is room for error)
+  mutate(outcome_2 = case_when(gestational_age <= 37 ~ "Pre term",
+                               TRUE                  ~ "At term"),
+         outcome_3 = case_when(gestational_age <= 31 ~ "Dangerous",
+                               gestational_age <= 37 ~ "Pre term",
+                               TRUE                  ~ "At term")) %>%
+  
+  # Aggregate PCBs
+  mutate_at(vars(starts_with("pcb")), my_standardize) %>% # standardize pcb's to give them all equal weight in the aggregate pcb variable
+  rowwise() %>%
+  mutate(pcb = mean(c(pcb_028, pcb_052, pcb_074, pcb_105, pcb_118, pcb_153, pcb_170, pcb_138, pcb_180, pcb_194, pcb_203))) %>%
+  ungroup %>%
+  
+  # Fat
+  mutate(fat = 2.27 * cholesterol + triglycerides + 0.623) %>% # https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3893492/
+  
+  # Exposure
+  mutate(dde_env = dde / fat,
+         pcb_env = pcb / fat) %>%
+  
+  # NA
+  impute_if(na.mean, is.numeric) %>%
+  #impute_if(na.mode, is.character) %>% # not necessary
+  
+  select(starts_with("outcome"), # Y
+         starts_with("dde|pcb"), # X
+         starts_with("score"), race, maternal_age, center, smoking_status, # Z
+         everything())
+```
+
+```{r, fig_height = 3}
+d %>% 
+  select(dde, pcb, pcb_028 : pcb_203) %>%
+  #mutate_all(~(log(. + 0.1))) %>%
+  ggcorr(palette = "RdBu", label = TRUE)
+```
+

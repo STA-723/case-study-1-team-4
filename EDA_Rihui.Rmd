@@ -48,7 +48,7 @@ y=data %>% select(gestational_age)
 predictors=na.omit(X[,1:12])
 X=na.omit(X)
 ```
-Correlation heat map. There are relatuvely high dependency between pcb variables, which may cause the multicolinearity issue. The association between treatment variables and tri or cho is weak.
+Correlation heat map. There are relatuvely high dependency between pcb variables, which may cause the multicolinearity issue. The association between treatment variables and tri or cho is weak.categorical_data_analysis???edition_3.pdf
 ```{r}
 mea=X %>% select(dde:pcb_203,triglycerides,cholesterol)
 corrplot(cor(mea))

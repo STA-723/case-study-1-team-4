@@ -139,6 +139,12 @@ data$pcb_sum_env = data$pcb_sum/data$trigl_chol_sum
 ggplot(data) +
   geom_boxplot(aes(x=premature, y= pcb_sum_env))
 @
+<<>>=
+# use the formula in Roberts et al
+data$lipids = 2.27*data$cholesterol +  data$triglycerides + 0.623
+data$dde_lipid = data$dde/data$lipids 
+data$pcb_lipid = data$pcb_sum/data$lipids 
+@
 
 One last thing. How are the premature women distributed across the centers?
 <<>>=
@@ -163,6 +169,13 @@ logit_model_2 <- glm(premature ~ dde_env + pcb_sum_env + race + maternal_age + s
 summary(logit_model_2)
 @
 
+Very important way to compute the total fat
+https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3893492/
+
+<<>>=
+logit_model_3 <- glm(premature ~ dde_lipid + pcb_lipid + race + maternal_age + score_occupation + center + score_income + score_education, data = data, family = "binomial")
+summary(logit_model_3)
+@
 
 
 

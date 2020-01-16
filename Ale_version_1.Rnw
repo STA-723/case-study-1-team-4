@@ -1,0 +1,167 @@
+\documentclass{article}
+\usepackage[a4paper, total={6.5in, 8.5in}]{geometry}
+\usepackage{fullpage}
+\usepackage{url,hyperref}
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb,array,comment,eucal}
+\usepackage{algorithm}
+\usepackage{titlesec}
+\usepackage[noend]{algpseudocode}
+\usepackage{enumitem}
+\newlist{steps}{enumerate}{1}
+\setlist[steps, 1]{label = Step \arabic*:}
+\titleformat{\section}
+{\normalfont\Large\bfseries}{Exercise~\thesection}{1em}{}
+\newcommand\T{\textrm{T}}
+\newcommand\N{\mathcal{N}}
+\newcommand\bX{\mathbf{X}}
+\newcommand\bx{\mathbf{x}}
+\newcommand\bxm{\bar{\bx}}
+\newcommand\bXtX{\mathbf{X}^T\mathbf{X}}
+\newcommand\bY{\mathbf{Y}}
+\newcommand\by{\mathbf{y}}
+\newcommand\bI{\mathbf{I}}
+\newcommand\bP{\mathbf{P}}
+\newcommand\bPX{\mathbf{P}_{\bX}}
+\newcommand\bU{\mathbf{U}}
+\newcommand\bD{\mathbf{D}}
+\newcommand\beps{\boldsymbol{\epsilon}}
+\newcommand\bgamma{\boldsymbol{\gamma}}
+\newcommand\one{\mathbf{1}}
+\newcommand\zero{\mathbf{0}}
+\newcommand\mby{\bar{\by}}
+\newcommand\my{\bar{y}}
+\newcommand\bYhat{\hat{\bY}}
+\newcommand\bmu{\boldsymbol{\mu}}
+\newcommand\btau{\boldsymbol{\tau}}
+\newcommand\blambda{\boldsymbol{\lambda}}
+\newcommand\bbeta{\boldsymbol{\beta}}
+\newcommand\bbetahat{\hat{\bbeta}}
+\newcommand\bbetag{\bbeta_{\bgamma}}
+\newcommand\bbetamg{\bbeta_{1-\bgamma}}
+\newcommand\bbetatilde{\tilde{\bbeta}}
+\newcommand\betahat{\hat{\beta}}
+\newcommand\bXg{\bX_{\bgamma}}
+\newcommand\bXmg{\bX_{1-\bgamma}}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+%\nexcommmand\Ex{\mathbb{E}}
+\begin{document}
+\title{Case Study 1 - }
+\author{Alessandro Zito}
+\date{\today}
+\maketitle
+
+\section*{R setup}
+<<>>=
+suppressMessages(library(tidyverse))
+library(corrplot)
+library(RColorBrewer)
+ggplot2::theme_set(ggplot2::theme_bw())
+@
+
+\section{Introduction}
+
+\section{EDA}
+We import the data and make a summary of the main values
+<<>>=
+# Import the data and observe the missing values / wierd values
+data = readRDS("Longnecker.rds")
+print(dim(data))
+# The variables of interest are DDE, all the PBCs. 
+# The dependent variable is gestational_age
+@
+The plot of gestational age is 
+<<>>=
+ggplot(data = data) +
+  geom_histogram(aes(x=gestational_age))
+@
+We see in particular thea there are wierd values in the dependent variable. Indeed, the highest number of weeks obsrved is 90
+<<>>=
+table(data$gestational_age)
+@
+As the record for longest pregnancy in weeks is equal to 375 and the second one is 317, we decide to drop all the observations which have a gestational age higher than 46 weeks (excluded). Moreoer, we transform smoking stauts and center as factors and we drop albumin (which is only made by NAs). Finally, we create a variable that reports if the the birth has been premature or not (before 37 weeks). 
+<<>>=
+data = data %>% 
+  filter(gestational_age <= 46) %>% 
+  mutate_at(vars(smoking_status, center),factor) %>% 
+  select(-albumin) %>% #Too many NAs
+  mutate(premature = (gestational_age < 37))
+@
+We start by exploiting the relationship between the new variable premature and the DDE. Note that the number of premature mothers compared to the size of the new dataset is
+<<>>=
+table(data$premature)
+table(data$premature)/nrow(data)
+@
+and the association it has with DDE is positive. 
+<<>>=
+ggplot(data) +
+  geom_boxplot(aes(x=premature, y=dde))
+@
+To see the relationship between premature and pcb, we have to understand what is the correlation across each level of pcb. Notice that there is only one row that has null values ofr pcb. We decide to drop it.
+<<>>=
+data = data[-is.na(data$pcb_028),]
+@
+<<>>=
+cor_base = cor(data %>% select(-smoking_status, -race, -center, -premature), use="pairwise.complete.obs" )
+corrplot(cor_base,col=brewer.pal(n=8, name="RdYlBu"))
+@
+We see that each pcb are very correlated among themselves. This is expected, as they originate from one single component. As the variables have their own unit of measure, we suggest two approaches.  
+\begin{enumerate}
+\item Summing them (to see the total amount of pcb in the blood).
+\item Standardizing and averaging them
+\end{enumerate}
+<<>>=
+# 1) Summing
+pcb_sum = apply(as.matrix(data %>% select(pcb_028, pcb_052, pcb_074, pcb_105, pcb_118, pcb_153, pcb_170, pcb_138, pcb_180, pcb_194, pcb_203)),1, sum)
+# 2) Stanardize and average
+my_standardize <- function(x) (x - mean(x, na.rm = T)) / sd(x, na.rm = T)
+data = data %>%
+  mutate_at(vars(starts_with("pcb")), my_standardize) %>% # standardize pcb's to give them all equal weight in the aggregate pcb variable
+  rowwise() %>%
+  mutate(pcb_mean = mean(c(pcb_028, pcb_052, pcb_074, pcb_105, pcb_118, pcb_153, pcb_170, pcb_138, pcb_180, pcb_194, pcb_203))) %>%
+  ungroup
+data$pcb_sum = pcb_sum
+@
+Thus, we can mirror the boxplot with DDE and premature also in this case.
+<<>>=
+ggplot(data) +
+  geom_boxplot(aes(x=premature, y= pcb_mean))
+ggplot(data) +
+  geom_boxplot(aes(x=premature, y= pcb_sum))
+@
+We see that the results are very similar. This suggests that the approaches will lead to the same results. \
+At last, we isolate the results between environment and not environment (as raphael suggested). 
+<<>>=
+cor(data %>% select(triglycerides, cholesterol))
+data = data %>% rowwise() %>% mutate(trigl_chol_sum = sum(triglycerides, cholesterol)) %>% ungroup 
+data$dde_env = data$dde/data$trigl_chol_sum
+data$pcb_sum_env = data$pcb_sum/data$trigl_chol_sum
+ggplot(data) +
+  geom_boxplot(aes(x=premature, y= pcb_sum_env))
+@
+
+One last thing. How are the premature women distributed across the centers?
+<<>>=
+data$premature = as.numeric(data$premature)
+barplot(table(data$premature, data$center))
+@
+From a first glance,the labs seem eterogeneous. This is a problem we need to deal with. 
+
+\section{A first approach: logistic regression}
+We run a very simple logistic regression. First, we focus on the complete cases (to add all regressors). We start in the simple case of the dde and pcb_sum without the environment effect.
+<<>>=
+logit_model_1 <- glm(premature ~ dde + pcb_sum + race + maternal_age + score_occupation + center + score_income + score_education, data = data, family = "binomial")
+summary(logit_model_1)
+@
+
+<<>>=
+logit_model_2 <- glm(premature ~ dde_env + pcb_sum_env + race + maternal_age + score_occupation + center + score_income + score_education, data = data, family = "binomial")
+summary(logit_model_2)
+@
+
+
+
+
+
+
+\end{document}

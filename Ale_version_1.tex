@@ -1,0 +1,283 @@
+\documentclass{article}\usepackage[]{graphicx}\usepackage[]{color}
+% maxwidth is the original width if it is less than linewidth
+% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
+\newcommand{\hlstr}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
+\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlstd}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
+\let\hlipl\hlkwb
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+\usepackage{alltt}
+\usepackage[a4paper, total={6.5in, 8.5in}]{geometry}
+\usepackage{fullpage}
+\usepackage{url,hyperref}
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb,array,comment,eucal}
+\usepackage{algorithm}
+\usepackage{titlesec}
+\usepackage[noend]{algpseudocode}
+\usepackage{enumitem}
+\newlist{steps}{enumerate}{1}
+\setlist[steps, 1]{label = Step \arabic*:}
+\titleformat{\section}
+{\normalfont\Large\bfseries}{Exercise~\thesection}{1em}{}
+\newcommand\T{\textrm{T}}
+\newcommand\N{\mathcal{N}}
+\newcommand\bX{\mathbf{X}}
+\newcommand\bx{\mathbf{x}}
+\newcommand\bxm{\bar{\bx}}
+\newcommand\bXtX{\mathbf{X}^T\mathbf{X}}
+\newcommand\bY{\mathbf{Y}}
+\newcommand\by{\mathbf{y}}
+\newcommand\bI{\mathbf{I}}
+\newcommand\bP{\mathbf{P}}
+\newcommand\bPX{\mathbf{P}_{\bX}}
+\newcommand\bU{\mathbf{U}}
+\newcommand\bD{\mathbf{D}}
+\newcommand\beps{\boldsymbol{\epsilon}}
+\newcommand\bgamma{\boldsymbol{\gamma}}
+\newcommand\one{\mathbf{1}}
+\newcommand\zero{\mathbf{0}}
+\newcommand\mby{\bar{\by}}
+\newcommand\my{\bar{y}}
+\newcommand\bYhat{\hat{\bY}}
+\newcommand\bmu{\boldsymbol{\mu}}
+\newcommand\btau{\boldsymbol{\tau}}
+\newcommand\blambda{\boldsymbol{\lambda}}
+\newcommand\bbeta{\boldsymbol{\beta}}
+\newcommand\bbetahat{\hat{\bbeta}}
+\newcommand\bbetag{\bbeta_{\bgamma}}
+\newcommand\bbetamg{\bbeta_{1-\bgamma}}
+\newcommand\bbetatilde{\tilde{\bbeta}}
+\newcommand\betahat{\hat{\beta}}
+\newcommand\bXg{\bX_{\bgamma}}
+\newcommand\bXmg{\bX_{1-\bgamma}}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+%\nexcommmand\Ex{\mathbb{E}}
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\begin{document}
+\title{Case Study 1 - }
+\author{Alessandro Zito}
+\date{\today}
+\maketitle
+
+\section*{R setup}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{suppressMessages}\hlstd{(}\hlkwd{library}\hlstd{(tidyverse))}
+\hlkwd{library}\hlstd{(corrplot)}
+\end{alltt}
+
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# corrplot 0.84 loaded}}\begin{alltt}
+\hlkwd{library}\hlstd{(RColorBrewer)}
+\hlstd{ggplot2}\hlopt{::}\hlkwd{theme_set}\hlstd{(ggplot2}\hlopt{::}\hlkwd{theme_bw}\hlstd{())}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+\section{Introduction}
+
+\section{EDA}
+We import the data and make a summary of the main values
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{# Import the data and observe the missing values / wierd values}
+\hlstd{data} \hlkwb{=} \hlkwd{readRDS}\hlstd{(}\hlstr{"Longnecker.rds"}\hlstd{)}
+\hlkwd{print}\hlstd{(}\hlkwd{dim}\hlstd{(data))}
+\end{alltt}
+\begin{verbatim}
+## [1] 2380   23
+\end{verbatim}
+\begin{alltt}
+\hlcom{# The variables of interest are DDE, all the PBCs. }
+\hlcom{# The dependent variable is gestational_age}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+The plot of gestational age is 
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{ggplot}\hlstd{(}\hlkwc{data} \hlstd{= data)} \hlopt{+}
+  \hlkwd{geom_histogram}\hlstd{(}\hlkwd{aes}\hlstd{(}\hlkwc{x}\hlstd{=gestational_age))}
+\end{alltt}
+
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# `stat\_bin()` using `bins = 30`. Pick better value with `binwidth`.}}\end{kframe}
+\includegraphics[width=\maxwidth]{figure/unnamed-chunk-3-1} 
+
+\end{knitrout}
+We see in particular thea there are wierd values in the dependent variable. Indeed, the highest number of weeks obsrved is 90
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{table}\hlstd{(data}\hlopt{$}\hlstd{gestational_age)}
+\end{alltt}
+\begin{verbatim}
+## 
+##  27  28  29  30  31  32  33  34  35  36  37  38  39  40  41  42  43  44  45  46 
+##   1   4   5   8  19  32  34  67  88 103 161 349 425 459 279 142  79  57  25  12 
+##  47  48  49  50  51  52  53  55  56  64  84  90 
+##   8   4   4   3   3   3   1   1   1   1   1   1
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+As the record for longest pregnancy in weeks is equal to 375 and the second one is 317, we decide to drop all the observations which have a gestational age higher than 46 weeks (excluded). Moreoer, we transform smoking stauts and center as factors and we drop albumin (which is only made by NAs). Finally, we create a variable that reports if the the birth has been premature or not (before 37 weeks). 
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{data} \hlkwb{=} \hlstd{data} \hlopt{%>%}
+  \hlkwd{filter}\hlstd{(gestational_age} \hlopt{<=} \hlnum{46}\hlstd{)} \hlopt{%>%}
+  \hlkwd{mutate_at}\hlstd{(}\hlkwd{vars}\hlstd{(smoking_status, center),factor)} \hlopt{%>%}
+  \hlkwd{select}\hlstd{(}\hlopt{-}\hlstd{albumin)} \hlopt{%>%} \hlcom{#Too many NAs}
+  \hlkwd{mutate}\hlstd{(}\hlkwc{premature} \hlstd{= (gestational_age} \hlopt{<} \hlnum{37}\hlstd{))}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+We start by exploiting the relationship between the new variable premature and the DDE. Note that the number of premature mothers compared to the size of the new dataset is
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{table}\hlstd{(data}\hlopt{$}\hlstd{premature)}
+\end{alltt}
+\begin{verbatim}
+## 
+## FALSE  TRUE 
+##  1988   361
+\end{verbatim}
+\begin{alltt}
+\hlkwd{table}\hlstd{(data}\hlopt{$}\hlstd{premature)}\hlopt{/}\hlkwd{nrow}\hlstd{(data)}
+\end{alltt}
+\begin{verbatim}
+## 
+##     FALSE      TRUE 
+## 0.8463176 0.1536824
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+and the association it has with DDE is positive. 
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{ggplot}\hlstd{(data)} \hlopt{+}
+  \hlkwd{geom_boxplot}\hlstd{(}\hlkwd{aes}\hlstd{(}\hlkwc{x}\hlstd{=premature,} \hlkwc{y}\hlstd{=dde))}
+\end{alltt}
+\end{kframe}
+\includegraphics[width=\maxwidth]{figure/unnamed-chunk-7-1} 
+
+\end{knitrout}
+To see the relationship between premature and pcb, we have to understand what is the correlation across each level of pcb. Notice that there is only one row that has null values ofr pcb. We decide to drop it.
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{data} \hlkwb{=} \hlstd{data[}\hlopt{-}\hlkwd{is.na}\hlstd{(data}\hlopt{$}\hlstd{pcb_028),]}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{cor_base} \hlkwb{=} \hlkwd{cor}\hlstd{(data} \hlopt{%>%} \hlkwd{select}\hlstd{(}\hlopt{-}\hlstd{smoking_status,} \hlopt{-}\hlstd{race,} \hlopt{-}\hlstd{center,} \hlopt{-}\hlstd{premature),} \hlkwc{use}\hlstd{=}\hlstr{"pairwise.complete.obs"} \hlstd{)}
+\hlkwd{corrplot}\hlstd{(cor_base,}\hlkwc{col}\hlstd{=}\hlkwd{brewer.pal}\hlstd{(}\hlkwc{n}\hlstd{=}\hlnum{8}\hlstd{,} \hlkwc{name}\hlstd{=}\hlstr{"RdYlBu"}\hlstd{))}
+\end{alltt}
+\end{kframe}
+\includegraphics[width=\maxwidth]{figure/unnamed-chunk-9-1} 
+
+\end{knitrout}
+We see that each pcb are very correlated among themselves. This is expected, as they originate from one single component. As the variables have their own unit of measure, we suggest two approaches.  
+\begin{enumerate}
+\item Summing them (to see the total amount of pcb in the blood).
+\item Standardizing and averaging them
+\end{enumerate}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{# 1) Summing}
+\hlstd{pcb_sum} \hlkwb{=} \hlkwd{apply}\hlstd{(}\hlkwd{as.matrix}\hlstd{(data} \hlopt{%>%} \hlkwd{select}\hlstd{(pcb_028, pcb_052, pcb_074, pcb_105, pcb_118, pcb_153, pcb_170, pcb_138, pcb_180, pcb_194, pcb_203)),}\hlnum{1}\hlstd{, sum)}
+\hlcom{# 2) Stanardize and average}
+\hlstd{my_standardize} \hlkwb{<-} \hlkwa{function}\hlstd{(}\hlkwc{x}\hlstd{) (x} \hlopt{-} \hlkwd{mean}\hlstd{(x,} \hlkwc{na.rm} \hlstd{= T))} \hlopt{/} \hlkwd{sd}\hlstd{(x,} \hlkwc{na.rm} \hlstd{= T)}
+\hlstd{data} \hlkwb{=} \hlstd{data} \hlopt{%>%}
+  \hlkwd{mutate_at}\hlstd{(}\hlkwd{vars}\hlstd{(}\hlkwd{starts_with}\hlstd{(}\hlstr{"pcb"}\hlstd{)), my_standardize)} \hlopt{%>%} \hlcom{# standardize pcb's to give them all equal weight in the aggregate pcb variable}
+  \hlkwd{rowwise}\hlstd{()} \hlopt{%>%}
+  \hlkwd{mutate}\hlstd{(}\hlkwc{pcb_mean} \hlstd{=} \hlkwd{mean}\hlstd{(}\hlkwd{c}\hlstd{(pcb_028, pcb_052, pcb_074, pcb_105, pcb_118, pcb_153, pcb_170, pcb_138, pcb_180, pcb_194, pcb_203)))} \hlopt{%>%}
+  \hlstd{ungroup}
+\hlstd{data}\hlopt{$}\hlstd{pcb_sum} \hlkwb{=} \hlstd{pcb_sum}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+Thus, we can mirror the boxplot with DDE and premature also in this case.
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{ggplot}\hlstd{(data)} \hlopt{+}
+  \hlkwd{geom_boxplot}\hlstd{(}\hlkwd{aes}\hlstd{(}\hlkwc{x}\hlstd{=premature,} \hlkwc{y}\hlstd{= pcb_mean))}
+\end{alltt}
+
+
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: Removed 1 rows containing non-finite values (stat\_boxplot).}}\end{kframe}
+\includegraphics[width=\maxwidth]{figure/unnamed-chunk-11-1} 
+\begin{kframe}\begin{alltt}
+\hlkwd{ggplot}\hlstd{(data)} \hlopt{+}
+  \hlkwd{geom_boxplot}\hlstd{(}\hlkwd{aes}\hlstd{(}\hlkwc{x}\hlstd{=premature,} \hlkwc{y}\hlstd{= pcb_sum))}
+\end{alltt}
+
+
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: Removed 1 rows containing non-finite values (stat\_boxplot).}}\end{kframe}
+\includegraphics[width=\maxwidth]{figure/unnamed-chunk-11-2} 
+
+\end{knitrout}
+We see that the results are very similar. This suggests that the approaches will lead to the same results. \
+As a last result 
+
+
+
+
+
+
+
+
+\end{document}

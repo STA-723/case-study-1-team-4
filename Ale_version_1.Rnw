@@ -193,9 +193,9 @@ First, we define three cutoffs. We set the three cutoffs based on the idea that 
 dangerous_preterm = 34
 preterm = 37
 data$preterm = cut(data$gestational_age, 
-                   c(-Inf, dangerous_preterm-1, preterm-1, Inf), c(2, 1, 0))
+                   c(-Inf, dangerous_preterm, preterm, Inf), c(2, 1, 0))
 data %>%
-  ggplot(aes(x=center, fill = as.factor(preterm))) +
+  ggplot(aes(x=as.factor(center), fill = as.factor(preterm))) +
   geom_bar(position = "fill")
 @
 <<>>=

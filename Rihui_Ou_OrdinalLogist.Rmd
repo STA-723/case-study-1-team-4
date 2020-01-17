@@ -92,7 +92,7 @@ cumlogit_model_lipid=polr(premature ~ dde_lipid + pcb_lipid + race + maternal_ag
      method = c("logistic"))
 summary(cumlogit_model_lipid)
 ```
-Cumulative Logit model w/o considering lipid is fitted.
+Cumulative Logit model w/o lipid considering lipid is fitted.
 ```{r}
 ###Model 1_
 library(MASS)
@@ -112,13 +112,16 @@ finalmodel=stepAIC(cumlogit_model)
 
 Model Checking: Use our original dataset as the test dataset. Our model predicts every data point as label "2", that is, no preterm. This is bad because it means we are having the imbalanced label issue. Our model does a bad job in identifying label 1 or label 0.
 ```{r}
+predict(finalmodel)
+```
+```{r}
 sum(predict(finalmodel)==2)/length(data$premature)
 ```
 
 ###Solving the imbalanced problem
 I try to subsample the original dataset (I delete 1000 datapoints with label 2 to make the dataset more balanced), this is to say, subsample the majority group in this case to make our dataset more balanced.
 ```{r}
-newdata=data[-sample(which(data$premature==2),800,replace = FALSE),]
+newdata=data[-sample(which(data$premature==2),1000,replace = FALSE),]
 newcumlogit_model=polr(premature ~ dde+ pcb_sum + race + maternal_age + score_occupation + center + score_income + score_education, newdata, 
      method = c("logistic"))
 summary(newcumlogit_model)

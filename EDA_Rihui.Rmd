@@ -64,3 +64,11 @@ data$preterm=data$gestational_age<37
 ggplot(data, aes(x=preterm, y=dde)) +  geom_boxplot()
 
 ```
+
+```{r}
+data = data %>% 
+  filter(gestational_age <= 46) %>% 
+  mutate_at(vars(smoking_status, center),factor) %>% 
+  select(-albumin) %>% #Too many NAs
+  mutate(premature = (gestational_age < 37))
+```

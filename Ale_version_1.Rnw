@@ -90,7 +90,7 @@ data = data %>%
   filter(gestational_age <= 46) %>% 
   mutate_at(vars(smoking_status, center),factor) %>% 
   select(-albumin) %>% #Too many NAs
-  mutate(premature = (gestational_age < 38))
+  mutate(premature = (gestational_age < 37))
 @
 We start by exploiting the relationship between the new variable premature and the DDE. Note that the number of premature mothers compared to the size of the new dataset is
 <<>>=
@@ -193,9 +193,12 @@ First, we define three cutoffs. We set the three cutoffs based on the idea that 
 dangerous_preterm = 34
 preterm = 37
 data$preterm = cut(data$gestational_age, 
-                   c(-Inf, dangerous_preterm-1, preterm-1, Inf), c(2, 1, 0))
+                   c(-Inf, dangerous_preterm, preterm, Inf), c(2, 1, 0))
 data %>%
-  ggplot(aes(x=center, fill = as.factor(preterm))) +
+  ggplot(aes(x=as.factor(center), fill = as.factor(preterm))) +
+  geom_bar(position = "fill")
+data %>%
+  ggplot(aes(x=as.factor(race), fill = as.factor(preterm))) +
   geom_bar(position = "fill")
 @
 <<>>=

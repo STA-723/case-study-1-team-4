@@ -24,7 +24,7 @@ my_standardize <- function(x) (x - mean(x, na.rm = T)) / sd(x, na.rm = T)
 
 - drop albumin
 - remove female with length of gestation superior to 45 weeks and dichotomize the variable
-- aggregate scaled PCB's
+- aggregate scaled PCB's (could do PCA)
 - total fat
 - exposure (quantity of chemical in environment)
 
@@ -38,7 +38,7 @@ d <- readRDS("Longnecker.rds") %>%
   filter(gestational_age <= 45) %>% # more accurate treatment would be to allow for error in measurement since the number of weeks is only estimated (there is room for error)
   mutate(outcome_2 = case_when(gestational_age <= 37 ~ "Pre term",
                                TRUE                  ~ "At term"),
-         outcome_3 = case_when(gestational_age <= 31 ~ "Dangerous",
+         outcome_3 = case_when(gestational_age <= 34 ~ "Dangerous",
                                gestational_age <= 37 ~ "Pre term",
                                TRUE                  ~ "At term")) %>%
   
@@ -59,16 +59,38 @@ d <- readRDS("Longnecker.rds") %>%
   impute_if(na.mean, is.numeric) %>%
   #impute_if(na.mode, is.character) %>% # not necessary
   
-  select(starts_with("outcome"), # Y
-         starts_with("dde|pcb"), # X
-         starts_with("score"), race, maternal_age, center, smoking_status, # Z
-         everything())
+  dplyr::select(starts_with("outcome"), # Y
+                starts_with("dde|pcb"), # X
+                starts_with("score"), race, maternal_age, center, smoking_status, # Z
+                everything())
 ```
+
+## EDA
+
+- justify aggregation of pcb: they are all correlated, tell the same story, reduce number of predictor (more stable parameter estimation).
 
 ```{r, fig_height = 3}
 d %>% 
-  select(dde, pcb, pcb_028 : pcb_203) %>%
+  dplyr::select(dde, pcb, pcb_028 : pcb_203) %>%
   #mutate_all(~(log(. + 0.1))) %>%
   ggcorr(palette = "RdBu", label = TRUE)
+```
+
+side-by-side boxplots:
+- dde & pcb per outcome_3
+- fat per race
+
+side-by-side barplot
+- gestation per center
+- gestation per race
+
+
+
+
+
+## Model
+
+```{r model}
+
 ```
 

@@ -182,6 +182,9 @@ Very important way to compute the total fat
 logit_model_3 <- glm(premature ~ dde_lipid + pcb_lipid + race + maternal_age + score_occupation + center + score_income + score_education, data = data, family = "binomial")
 summary(logit_model_3)
 @
+<<>>=
+exp(coef(logit_model_1))
+@
 
 \section{}
 We look at ordinal logistic regression
@@ -216,6 +219,11 @@ p = pnorm(abs(ctable[, "t value"]), lower.tail = FALSE) * 2
 (ctable = cbind(ctable, "p value" = p, "Significance" = (p<0.05)))
 @
 
+See the logit interpretation
+<<>>=
+exp(coef(ordered_logit))
+@
+
 
 <<>>=
 # CHeck the parallel trend assumption
@@ -242,7 +250,7 @@ plot(s, which=1:3, pch=1:3, xlab='logit', main=' ', xlim=range(s[,3:4]))
 newdat_dde = data.frame(
   dde_lipid = seq(range(data$dde_lipid)[1],range(data$dde_lipid)[2], 0.001))
 newdat_dde = cbind(newdat_dde, predict(ordered_logit, newdat_dde, type = "probs"))
-lnewdat <- melt(data, id.vars = c("dde_lipid"),variable.name = "Level", value.name="Probability")
+lnewdat <- melt(newdat_dde, id.vars = c("dde_lipid"),variable.name = "Level", value.name="Probability")
 ## view first few rows
 head(lnewdat)
 @

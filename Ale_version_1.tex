@@ -295,6 +295,16 @@ At last, we isolate the results between environment and not environment (as raph
 \includegraphics[width=\maxwidth]{figure/unnamed-chunk-12-1} 
 
 \end{knitrout}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{# use the formula in Roberts et al}
+\hlstd{data}\hlopt{$}\hlstd{lipids} \hlkwb{=} \hlnum{2.27}\hlopt{*}\hlstd{data}\hlopt{$}\hlstd{cholesterol} \hlopt{+}  \hlstd{data}\hlopt{$}\hlstd{triglycerides} \hlopt{+} \hlnum{0.623}
+\hlstd{data}\hlopt{$}\hlstd{dde_lipid} \hlkwb{=} \hlstd{data}\hlopt{$}\hlstd{dde}\hlopt{/}\hlstd{data}\hlopt{$}\hlstd{lipids}
+\hlstd{data}\hlopt{$}\hlstd{pcb_lipid} \hlkwb{=} \hlstd{data}\hlopt{$}\hlstd{pcb_sum}\hlopt{/}\hlstd{data}\hlopt{$}\hlstd{lipids}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
 
 One last thing. How are the premature women distributed across the centers?
 \begin{knitrout}
@@ -304,13 +314,20 @@ One last thing. How are the premature women distributed across the centers?
 \hlkwd{barplot}\hlstd{(}\hlkwd{table}\hlstd{(data}\hlopt{$}\hlstd{premature, data}\hlopt{$}\hlstd{center))}
 \end{alltt}
 \end{kframe}
-\includegraphics[width=\maxwidth]{figure/unnamed-chunk-13-1} 
+\includegraphics[width=\maxwidth]{figure/unnamed-chunk-14-1} 
+\begin{kframe}\begin{alltt}
+\hlstd{data} \hlopt{%>%}
+  \hlkwd{ggplot}\hlstd{(}\hlkwd{aes}\hlstd{(}\hlkwc{x}\hlstd{=center,} \hlkwc{fill} \hlstd{=} \hlkwd{as.factor}\hlstd{(premature)))} \hlopt{+}
+  \hlkwd{geom_bar}\hlstd{(}\hlkwc{position} \hlstd{=} \hlstr{"fill"}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\includegraphics[width=\maxwidth]{figure/unnamed-chunk-14-2} 
 
 \end{knitrout}
 From a first glance,the labs seem eterogeneous. This is a problem we need to deal with. 
 
 \section{A first approach: logistic regression}
-We run a very simple logistic regression. First, we focus on the complete cases (to add all regressors). We start in the simple case of the dde and pcb_sum without the environment effect.
+We run a very simple logistic regression. First, we focus on the complete cases (to add all regressors). We start in the simple case of the dde and pcb\_sum without the environment effect.
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
@@ -419,8 +436,64 @@ We run a very simple logistic regression. First, we focus on the complete cases 
 \end{kframe}
 \end{knitrout}
 
+Very important way to compute the total fat
+ %https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3893492/
 
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{logit_model_3} \hlkwb{<-} \hlkwd{glm}\hlstd{(premature} \hlopt{~} \hlstd{dde_lipid} \hlopt{+} \hlstd{pcb_lipid} \hlopt{+} \hlstd{race} \hlopt{+} \hlstd{maternal_age} \hlopt{+} \hlstd{score_occupation} \hlopt{+} \hlstd{center} \hlopt{+} \hlstd{score_income} \hlopt{+} \hlstd{score_education,} \hlkwc{data} \hlstd{= data,} \hlkwc{family} \hlstd{=} \hlstr{"binomial"}\hlstd{)}
+\hlkwd{summary}\hlstd{(logit_model_3)}
+\end{alltt}
+\begin{verbatim}
+## 
+## Call:
+## glm(formula = premature ~ dde_lipid + pcb_lipid + race + maternal_age + 
+##     score_occupation + center + score_income + score_education, 
+##     family = "binomial", data = data)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -1.0697  -0.6216  -0.4880  -0.3629   2.6690  
+## 
+## Coefficients:
+##                   Estimate Std. Error z value Pr(>|z|)    
+## (Intercept)      -1.951086   0.418108  -4.666 3.06e-06 ***
+## dde_lipid         5.514664   2.290843   2.407   0.0161 *  
+## pcb_lipid        41.859184  27.536098   1.520   0.1285    
+## raceblack         0.262935   0.244314   1.076   0.2818    
+## raceother         0.717142   0.491548   1.459   0.1446    
+## maternal_age     -0.001022   0.011056  -0.092   0.9264    
+## score_occupation -0.003366   0.002819  -1.194   0.2325    
+## center10         -0.828758   0.492937  -1.681   0.0927 .  
+## center15          0.460702   0.368586   1.250   0.2113    
+## center31         -0.954794   0.588733  -1.622   0.1049    
+## center37          0.610419   0.302622   2.017   0.0437 *  
+## center45         -0.025858   0.354907  -0.073   0.9419    
+## center50         -0.079882   0.364435  -0.219   0.8265    
+## center55         -0.488912   0.593984  -0.823   0.4104    
+## center60          0.143962   0.363680   0.396   0.6922    
+## center66         -0.014582   0.313227  -0.047   0.9629    
+## center71         -0.190828   0.360896  -0.529   0.5970    
+## center82          0.206130   0.365694   0.564   0.5730    
+## score_income     -0.002059   0.002759  -0.746   0.4556    
+## score_education  -0.004466   0.003106  -1.438   0.1505    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 1549.5  on 1831  degrees of freedom
+## Residual deviance: 1464.2  on 1812  degrees of freedom
+##   (516 observations deleted due to missingness)
+## AIC: 1504.2
+## 
+## Number of Fisher Scoring iterations: 5
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
 
+\section{}
 
 
 

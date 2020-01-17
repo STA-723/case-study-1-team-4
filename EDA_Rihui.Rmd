@@ -1,5 +1,7 @@
 ---
 output: pdf_document
+editor_options: 
+  chunk_output_type: console
 ---
 # Case Study 1: National Collaborative Perinatal Project
 
@@ -43,19 +45,26 @@ center
 data<-readRDS("~/Downloads/Case-Study-1-master/Longnecker.rds")
 library(corrplot)
 library(dplyr)
-X=data %>% select(-albumin,-gestational_age)
-y=data %>% select(gestational_age)
+data = data %>% filter(gestational_age <= 46)
+X=data %>% dplyr::select(-albumin,-gestational_age)
+y=data %>% dplyr::select(gestational_age)
 predictors=na.omit(X[,1:12])
 X=na.omit(X)
 ```
 Correlation heat map. There are relatuvely high dependency between pcb variables, which may cause the multicolinearity issue. The association between treatment variables and tri or cho is weak.categorical_data_analysis???edition_3.pdf
 ```{r}
-mea=X %>% select(dde:pcb_203,triglycerides,cholesterol)
+mea=X %>% dplyr::select(dde:pcb_203,triglycerides,cholesterol)
 corrplot(cor(mea))
 ```
 Boxplot by different centers.Heterogenity exists across centers. May add a random effect for different centers.
 ```{r}
-boxplot(dde~center,data=data)
+
+data %>%
+  ggplot(aes(x = gestational_age)) +
+  geom_histogram(bins=20) +
+  facet_grid(center~.)
+
+boxplot(gestational_age~center,data=data)
 ```
 Evalute the marginal association. Very clear marginal association between dde and preterm. 
 ```{r}

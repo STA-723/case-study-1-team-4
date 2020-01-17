@@ -99,8 +99,10 @@ library(MASS)
 cumlogit_model=polr(premature ~ dde + pcb_sum + race + maternal_age + score_occupation + center + score_income + score_education, data, 
      contrasts = NULL, Hess = FALSE, model = TRUE,
      method = c("logistic"))
-summary(cumlogit_model)
+#summary(cumlogit_model)
+exp(-coef(cumlogit_model))
 ```
+
 
 
 Variable Selection: Using stepwise regression to do variable selection. Our finalized model is "premature ~ dde + pcb_sum + race + score_occupation + center"
@@ -121,7 +123,7 @@ sum(predict(finalmodel)==2)/length(data$premature)
 ###Solving the imbalanced problem
 I try to subsample the original dataset (I delete 1000 datapoints with label 2 to make the dataset more balanced), this is to say, subsample the majority group in this case to make our dataset more balanced.
 ```{r}
-newdata=data[-sample(which(data$premature==2),1000,replace = FALSE),]
+newdata=data[-sample(which(data$premature==2),800,replace = FALSE),]
 newcumlogit_model=polr(premature ~ dde+ pcb_sum + race + maternal_age + score_occupation + center + score_income + score_education, newdata, 
      method = c("logistic"))
 summary(newcumlogit_model)

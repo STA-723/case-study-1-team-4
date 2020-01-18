@@ -71,6 +71,10 @@ d <- readRDS("Longnecker.rds") %>%
 ## EDA
 
 - justify aggregation of pcb: they are all correlated, tell the same story, reduce number of predictor (more stable parameter estimation).
+- dde & pcb per outcome_3: (i) white less exposed to dde, (ii) "dangerous" has larger value of dde, (iii) no clear relationship for pcb
+- fat per race
+- gestation per race & per center
+
 
 ```{r, fig_height = 3}
 d %>% 
@@ -79,30 +83,45 @@ d %>%
   ggcorr(palette = "RdBu", label = TRUE)
 ```
 
-side-by-side boxplots:
-- dde & pcb per outcome_3
-- fat per race
+```{r}
+d %>%
+  ggplot(aes(x = outcome_3, y = dde_env, fill = race)) +
+  geom_violin()
 
-side-by-side barplot
-- gestation per center
-- gestation per race
+d %>%
+  ggplot(aes(x = outcome_3, y = pcb_env, fill = race)) +
+  geom_violin()
+```
 
 ```{r}
 d %>%
-  ggplot(aes(x=as.factor(center), fill = outcome_3)) +
-  geom_bar(position = "fill")
+  ggplot(aes(x = race, y = fat, fill = race)) +
+  geom_violin()
+```
+
+```{r}
 d %>%
-  ggplot(aes(x=as.factor(race), fill = outcome_3)) +
+  ggplot(aes(x=race, fill = outcome_3)) +
+  geom_bar(position = "fill")
+
+d %>%
+  ggplot(aes(x=reorder(center, outcome_3 != "2At term"), fill = outcome_3)) +
   geom_bar(position = "fill")
 ```
 
 
 ## Model
+<<<<<<< HEAD
 ### Model Building
 The cumulative logistics model(ordinal regression model) is fitted. The model is paramterized as:
 $$
 logit(P(Y\leq j))=\beta_{j0}-\eta_1x_1-\cdots-\eta_px_p
 $$
+=======
+
+The cumulative logistics model is fitted.
+
+>>>>>>> 5c53b49feb7ab6049906407b37f87af9bcd739bd
 ```{r}
 cumlogit_model_env=polr(
   outcome_3 ~ dde_env + pcb_env + race + maternal_age + score_occupation + center + score_income + score_education, 
@@ -111,7 +130,12 @@ cumlogit_model_env=polr(
 summary(cumlogit_model_env)
 ```
 
+<<<<<<< HEAD
 Besides, the cumulative Logit model w/o env is fitted.
+=======
+Cumulative Logit model w/o env considering lipid is fitted.
+
+>>>>>>> 5c53b49feb7ab6049906407b37f87af9bcd739bd
 ```{r}
 ###Model 1_
 library(MASS)
@@ -121,7 +145,10 @@ summary(cumlogit_model)
 #exp(-coef(cumlogit_model))
 ```
 
+<<<<<<< HEAD
 ### Variable Selection
+=======
+>>>>>>> 5c53b49feb7ab6049906407b37f87af9bcd739bd
 -Variable Selection (AIC)
 Stepwise regression by AIC is used to select variables. The final model we choose is "outcome_3 ~ dde_env + pcb_env + center + score_education".
 ```{r}

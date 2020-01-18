@@ -207,9 +207,9 @@ plot(m,"hist")
 ## Interpretation
 
 The explanation of coefficients are as follows:
-If other covariates are held constant, when a covariate $x$ increases by one unit, the cumulative odd ratio $\frac{Pr(Y\leq j)}{1-Pr(Y\leq j)}$ increases by $(exp(-\eta_x)-1)*100\%$.
+If other covariates are held constant, when a covariate $x$ increases by one unit, the cumulative odd ratio $\frac{Pr(Y\leq j)}{1-Pr(Y\leq j)}$ increases by $(exp(-\eta_x)-1)*100\%$. 
 
-
+Printing
 ```{r}
 exp(-posterior_interval(m,prob=.95))-1
 ```

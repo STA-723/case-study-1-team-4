@@ -122,3 +122,19 @@ exp(-coef(cumlogit_model))
 -Interpretation
 -Try to summarize the result
 
+Bayesian modelling
+```{r}
+#d_small <- d %>% sample_n(1500)
+
+m <- stan_polr(
+  outcome_3 ~ dde_env + pcb_env + race + maternal_age + score_occupation + center + score_income + score_education,
+  d,
+  iter=3*1e3,
+  chains=5,
+  method = "logistic", 
+  prior = NULL)
+
+m %>% summary
+```
+
+

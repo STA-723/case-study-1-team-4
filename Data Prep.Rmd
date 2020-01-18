@@ -151,7 +151,9 @@ Both the theoretical quantiles and sample quantiles match quite well. Our model 
 ```{r}
 autoplot(res, what = "qq", x =d$dde, xlab = "dde")
 ```
+
 (ii) (probabilistic) predictive model checking
+Will check & compare with other competing models.
 
 ### Try to fit a Bayesian model
 A Bayesian model is fitted. 5 chains with 3000 iterations each are ran. All Rhats are closed to 1 and effective sample sizes exceed 8000, so there is strong evidence that the chains converge. 
@@ -179,6 +181,8 @@ plot(m,"hist")
 
 The explanation of coefficients are as follows:
 If other covariates are held constant, when a covariate $x$ increases by one unit, the cumulative odd ratio $\frac{Pr(Y\leq j)}{1-Pr(Y\leq j)}$ increases by $(exp(-\eta_x)-1)*100\%$.
+
+
 ```{r}
 exp(-posterior_interval(m,prob=.95))-1
 ```

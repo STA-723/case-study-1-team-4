@@ -17,6 +17,7 @@ library(GGally) # ggpairs()
 library(tidyimpute) # NA imputation
 library(na.tools) # NA imputation
 library(MASS)
+library(sure) # Surrogate Residuals
 library(rstanarm)
 my_standardize <- function(x) (x - mean(x, na.rm = T)) / sd(x, na.rm = T)
 ```
@@ -97,44 +98,97 @@ d %>%
 
 
 ## Model
-
-
-The cumulative logistics model is fitted.
+### Model Building
+The cumulative logistics model(ordinal regression model) is fitted. The model is paramterized as:
+$$
+logit(P(Y\leq j))=\beta_{j0}-\eta_1x_1-\cdots-\eta_px_p
+$$
 ```{r}
-cumlogit_model_lipid=polr(outcome_3 ~ dde_env + pcb_env + race + maternal_age + score_occupation + center + score_income + score_education, d, 
-     contrasts = NULL, Hess = FALSE, model = TRUE,
-     method = c("logistic"))
-summary(cumlogit_model_lipid)
+cumlogit_model_env=polr(
+  outcome_3 ~ dde_env + pcb_env + race + maternal_age + score_occupation + center + score_income + score_education, 
+  d, 
+  method = c("logistics"))
+summary(cumlogit_model_env)
 ```
-Cumulative Logit model w/o env considering lipid is fitted.
+
+Besides, the cumulative Logit model w/o env is fitted.
 ```{r}
 ###Model 1_
 library(MASS)
-cumlogit_model=polr(outcome_3 ~ dde + pcb + race + maternal_age + score_occupation + center + score_income + score_education, d, 
-     contrasts = NULL, Hess = FALSE, model = TRUE,
+cumlogit_model=polr(outcome_3 ~ dde + pcb + race + maternal_age + score_occupation + center + score_income+score_education,             d, 
      method = c("logistic"))
-#summary(cumlogit_model)
-exp(-coef(cumlogit_model))
+summary(cumlogit_model)
+#exp(-coef(cumlogit_model))
 ```
+
+### Variable Selection
 -Variable Selection (AIC)
--Model Checking (i) residuals (ii) (probabilistic) predictive model checking
--Try to fit a Bayesian model
--Interpretation
--Try to summarize the result
-
-Bayesian modelling
+Stepwise regression by AIC is used to select variables. The final model we choose is "outcome_3 ~ dde_env + pcb_env + center + score_education".
 ```{r}
-#d_small <- d %>% sample_n(1500)
+finalmodel=stepAIC(cumlogit_model_env,direction="both")
+```
 
+### Model Diagnostics
+-Model Checking (i) residuals 
+Surrogate residuals are used to check if the model assumption is correct, as suggested by (Liu and Zhang, 2017). If the model assumptions are correct, then the surrogate residuals $R_S$ will have three properties:
+\begin{itemize}
+ \item $E(R_S|X)=0$
+ \item $Var(R_S|X)=c$, the conditional variance of $R_S$ is constant
+ \item The emiprical distribution of $R_S$ resembles an explicit distribution that is related to the link function $G^{-1}(\cdot)$. Specifically, $R_S\sim G(c+\int ud G(u))$.
+\end{itemize}
+
+The surrogate residuals vs covariate plot is used to check the first and second properties. The QQ-plot is used to check the third property.
+
+-Residual vs Pcb 
+The surrogate residuals are scatter around 0 evenly. This plot indicates that $E(R_S|X)=0$ and $Var(R_S|X)=c$ are basically satisfied.
+```{r}
+res=resids(finalmodel) #surrogate residuals
+autoplot(res, what = "covariate", x =d$pcb, xlab = "pcb")
+```
+
+-QQ-plot 
+Both the theoretical quantiles and sample quantiles match quite well. Our model assumptions are appropriate.
+```{r}
+autoplot(res, what = "qq", x =d$dde, xlab = "dde")
+```
+(ii) (probabilistic) predictive model checking
+
+### Try to fit a Bayesian model
+A Bayesian model is fitted. 5 chains with 3000 iterations each are ran. All Rhats are closed to 1 and effective sample sizes exceed 8000, so there is strong evidence that the chains converge. 
+```{r}
 m <- stan_polr(
-  outcome_3 ~ dde_env + pcb_env + race + maternal_age + score_occupation + center + score_income + score_education,
+  outcome_3 ~ dde_env + pcb_env +  score_education + center ,
   d,
   iter=3*1e3,
   chains=5,
   method = "logistic", 
   prior = NULL)
-
 m %>% summary
 ```
+-Printing the 95% credible intervals
+```{r}
+posterior_interval(m,prob=.95) 
+```
+-Histrograms of posterior draws for each coefficient are plotted
+```{r}
+plot(m,"hist")
+```
+
+
+## Interpretation
+
+The explanation of coefficients are as follows:
+If other covariates are held constant, when a covariate $x$ increases by one unit, the cumulative odd ratio $\frac{Pr(Y\leq j)}{1-Pr(Y\leq j)}$ increases by $(exp(-\eta_x)-1)*100\%$.
+```{r}
+exp(-posterior_interval(m,prob=.95))-1
+```
+
+-
+
+
+## Try to summarize the result
+
+
+
 
 

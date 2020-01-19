@@ -213,10 +213,7 @@ Printing
 ```{r}
 exp(-posterior_interval(m,prob=.95))-1
 ```
-
 -
-
-
 ## Try to summarize the result
 
 

@@ -1,0 +1,194 @@
+\documentclass{beamer}\usepackage[]{graphicx}\usepackage[]{color}
+% maxwidth is the original width if it is less than linewidth
+% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
+\newcommand{\hlstr}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
+\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlstd}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
+\let\hlipl\hlkwb
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+\usepackage{alltt}
+\usetheme{Madrid}
+
+%%%%% Packages %%%%%
+\usepackage{algorithm}
+\usepackage{csquotes}
+\usepackage[round]{natbib}
+\bibliographystyle{agsm}
+\usepackage{algorithmic}
+\usepackage{pgfpages}
+\usepackage{ragged2e}
+\usepackage{etoolbox}
+\usepackage{lipsum}
+\usepackage{subfig}
+\apptocmd{\frame}{}{\justifying}{} 
+\usepackage{xcolor}
+\usepackage{dsfont}
+\usepackage{tikz}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{subfig}
+\usepackage{mathtools}
+\usepackage{xcolor}
+\usepackage{comment}
+\usepackage{appendixnumberbeamer}
+%%%%% New Commands %%%%
+\newcommand{\btheta}{\boldsymbol{\theta}}
+\newcommand{\x}{\mathbf{x}}
+\newcommand{\SUN}{\textrm{SUN}}
+\newcommand{\X}{\mathbf{X}}
+\newcommand{\T}{\textrm{T}}
+\newcommand{\A}{\mathcal{A}}
+\newcommand{\I}{\mathds{1}}
+\newcommand{\hist}{\mathbb{H}_{t-1}}
+\newcommand\myeq{\stackrel{\mathclap{\normalfont\mbox{def}}}{=}}
+\def\app#1#2{%
+  \mathrel{%
+    \setbox0=\hbox{$#1\sim$}%
+    \setbox2=\hbox{%
+      \rlap{\hbox{$#1\propto$}}%
+      \lower1.1\ht0\box0%
+    }%
+    \raise0.25\ht2\box2%
+  }%
+}
+\def\approxprop{\mathpalette\app\relax}
+%\pgfpagesuselayout{1 on 1}[a4paper,border shrink=5mm]
+\title[DDE and PCB effect on Premature delivery]{Assessing Effects of Exposures to DDE and PCBs on Premature Delivery via Ordinal Logistic Regression}
+\author[Morsomme, Ou, Zito]{Raphael Morsomme \and Rihui Ou \and Alessandro Zito}
+\institute[Stat 723]{Case Study 1- Stat 723}
+\date{\today}
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\begin{document}
+\begin{comment}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\maxwidth]{figure/unnamed-chunk-1-1} 
+
+\end{knitrout}
+\end{comment}
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}{Overview}
+\tableofcontents
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Introduction                       
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+\begin{frame}{Introduction}
+\begin{itemize}
+\item \textcolor{red}{\textbf{Framework}}: \\
+\textit{Dichlorodiphenyldichloroethylene} (DDE) and \textit{Polychlorinated Biphenyls} (PCBs) 
+are chemicals that persist in the envirnoment and get stored in fatty depositis in the human tissues.\\
+$\quad \Longrightarrow \ $\textcolor{blue}{Potential adverse effect on health}
+\item \textcolor{red}{\textbf{Question}}:\\
+\textit{Is exposure to DDE and PBCs associated with a higher chance of premature delivery in pregnant women?}
+\end{itemize}
+\begin{block}{Pregnancy timeline}
+\begin{itemize}
+\item \textbf{Dangerous preterm}:  delivery at 34 weeks or before (when main organs are underdeveloped)
+\item \textbf{Preterm}: delivery beween 35 and 37 week
+\item \textbf{At term}: delivery after 37 weeks
+\end{itemize}
+\end{block}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% The Data                       
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Data}
+\begin{frame}{Data}
+\tiny
+Data contained gestational age (in weeks) of the mother, the DDE and PCBs concentration, socio-economic info and scores (race, occupation, education and income), and amount of triglycerides and cholesterol. Total sample size (after preprocessing) = 2336\\
+\small
+\textbf{We contruct the following variables}:
+\begin{itemize}
+\item Total level of lipids\footnote{Using Phillips et al.(1989) and Bernert et al.(2007)} $$lipid_i =  2.27 * cholesterol_i + triglycerides_i + 0.623$$ 
+\item Gestational age group $$gestgroup_i = 
+\begin{cases}
+0 & if \ \textrm{Dangerous preterm} \\
+1 & if \ \textrm{Preterm} \\
+2 & if \ \textrm{At term} 
+\end{cases}$$
+\item Average (standardized) PCB $$PCB_i = \frac{1}{11}\sum_{j=1}^{11} \frac{PCB_{ij} - mean_i(PCB_{ij})}{sd_i(PCB_{ij})}$$
+\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Model 1                    
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Model (I) - Ordinal Logistic Regression}
+% Insert here the AIC part
+\begin{frame}{Model (I) - Ordinal Logistic Regression}
+We run the following regression model
+
+\end{frame}
+%%%% %%%%%
+\section{Model (II) - Bayesian Ordinal Logistic Regression}
+\begin{frame}{Model (II) - Bayesian Ordinal Logistic Regression}
+\end{frame}
+\section{Results}
+\begin{frame}{Results}
+\end{frame}
+\section{Conclusions}
+\begin{frame}{Conclusions}
+\end{frame}
+\begin{frame}
+\textcolor{red}{\textbf{Preprocessing}}:
+{\small
+\begin{itemize}
+\item Drop obs. with gestational age $>$ 45 (the world record)
+\item Standardize and average the differnt PCBs (to avoid their correlation)
+\item Mean impute of occupation, education and income scores 
+$\quad \Longrightarrow$ Total obs. = 2336
+\end{itemize}}
+\end{frame}
+
+
+\end{document}

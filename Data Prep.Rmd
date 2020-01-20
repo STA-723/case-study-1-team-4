@@ -11,7 +11,6 @@ editor_options:
 knitr::opts_chunk$set(fig.height = 4,
                       fig.width = 6,
                       echo = FALSE)
-
 library(tidyverse)
 library(GGally) # ggpairs()
 library(tidyimpute) # NA imputation
@@ -72,6 +71,7 @@ d <- readRDS("Longnecker.rds") %>%
                 starts_with("score"), race, maternal_age, center, smoking_status, # Z
                 everything())
 ```
+
 ```{r}
 # Box Cox transform of fat
 d$dde_env_bc = d$dde/log(d$fat)
@@ -214,7 +214,7 @@ exp(-coef(cumlogit_model_env_selected))
 #summary(cum_logit_model_bc)
 #exp(-coef(cum_logit_model_bc))
 ```
-
+After box-cox transformation & stepwise AIC selection, the final model we choose is "outcome_3 ~ dde_env_bc + pcb_env_bc + race_agg + score_occupation + center + score_income + score_education + smoking_status + dde_env_bc:race_agg+pcb_env_bc:race_agg".
 ```{r}
 res=resids(cum_logit_model_bc) #surrogate residuals
 autoplot(res, what = "covariate", x =d$pcb_env_bc, xlab = "PCB/Lipids")
@@ -223,7 +223,6 @@ autoplot(res, what = "qq", x =d$pcb_env_bc, xlab = "PCB/Lipid")
 autoplot(res, what = "qq", x =d$DDE_env_bc, xlab = "DDE/Lipid")
 ```
 
->>>>>>> 5c53b49feb7ab6049906407b37f87af9bcd739bd
 ```{r}
 cumlogit_model_env=polr(
   outcome_3 ~ dde_env + pcb_env + race + maternal_age + score_occupation + center + score_income + score_education, 
@@ -232,12 +231,11 @@ cumlogit_model_env=polr(
 summary(cumlogit_model_env)
 ```
 
-<<<<<<< HEAD
+
 Besides, the cumulative Logit model w/o env is fitted.
 =======
 Cumulative Logit model w/o env considering lipid is fitted.
 
->>>>>>> 5c53b49feb7ab6049906407b37f87af9bcd739bd
 ```{r}
 ###Model 1_
 library(MASS)
@@ -250,7 +248,6 @@ summary(cumlogit_model)
 <<<<<<< HEAD
 ### Variable Selection
 =======
->>>>>>> 5c53b49feb7ab6049906407b37f87af9bcd739bd
 -Variable Selection (AIC)
 Stepwise regression by AIC is used to select variables. The final model we choose is "outcome_3 ~ dde_env + pcb_env + center + score_education".
 ```{r}
@@ -320,10 +317,11 @@ Will check & compare with other competing models.
 A Bayesian model is fitted. 5 chains with 3000 iterations each are ran. All Rhats are closed to 1 and effective sample sizes exceed 8000, so there is strong evidence that the chains converge. 
 ```{r}
 m <- stan_polr(
-  outcome_3 ~ dde_env + pcb_env +  score_education + center ,
+  outcome_3 ~ 
+  dde_env_bc + pcb_env_bc + race_agg + score_occupation + center + score_income + score_education +smoking_status+dde_env_bc:race_agg+pcb_env_bc:race_agg,
   d,
-  iter=3*1e3,
-  chains=5,
+  iter=8*1e3,
+  chains=1,
   method = "logistic", 
   prior = NULL)
 m %>% summary
@@ -349,6 +347,7 @@ exp(-posterior_interval(m,prob=.95))-1
 ```
 -
 ## Try to summarize the result
+Graphical Summary of the cumulative probability
 
 
 

@@ -253,16 +253,24 @@ boxcox_transfomation = function(y, lambda){
 }
 # Import the original data
 d_boxcox_check= d %>% 
-  dplyr::select(outcome_3, dde,
-                pcb,race,maternal_age,score_occupation,
+  dplyr::select(outcome_3,race,maternal_age,score_occupation,
                 center,score_income,score_education, smoking_status)
-
-cumlogit_model_env_full = polr(outcome_3 ~ . + center*dde_env 
-                               + center*pcb_env +
-                                 race*dde_env +
-                                 race*pcb_env, data=d_subset,
-                          method = c("logistic"))
-summary(cumlogit_model_env_full)
+# Compute the boxcox
+lambda_list = seq(0,2,0.05)
+BOXCOX = NULL
+for(lambda in lambda_list){
+  d_boxcox_check$dde_check = d$dde/boxcox_transfomation(d$fat, lambda)
+  d_boxcox_check$pcb_check = d$pcb/boxcox_transfomation(d$fat, lambda)
+    model_lambda = polr(outcome_3 ~ . + center*dde_check 
+                                   + center*pcb_check +
+                                     race*dde_check +
+                                     race*pcb_check, data=d_boxcox_check,
+                              method = c("logistic"))
+    log_likelihood = logLik(model_lambda)
+    BOXCOX = rbind(BOXCOX, data.frame("lambda"=lambda, "log_likelihood" = log_likelihood))
+}
+ggplot(BOXCOX)+
+  geom_point(aes(x=lambda, y=log_likelihood))
 ```
 
 -Model Checking (i) residuals 

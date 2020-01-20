@@ -11,7 +11,6 @@ editor_options:
 knitr::opts_chunk$set(fig.height = 4,
                       fig.width = 6,
                       echo = FALSE)
-
 library(tidyverse)
 library(GGally) # ggpairs()
 library(tidyimpute) # NA imputation
@@ -68,6 +67,7 @@ d <- readRDS("Longnecker.rds") %>%
                 starts_with("score"), race, maternal_age, center, smoking_status, # Z
                 everything())
 ```
+
 ```{r}
 # Box Cox transform of fat
 d$dde_env_bc = d$dde/log(d$fat)

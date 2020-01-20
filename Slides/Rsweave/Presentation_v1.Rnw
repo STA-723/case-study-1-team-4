@@ -47,38 +47,64 @@
 %\pgfpagesuselayout{1 on 1}[a4paper,border shrink=5mm]
 \title[DDE and PCB effect on Premature delivery]{Assessing Effects of Exposures to DDE and PCBs on Premature Delivery via Ordinal Logistic Regression}
 \author[Morsomme, Ou, Zito]{Raphael Morsomme \and Rihui Ou \and Alessandro Zito}
-\institute[Stat 723]{Case Study 1- Stat 723}
+\institute[Stat 723]{Case Study 1 - Stat 723}
 \date{\today}
 \begin{document}
-\begin{comment}
-<<echo=F, results='hide', cache=TRUE>>=
+<<echo=FALSE, results='hide', warning=FALSE>>=
 suppressMessages(library(tidyverse))
+suppressMessages(library(GGally)) # ggpairs()
+suppressMessages(library(tidyimpute)) # NA imputation
+suppressMessages(library(na.tools)) # NA imputation
+suppressMessages(library(MASS))
+suppressMessages(library(sure)) # Surrogate Residuals 
+suppressMessages(library(rstanarm))
+suppressMessages(library(ggpubr))
+suppressMessages(library(corrplot))
+suppressMessages(library(RColorBrewer))
+my_standardize <- function(x) (x - mean(x, na.rm = T)) / sd(x, na.rm = T)
 ggplot2::theme_set(ggplot2::theme_bw())
-d = readRDS("Longnecker.rds") %>% 
-  filter(gestational_age <= 45) %>%
+d = readRDS("Longnecker.rds") %>%
+  mutate_at(vars(center, smoking_status), factor) %>%
+  dplyr::select(-albumin) %>% # too many NAs
+  # Dependent Variable
+  filter(gestational_age <= 45) %>% # more accurate treatment would be to allow for error in measurement since the number of weeks is only estimated (there is room for error)
   mutate(outcome_2 = case_when(gestational_age <= 37 ~ "Pre term",
                                TRUE                  ~ "At term"),
          outcome_3 = case_when(gestational_age <= 34 ~ "0Dangerous",
                                gestational_age <= 37 ~ "1Pre term",
-                               TRUE                  ~ "2At term")) %>%
-  mutate(outcome_3 = outcome_3 %>% factor) 
-ggplot(d) +
-  geom_histogram(aes(x=gestational_age), bins=20, 
-                 alpha = 0.5,
-                 color = "Navy",
-                 fill = "Royalblue") +
-  geom_vline(xintercept = 34,color = "red") +
-  geom_vline(xintercept = 37,color = "blue") +
-  xlab("Gestational Age") +
-  ylab("") +
-  facet_grid(~"Distribution of women in the three groups")+
-  annotate(geom="text", x=30, y=300, label="Dangerous preterm",
-              color="red") +
-  annotate(geom="text", x=35.5, y=300, label="Preterm",
-              color="blue") +
-  annotate(geom="text", x=42.5, y=300, label="At term")
+                               TRUE                  ~ "2At term"),
+         gestgroup = case_when(gestational_age <= 34 ~ "Dangerous",
+                               gestational_age <= 37 ~ "Pre term",
+                               TRUE                  ~ "At term")) %>%
+  mutate(outcome_3 = outcome_3 %>% factor) %>%
+  mutate(gestgroup = gestgroup %>% factor) %>%
+  # Aggregate PCBs
+  mutate_at(vars(starts_with("pcb")), my_standardize) %>% # standardize pcb's to give them all equal weight in the aggregate pcb variable
+  rowwise() %>%
+  mutate(pcb = mean(c(pcb_028, pcb_052, pcb_074, pcb_105, pcb_118, pcb_153, pcb_170, pcb_138, pcb_180, pcb_194, pcb_203))) %>%
+  ungroup %>%
+  
+  # Fat
+  mutate(fat = 2.27 * cholesterol + triglycerides + 0.623) %>% # https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3893492/
+  
+  # Exposure
+  mutate(dde_env = dde / fat,
+         pcb_env = pcb / fat) %>%
+  # Adjusted Exposure 
+  mutate(dde_env_bc = dde / log(fat),
+         pcb_env_bc = pcb / log(fat)) %>%
+  
+  # NA
+  impute_if(na.mean, is.numeric) %>%
+  #impute_if(na.mode, is.character) %>% # not necessary
+  
+  dplyr::select(starts_with("outcome"), # Y
+                starts_with("dde|pcb"), # X
+                starts_with("score"), race, maternal_age, center, smoking_status, # Z
+                everything())
+d$race_agg = "white"
+d[d$race!="white", ]$race_agg = "non white"
 @
-\end{comment}
 \begin{frame}
 \titlepage
 \end{frame}
@@ -114,30 +140,86 @@ $\quad \Longrightarrow \ $\textcolor{blue}{Potential adverse effect on health}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Data}
 \begin{frame}{Data}
-\footnotesize
-Data contained gestational age (in weeks) of the mother, the DDE and PCBs concentration, socio-economic info and scores (race, occupation, education and income), and amount of triglycerides and cholesterol. Total sample size (after preprocessing) = 2336\\
-\textbf{We contruct the following variables}:
+Data collected by 12 centers contained gestational age (in weeks) of the mother, the DDE and PCBs concentration, socio-economic info and scores (race, occupation, education, income), amount of triglycerides and cholesterol in blood and smoking status. \\
+\medskip 
+\textcolor{red}{\textbf{Preprocessing}}:
 \begin{itemize}
-\item Total level of lipids\footnote{Using Phillips et al.(1989) and Bernert et al.(2007)} $$lipid_i =  2.27 * cholesterol_i + triglycerides_i + 0.623$$ 
-\item Gestational age group $$gestgroup_i = 
+\item Drop obs. with gestational age $>$ 45 (the world record)
+\item Standardize and average levels of PCBs\footnote{This avoids the correlation between the PCBs. See the appendix.}
+$$PCB_i = \frac{1}{11}\sum_{j=1}^{11} \frac{PCB_{ij} - mean_i(PCB_{ij})}{sd_i(PCB_{ij})}$$
+\item Mean impute of occupation, education and income scores 
+\item Aggregate race into $race = 1$ if white and $race=0$ if non-white
+\end{itemize}
+\medskip
+$\quad \Longrightarrow$ \textcolor{blue}{Total obs.} = \textbf{2336}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Data}
+\small
+\begin{itemize}
+\item \textbf{Our dependent varible is}:
+$$gestgroup_i = 
 \begin{cases}
 0 & if \ \textrm{Dangerous preterm} \\
 1 & if \ \textrm{Preterm} \\
 2 & if \ \textrm{At term} 
 \end{cases}$$
-\item Average (standardized) PCB $$PCB_i = \frac{1}{11}\sum_{j=1}^{11} \frac{PCB_{ij} - mean_i(PCB_{ij})}{sd_i(PCB_{ij})}$$
+\item To account for triglyceredes and cholesterol, we introduce an \textbf{adjusted measure for} $PCB$ \textbf{and} $DDE$ by:
+\begin{enumerate}
+\item Computing total lipids using Phillips et al.(1989) and Bernert et al.(2007) forumula $$lipid_i =  2.27 * cholesterol_i + triglycerides_i + 0.623$$ 
+\item Setting\footnote{The choice of the log comes from a Box-Cox analysis of the log-likelihood, as in Li, Longnecker and Dunson (2013)}
+$$adjDDE_i = \frac{DDE_i}{log(lipid_i)} \qquad adjPCB_i = \frac{PCB_i}{log(lipid_i)}$$
+\end{enumerate}
 \end{itemize}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% EDA                    
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{EDA (I) - Exposures and gestational groups by race}
+<<echo=FALSE, fig.align='center', fig.height=3, fig.width=5>>=
+# PCB and outcome_3
+pcb_race = ggplot(d) +
+  geom_boxplot(aes(x=gestgroup,y=pcb_env_bc, fill=race_agg))+
+  ylab("Adjusted PCB")+
+  labs(fill="Race")+
+  xlab("")+
+  facet_grid(~"Adjusted PCB by group")
+# DDE and outcome_3
+dde_race = ggplot(d) +
+  geom_boxplot(aes(x=gestgroup,y=dde_env_bc, fill=race_agg))+
+  ylab("Adjusted DDE")+
+  labs(fill="Race")+
+  xlab("")+
+  facet_grid(~"Adjusted DDE by group")
+p1 = ggarrange(pcb_race, dde_race, ncol=2, 
+          common.legend = T, legend = "bottom")
+@
+\begin{figure}
+  \centering
+  \includegraphics[width=0.8\textwidth]{Fig1-Adjusted_exposure_gestgroup.png}
+\caption{Relationship between delivery group and adjusted exposures, by race}
+\label{fig:p1}
+\end{figure}
+\end{frame}
+
+\begin{frame}{EDA (II) - Exposure across centers}
+% Ask Raphael to do this. Need a slide with distribution of DDE and PCB or gestgroup across centers
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%% Model 1                    
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \section{Model (I) - Ordinal Logistic Regression}
 % Insert here the AIC part
 \begin{frame}{Model (I) - Ordinal Logistic Regression}
-We run the following ordinal logistic regression model:
-$$\log \frac{P(gestgroup_i \leq j)}{P(gestgroup_i > j)} = \beta_{0j} - \eta_1\frac{DDE_i}{lipid_i} - \eta_2\frac{PCB_i}{lipid_i} - \boldsymbol{\xi}^T\mathbf{z}_i + \varepsilon_i$$
+\footnotesize
+After an AIC backward variable selection procedure, our final model is:
+\begin{align*}
+textrm{logit}(P(gestgroup_i \leq j)) = \beta_{0j} - &\eta_1adjDDE_i - \eta_2adjPCB_i \\
+&-\eta_3 race_i \\
+&-\eta_4adjDDE_i*race_i -\eta_4adjDDE_i*race_i \\
+&- \sum_{j = center}\eta_{3,j}center_{j,i} + \eta_4smoke_i \eta_4adjDDE_i\boldsymbol{\xi}^T\mathbf{z}_i + \varepsilon_i
+\end{align*}
 where 
 \begin{itemize}
 \item $j = 0,1,2$ is the outcome level
@@ -145,9 +227,10 @@ where
 \item $lipid_i$ measures the lipid deposit 
 \item $\mathbf{z}_i$ is a set of covariates. 
 \end{itemize}
-After an AIC backward variable selection procedure, we determine that $\mathbf{z}_i = (center_i, score\_education_i)$\\
+After an AIC backward , we determine that $\mathbf{z}_i = (center_i, score\_education_i)$\\
 Model assumptions are checked in the appendix.
 \end{frame}
+% https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3812826/#R13
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%% Model 2                   
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -175,17 +258,15 @@ Model assumptions are checked in the appendix.
 %%%% Appendix                 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \appendix
-\begin{frame}{Appendix}
-\textcolor{red}{\textbf{Preprocessing}}:
-{\small
-\begin{itemize}
-\item Drop obs. with gestational age $>$ 45 (the world record)
-\item Standardize and average the differnt PCBs (to avoid their correlation)
-\item Mean impute of occupation, education and income scores 
-$\quad \Longrightarrow$ Total obs. = 2336
-\end{itemize}}
+\section{Appendix}
+\begin{frame}{Appendix (I) - More EDA}
+\begin{figure}
+  \centering
+  \includegraphics[width=0.6\textwidth]{corrplot_PCB.png}
+\caption{Correlation plot across PCBs}
+\label{fig:corrPCB}
+\end{figure}
 \end{frame}
-
 \begin{frame}{Model Checking}
 We can check the assumption of the (frequentist) ordinal logistic model by looking at the Surrogate residuals.
 If the model assumptions are correct, then the surrogate residuals $R_S$ will have three properties:

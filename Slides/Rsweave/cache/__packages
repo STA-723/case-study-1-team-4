@@ -1,10 +1,4 @@
 base
-methods
-datasets
-utils
-grDevices
-graphics
-stats
 knitr
 tidyverse
 ggplot2
@@ -15,3 +9,12 @@ purrr
 dplyr
 stringr
 forcats
+magrittr
+ggpubr
+GGally
+tidyimpute
+na.tools
+MASS
+sure
+Rcpp
+rstanarm

@@ -18,7 +18,8 @@ library(na.tools) # NA imputation
 library(MASS)
 library(sure) # Surrogate Residuals
 library(rstanarm)
-library(EnvStats) # Introduce the Box Cox transform for lipid adjustment
+library(ggpubr)
+ggplot2::theme_set(ggplot2::theme_bw())
 my_standardize <- function(x) (x - mean(x, na.rm = T)) / sd(x, na.rm = T)
 ```
 
@@ -42,9 +43,12 @@ d <- readRDS("Longnecker.rds") %>%
                                TRUE                  ~ "At term"),
          outcome_3 = case_when(gestational_age <= 34 ~ "0Dangerous",
                                gestational_age <= 37 ~ "1Pre term",
-                               TRUE                  ~ "2At term")) %>%
+                               TRUE                  ~ "2At term"),
+         gestgroup = case_when(gestational_age <= 34 ~ "Dangerous",
+                               gestational_age <= 37 ~ "Pre term",
+                               TRUE                  ~ "At term")) %>%
   mutate(outcome_3 = outcome_3 %>% factor) %>%
-  
+  mutate(gestgroup = gestgroup %>% factor) %>%
   # Aggregate PCBs
   mutate_at(vars(starts_with("pcb")), my_standardize) %>% # standardize pcb's to give them all equal weight in the aggregate pcb variable
   rowwise() %>%
@@ -125,11 +129,22 @@ ggplot(d) +
 ```
 ```{r}
 # PCB and outcome_3
-ggplot(d) +
-  geom_boxplot(aes(x=outcome_3,y=pcb_env_bc, fill=race_agg))
+pcb_race = ggplot(d) +
+  geom_boxplot(aes(x=gestgroup,y=pcb_env_bc, fill=race_agg))+
+  ylab("Adjusted PCB")+
+  labs(fill="Race")+
+  xlab("")+
+  facet_grid(~"Adjusted PCB across delivery groups")
 # DDE and outcome_3
-ggplot(d) +
-  geom_boxplot(aes(x=outcome_3,y=dde_env_bc, fill=race_agg))
+dde_race = ggplot(d) +
+  geom_boxplot(aes(x=gestgroup,y=dde_env_bc, fill=race_agg))+
+  ylab("Adjusted DDE")+
+  labs(fill="Race")+
+  xlab("")+
+  facet_grid(~"Adjusted DDE across delivery groups")
+ggarrange(pcb_race, dde_race, ncol=2, 
+          common.legend = T, legend = "bottom")
+
 ```
 
 ## Model

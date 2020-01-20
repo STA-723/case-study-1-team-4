@@ -89,7 +89,7 @@ As the record for longest pregnancy in weeks is equal to 375 and the second one 
 data = data %>% 
   filter(gestational_age <= 46) %>% 
   mutate_at(vars(smoking_status, center),factor) %>% 
-  select(-albumin) %>% #Too many NAs
+  dplyr::select(-albumin) %>% #Too many NAs
   mutate(premature = (gestational_age < 37))
 @
 We start by exploiting the relationship between the new variable premature and the DDE. Note that the number of premature mothers compared to the size of the new dataset is
@@ -224,12 +224,11 @@ p = pnorm(abs(ctable[, "t value"]), lower.tail = FALSE) * 2
 
 See the logit interpretation
 <<>>=
-exp(coef(ordered_logit))
+exp(-coef(ordered_logit))
 @
 
-
 <<>>=
-# CHeck the parallel trend assumption
+# Check the parallel trend assumption
 sf <- function(y) {
   c('preterm>=0' = qlogis(mean(y >= 1)),
     'preterm>=1' = qlogis(mean(y >= 2)),

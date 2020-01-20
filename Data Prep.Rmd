@@ -19,6 +19,7 @@ library(na.tools) # NA imputation
 library(MASS)
 library(sure) # Surrogate Residuals
 library(rstanarm)
+library(EnvStats) # Introduce the Box Cox transform for lipid adjustment
 my_standardize <- function(x) (x - mean(x, na.rm = T)) / sd(x, na.rm = T)
 ```
 
@@ -67,7 +68,13 @@ d <- readRDS("Longnecker.rds") %>%
                 starts_with("score"), race, maternal_age, center, smoking_status, # Z
                 everything())
 ```
-
+```{r}
+# Box Cox transform of fat
+d$dde_env_bc = d$dde/log(d$fat)
+d$pcb_env_bc = d$pcb/log(d$fat)
+d$race_agg = "white"
+d[d$race!="white", ]$race_agg = "non white"
+```
 ## EDA
 
 - justify aggregation of pcb: they are all correlated, tell the same story, reduce number of predictor (more stable parameter estimation).
@@ -108,7 +115,22 @@ d %>%
   ggplot(aes(x=reorder(center, outcome_3 != "2At term"), fill = outcome_3)) +
   geom_bar(position = "fill")
 ```
-
+```{r}
+# DDE and outcome_3
+ggplot(d) +
+  geom_density(aes(x=dde_env_bc, color=outcome_3), alpha = 0.5)
+# PCB and outcome_3
+ggplot(d) +
+  geom_density(aes(x=pcb_env_bc, color=outcome_3), alpha = 0.5)
+```
+```{r}
+# PCB and outcome_3
+ggplot(d) +
+  geom_boxplot(aes(x=outcome_3,y=pcb_env_bc, fill=race_agg))
+# DDE and outcome_3
+ggplot(d) +
+  geom_boxplot(aes(x=outcome_3,y=dde_env_bc, fill=race_agg))
+```
 
 ## Model
 <<<<<<< HEAD
@@ -119,7 +141,72 @@ logit(P(Y\leq j))=\beta_{j0}-\eta_1x_1-\cdots-\eta_px_p
 $$
 =======
 
-The cumulative logistics model is fitted.
+The cumulative logistics model is fitted. First, we detect the full model. Then, we make a variable selection.
+```{r}
+d_subset= d %>% 
+  dplyr::select(outcome_3, dde_env,
+                pcb_env,race,maternal_age,score_occupation,
+                center,score_income,score_education, smoking_status)
+cumlogit_model_env_full = polr(outcome_3 ~ . + center*dde_env 
+                               + center*pcb_env +
+                                 race*dde_env +
+                                 race*pcb_env, data=d_subset,
+                          method = c("logistic"))
+summary(cumlogit_model_env_full)
+```
+without the correction for fat
+```{r}
+d_subset= d %>% 
+  dplyr::select(outcome_3, dde,
+                pcb,race,maternal_age,score_occupation,
+                center,score_income,score_education)
+cumlogit_model_env_full = polr(outcome_3 ~ . + center*dde 
+                               + center*pcb +
+                                 race*dde +
+                                 race*pcb, data=d_subset,
+                          method = c("logistic"))
+summary(cumlogit_model_env_full)
+```
+
+```{r}
+# Variable selection
+cumlogit_model_env_selected=stepAIC(cumlogit_model_env_full,direction="both")
+summary(cumlogit_model_env_selected)
+res=resids(cumlogit_model_env_selected) #surrogate residuals
+autoplot(res, what = "covariate", x =d$pcb_env, xlab = "PCB/Lipids")
+autoplot(res, what = "covariate", x =d$dde_env, xlab = "DDE/Lipids")
+```
+```{r}
+# Parameter interpretations
+exp(coef(cumlogit_model_env_selected))
+```
+Interpretation: following the reasoning in the UCLA guide, the odds of of being more likely to have a less dangerous delivery are multiplied by
+\begin{itemize}
+\item $0.0184957$ if $DDE/Lipid$ increases by 1\% unit
+\item $0.00$ if $PCB/Lipid$ increases by 1\% unit
+\end{itemize}
+\textcolor{red}{this intepretation does not make sense. It should be the opposite}.
+
+```{r}
+d_subset= d %>% 
+  dplyr::select(outcome_3, dde_env_bc,
+                pcb_env_bc,race_agg,maternal_age,score_occupation,
+                center,score_income,score_education, smoking_status)
+cum_logit_model_bc= polr(outcome_3 ~ . + dde_env_bc*race_agg + pcb_env_bc*race_agg + dde_env_bc*center + pcb_env_bc*center, data=d_subset,method = c("logistic"))
+cumlogit_model_env_selected=stepAIC(cum_logit_model_bc,direction="both")
+summary(cumlogit_model_env_selected)
+exp(-coef(cumlogit_model_env_selected))
+#summary(cum_logit_model_bc)
+#exp(-coef(cum_logit_model_bc))
+```
+
+```{r}
+res=resids(cum_logit_model_bc) #surrogate residuals
+autoplot(res, what = "covariate", x =d$pcb_env_bc, xlab = "PCB/Lipids")
+autoplot(res, what = "covariate", x =d$dde_env_bc, xlab = "DDE/Lipids")
+autoplot(res, what = "qq", x =d$pcb_env_bc, xlab = "PCB/Lipid")
+autoplot(res, what = "qq", x =d$DDE_env_bc, xlab = "DDE/Lipid")
+```
 
 >>>>>>> 5c53b49feb7ab6049906407b37f87af9bcd739bd
 ```{r}
@@ -154,6 +241,30 @@ finalmodel=stepAIC(cumlogit_model_env,direction="both")
 ```
 
 ### Model Diagnostics
+- Boxcox transformation of lambda for lipid adjustment
+```{r}
+# A function to implement box-cox
+boxcox_transfomation = function(y, lambda){
+  if(lambda==0){
+    return(log(y))
+  } else {
+    return((y^lambda-1)/lambda)
+  }
+}
+# Import the original data
+d_boxcox_check= d %>% 
+  dplyr::select(outcome_3, dde,
+                pcb,race,maternal_age,score_occupation,
+                center,score_income,score_education, smoking_status)
+
+cumlogit_model_env_full = polr(outcome_3 ~ . + center*dde_env 
+                               + center*pcb_env +
+                                 race*dde_env +
+                                 race*pcb_env, data=d_subset,
+                          method = c("logistic"))
+summary(cumlogit_model_env_full)
+```
+
 -Model Checking (i) residuals 
 Surrogate residuals are used to check if the model assumption is correct, as suggested by (Liu and Zhang, 2017). If the model assumptions are correct, then the surrogate residuals $R_S$ will have three properties:
 \begin{itemize}
@@ -212,10 +323,7 @@ Printing
 ```{r}
 exp(-posterior_interval(m,prob=.95))-1
 ```
-
 -
-
-
 ## Try to summarize the result
 
 

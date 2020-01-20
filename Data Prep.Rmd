@@ -135,7 +135,6 @@ Besides, the cumulative Logit model w/o env is fitted.
 =======
 Cumulative Logit model w/o env considering lipid is fitted.
 
->>>>>>> 5c53b49feb7ab6049906407b37f87af9bcd739bd
 ```{r}
 ###Model 1_
 library(MASS)
@@ -148,7 +147,6 @@ summary(cumlogit_model)
 <<<<<<< HEAD
 ### Variable Selection
 =======
->>>>>>> 5c53b49feb7ab6049906407b37f87af9bcd739bd
 -Variable Selection (AIC)
 Stepwise regression by AIC is used to select variables. The final model we choose is "outcome_3 ~ dde_env + pcb_env + center + score_education".
 ```{r}
@@ -185,10 +183,11 @@ Will check & compare with other competing models.
 ### Try to fit a Bayesian model
 A Bayesian model is fitted. 5 chains with 3000 iterations each are ran. All Rhats are closed to 1 and effective sample sizes exceed 8000, so there is strong evidence that the chains converge. 
 ```{r}
+d$pcb_env_1<-d$pcb_env*100
 m <- stan_polr(
-  outcome_3 ~ dde_env + pcb_env +  score_education + center ,
+  outcome_3 ~ dde_env + pcb_env_1 +  score_education + center ,
   d,
-  iter=3*1e3,
+  iter=3*1e2,
   chains=5,
   method = "logistic", 
   prior = NULL)

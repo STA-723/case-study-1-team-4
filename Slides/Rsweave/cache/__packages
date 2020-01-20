@@ -18,3 +18,5 @@ MASS
 sure
 Rcpp
 rstanarm
+corrplot
+RColorBrewer

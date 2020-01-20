@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2017.4.19)  20 JAN 2020 17:43
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2017.4.19)  20 JAN 2020 18:53
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1237,12 +1237,12 @@ Overfull \hbox (12.57741pt too wide) in paragraph at lines 212--212
 ]
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `\translate ' on input line 239.
+(hyperref)                removing `\translate ' on input line 240.
 
 <corrplot_PCB.png, id=403, 483.8075pt x 436.63126pt>
 File: corrplot_PCB.png Graphic file (type png)
  <use corrplot_PCB.png>
-Package pdftex.def Info: corrplot_PCB.png used on input line 248.
+Package pdftex.def Info: corrplot_PCB.png used on input line 249.
 (pdftex.def)             Requested size: 205.37926pt x 185.35596pt.
 
 [12
@@ -1250,6 +1250,27 @@ Package pdftex.def Info: corrplot_PCB.png used on input line 248.
  <./corrplot_PCB.png>] [13
 
 ]
+<Surrogate_residuals.png, id=464, 616.3025pt x 436.63126pt>
+File: Surrogate_residuals.png Graphic file (type png)
+
+<use Surrogate_residuals.png>
+Package pdftex.def Info: Surrogate_residuals.png used on input line 271.
+(pdftex.def)             Requested size: 239.60567pt x 169.7525pt.
+
+Overfull \vbox (5.88193pt too high) detected at line 271
+ []
+
+[14
+
+ <./Surrogate_residuals.png>]
+<qqplot.png, id=495, 616.3025pt x 436.63126pt>
+File: qqplot.png Graphic file (type png)
+ <use qqplot.png>
+Package pdftex.def Info: qqplot.png used on input line 281.
+(pdftex.def)             Requested size: 239.60567pt x 169.7525pt.
+ [15
+
+ <./qqplot.png>]
 \tf@nav=\write7
 \openout7 = `Presentation_v1.nav'.
 
@@ -1259,11 +1280,11 @@ Package pdftex.def Info: corrplot_PCB.png used on input line 248.
 \tf@snm=\write9
 \openout9 = `Presentation_v1.snm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 259.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 259.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 284.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 284.
  (./Presentation_v1.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 259.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 259.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 284.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 284.
 Package rerunfilecheck Info: File `Presentation_v1.out' has not changed.
 (rerunfilecheck)             Checksum: A70BAC51B8818BCB6B8A5FFB488C06D6;428.
 
@@ -1271,13 +1292,13 @@ Package rerunfilecheck Info: File `Presentation_v1.out' has not changed.
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 1.0pt have occurred.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 259.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 284.
  ) 
 Here is how much of TeX's memory you used:
- 23503 strings out of 493014
- 457089 string characters out of 6133351
- 640141 words of memory out of 5000000
- 26452 multiletter control sequences out of 15000+600000
+ 23534 strings out of 493014
+ 457677 string characters out of 6133351
+ 640259 words of memory out of 5000000
+ 26475 multiletter control sequences out of 15000+600000
  22280 words of font info for 75 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  56i,16n,60p,946b,692s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1299,10 +1320,10 @@ r/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi8.pfb></usr
 local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/l
 ocal/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/loc
 al/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb>
-Output written on Presentation_v1.pdf (13 pages, 298079 bytes).
+Output written on Presentation_v1.pdf (15 pages, 366590 bytes).
 PDF statistics:
- 533 PDF objects out of 1000 (max. 8388607)
- 477 compressed objects within 5 object streams
- 37 named destinations out of 1000 (max. 500000)
- 159 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 597 PDF objects out of 1000 (max. 8388607)
+ 534 compressed objects within 6 object streams
+ 43 named destinations out of 1000 (max. 500000)
+ 169 words of extra memory for PDF output out of 10000 (max. 10000000)
 

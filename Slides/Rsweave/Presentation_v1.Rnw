@@ -267,14 +267,51 @@ Model assumptions are checked in the appendix.
 \label{fig:corrPCB}
 \end{figure}
 \end{frame}
-\begin{frame}{Model Checking}
-We can check the assumption of the (frequentist) ordinal logistic model by looking at the Surrogate residuals.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Frequentist Model Checking}
+We can check the assumption of the (frequentist) ordinal logistic model by looking at the Surrogate residuals. \textcolor{red}{ADD CITATION HERE}\\
+\medskip
 If the model assumptions are correct, then the surrogate residuals $R_S$ will have three properties:
-\begin{itemize}
+\begin{enumerate}
  \item $E(R_S|X)=0$
  \item $Var(R_S|X)=c$, the conditional variance of $R_S$ is constant
  \item The emiprical distribution of $R_S$ resembles an explicit distribution that is related to the link function $G^{-1}(\cdot)$. Specifically, $R_S\sim G(c+\int ud G(u))$.
-\end{itemize}
+\end{enumerate}
 \end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Frequentist Model Checking}
+<<results='hide', echo=FALSE, cache=TRUE, warning=FALSE>>=
+d_subset= d %>% 
+  dplyr::select(outcome_3, dde_env_bc,
+                pcb_env_bc,race_agg,maternal_age,score_occupation,
+                center,score_income,score_education, smoking_status)
+cum_logit_model_bc= polr(outcome_3 ~ . + dde_env_bc*race_agg + pcb_env_bc*race_agg + dde_env_bc*center + pcb_env_bc*center, data=d_subset,method = c("logistic"))
+#cumlogit_model_env_selected=stepAIC(cum_logit_model_bc,direction="both")
+#res=resids(cum_logit_model_bc) #surrogate residuals
+#surr_pcb = autoplot(res, what = "covariate", x =d$pcb_env_bc, xlab = "Adjusted PCB")
+#surr_dde = autoplot(res, what = "covariate", x =d$dde_env_bc, xlab = "Adjusted DDE")
+#surrresid =  ggarrange(surr_dde,surr_pcb, ncol = 2)
+@
+Assumptions (i) and (ii) are checked with the Surrogate residuals plot. Both are satisfied in this case.
+\begin{figure}
+  \centering
+  \includegraphics[width=0.7\textwidth]{Surrogate_residuals.png}
+\caption{Surrogate residuals of DDE and PCB}
+\label{fig:surrogateresid}
+\end{figure}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Frequentist Model Checking}
+<<echo=FALSE>>=
+#autoplot(res, what = "qq", x =d$pcb_env_bc, xlab = "Adjusted PCB")
+@
+\begin{figure}
+  \centering
+  \includegraphics[width=0.7\textwidth]{qqplot.png}
+\caption{QQ plot of the Surrogate residuals}
+\label{fig:qqplot}
+\end{figure}
+\end{frame}
+
 
 \end{document}

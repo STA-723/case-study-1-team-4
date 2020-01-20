@@ -143,9 +143,8 @@ $\quad \Longrightarrow \ $\textcolor{blue}{Potential adverse effect on health}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Data}
 \begin{frame}{Data}
-\tiny
+\footnotesize
 Data contained gestational age (in weeks) of the mother, the DDE and PCBs concentration, socio-economic info and scores (race, occupation, education and income), and amount of triglycerides and cholesterol. Total sample size (after preprocessing) = 2336\\
-\small
 \textbf{We contruct the following variables}:
 \begin{itemize}
 \item Total level of lipids\footnote{Using Phillips et al.(1989) and Bernert et al.(2007)} $$lipid_i =  2.27 * cholesterol_i + triglycerides_i + 0.623$$ 
@@ -166,20 +165,46 @@ Data contained gestational age (in weeks) of the mother, the DDE and PCBs concen
 \section{Model (I) - Ordinal Logistic Regression}
 % Insert here the AIC part
 \begin{frame}{Model (I) - Ordinal Logistic Regression}
-We run the following regression model
-
+We run the following ordinal logistic regression model:
+$$\log \frac{P(gestgroup_i \leq j)}{P(gestgroup_i > j)} = \beta_{0j} - \eta_1\frac{DDE_i}{lipid_i} - \eta_2\frac{PCB_i}{lipid_i} - \boldsymbol{\xi}^T\mathbf{z}_i + \varepsilon_i$$
+where 
+\begin{itemize}
+\item $j = 0,1,2$ is the outcome level
+\item $DDE_i$ and $PCB_i$ are the amount of DDE and PCB
+\item $lipid_i$ measures the lipid deposit 
+\item $\mathbf{z}_i$ is a set of covariates. 
+\end{itemize}
+After an AIC backward variable selection procedure, we determine that $\mathbf{z}_i = (center_i, score\_education_i)$\\
+Model assumptions are checked in the appendix.
 \end{frame}
-%%%% %%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Model 2                   
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Model (II) - Bayesian Ordinal Logistic Regression}
 \begin{frame}{Model (II) - Bayesian Ordinal Logistic Regression}
 \end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Results
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Results}
 \begin{frame}{Results}
 \end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Conclusions                  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \section{Conclusions}
 \begin{frame}{Conclusions}
 \end{frame}
-\begin{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Appendix                 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\appendix
+\begin{frame}{Appendix}
 \textcolor{red}{\textbf{Preprocessing}}:
 {\small
 \begin{itemize}
@@ -190,5 +215,14 @@ $\quad \Longrightarrow$ Total obs. = 2336
 \end{itemize}}
 \end{frame}
 
+\begin{frame}{Model Checking}
+We can check the assumption of the (frequentist) ordinal logistic model by looking at the Surrogate residuals.
+If the model assumptions are correct, then the surrogate residuals $R_S$ will have three properties:
+\begin{itemize}
+ \item $E(R_S|X)=0$
+ \item $Var(R_S|X)=c$, the conditional variance of $R_S$ is constant
+ \item The emiprical distribution of $R_S$ resembles an explicit distribution that is related to the link function $G^{-1}(\cdot)$. Specifically, $R_S\sim G(c+\int ud G(u))$.
+\end{itemize}
+\end{frame}
 
 \end{document}

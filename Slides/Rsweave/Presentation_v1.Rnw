@@ -111,8 +111,8 @@ $$gestgroup_i =
 \end{cases}$$
 \item To account for triglyceredes and cholesterol, we introduce an \textbf{adjusted measure for} $PCB$ \textbf{and} $DDE$ by:
 \begin{enumerate}
-\item Computing total lipids using Phillips et al.(1989) and Bernert et al.(2007) forumula $$lipid_i =  2.27 * cholesterol_i + triglycerides_i + 0.623$$ 
-\item Setting\footnote{The choice of the log comes from a Box-Cox analysis of the log-likelihood, as in Li, Longnecker and Dunson (2013)}
+\item Computing total lipids using \cite{Phillips1989} and \cite{Bernert2007} forumula $$lipid_i =  2.27 * cholesterol_i + triglycerides_i + 0.623$$ 
+\item Setting\footnote{The choice of the log comes from a Box-Cox analysis of the log-likelihood, as in \cite{Li_Long_Duns}}
 $$adjDDE_i = \frac{DDE_i}{log(lipid_i)} \qquad adjPCB_i = \frac{PCB_i}{log(lipid_i)}$$
 \end{enumerate}
 \end{itemize}
@@ -192,6 +192,30 @@ The interpretation of
 \begin{frame}{Conclusions}
 \end{frame}
 
+\begin{frame}
+\frametitle{References}
+\footnotesize{
+\begin{thebibliography}{99} % Beamer does not support BibTeX so references must be inserted manually as below
+	
+	\bibitem[Li et al, 2013]{Li_Long_Duns} Li, D; Longnecker, M.P.; and Dunson, D.B. \\
+	\newblock Lipid Adjustment for Chemical Exposures: Accounting for Concomitant Variables.\\
+	\newblock \emph{Epidemiology}, Nov 2013
+
+	\bibitem[Phillips et al.(1989)]{Phillips1989}Phillips, D; Pirke, J., Burse, V.; Bernert, J.; Henderson, L.; Needham, L.\\
+	\newblock Chlorinated hydrocarbon levels in human serum: Effects of fasting and feeding.\\
+	\newblock \emph{Archives of Environmental Contamination and Toxicology}, 1989
+	
+	\bibitem[Bernert et al, 2007]{Bernert2007} Bernert, JT.; Turner, WE.;, Patterson, DG. Jr;, Needham, LL.\\
+	\newblock Calculation of serum total lipid concentrations for the adjustment of persistent organohalogen toxicant measurements in human samples.\\
+	\newblock \emph{Chemosphere}, 1989
+	
+	\bibitem[Liu and Zhang, 2018]{Liu2018} Liu, D.; and Zhang, H.;\\
+	\newblock Residuals and Diagnostics for Ordinal Regression Models: A Surrogate Approach\\
+	\newblock \emph{Journal of the Americal Statistical Association}, 2018
+	
+\end{thebibliography}
+}
+\end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%% Appendix                 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -207,7 +231,11 @@ The interpretation of
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Appendix}{Frequentist Model Checking}
+<<<<<<< HEAD
 We can check the assumption of the (frequentist) ordinal logistic model by looking at the Surrogate residuals (Liu and Zhang, 2017).\\
+=======
+We can check the assumption of the (frequentist) ordinal logistic model by looking at the Surrogate residuals (Liu and Zhang, 2018).\\
+>>>>>>> 353a75fa4d92a6cb38ec201a2d273a8c618aa4ba
 \medskip
 If the model assumptions are correct, then the surrogate residuals $R_S$ will have three properties:
 \begin{enumerate}
@@ -218,18 +246,6 @@ If the model assumptions are correct, then the surrogate residuals $R_S$ will ha
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Appendix}{Frequentist Model Checking}
-<<results='hide', echo=FALSE, cache=TRUE, warning=FALSE>>=
-d_subset= d %>% 
-  dplyr::select(outcome_3, dde_env_bc,
-                pcb_env_bc,race_agg,maternal_age,score_occupation,
-                center,score_income,score_education, smoking_status)
-cum_logit_model_bc= polr(outcome_3 ~ . + dde_env_bc*race_agg + pcb_env_bc*race_agg + dde_env_bc*center + pcb_env_bc*center, data=d_subset,method = c("logistic"))
-#cumlogit_model_env_selected=stepAIC(cum_logit_model_bc,direction="both")
-#res=resids(cum_logit_model_bc) #surrogate residuals
-#surr_pcb = autoplot(res, what = "covariate", x =d$pcb_env_bc, xlab = "Adjusted PCB")
-#surr_dde = autoplot(res, what = "covariate", x =d$dde_env_bc, xlab = "Adjusted DDE")
-#surrresid =  ggarrange(surr_dde,surr_pcb, ncol = 2)
-@
 Assumptions (i) and (ii) are checked with the Surrogate residuals plot. Both are satisfied in this case.
 \begin{figure}
   \centering
@@ -240,9 +256,6 @@ Assumptions (i) and (ii) are checked with the Surrogate residuals plot. Both are
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Appendix}{Frequentist Model Checking}
-<<echo=FALSE>>=
-#autoplot(res, what = "qq", x =d$pcb_env_bc, xlab = "Adjusted PCB")
-@
 \begin{figure}
   \centering
   \includegraphics[width=0.7\textwidth]{qqplot.png}
@@ -252,6 +265,7 @@ Assumptions (i) and (ii) are checked with the Surrogate residuals plot. Both are
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Appendix}{Box-Cox transformation of lipid}
+<<<<<<< HEAD
 Following Li, Longnecker and Dunson (2013), we adjust the exposures by dividing for a Box-Cox tranformation of the level of lipids. We see that the optimal $\lambda$ is at 0, which suggests a $\log$ transformation. 
 <<echo=FALSE, results='hide', warning=FALSE>>=
 # A function to implement box-cox
@@ -282,8 +296,14 @@ for(lambda in lambda_list){
 ggplot(BOXCOX)+
   geom_line(aes(x=lambda, y=log_likelihood))
 @
-
-
+=======
+Following Li et al (2013), we adjust the exposures by dividing for a Box-Cox tranformation of the level of lipids. We see that the optimal $\lambda$ is at 0, which suggests a $\log$ transformation. 
 \end{frame}
+
+
+
+>>>>>>> 353a75fa4d92a6cb38ec201a2d273a8c618aa4ba
+
+
 
 \end{document}

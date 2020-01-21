@@ -1,6 +1,6 @@
 \documentclass{beamer}\usepackage[]{graphicx}\usepackage[]{color}
-% maxwidth is the original width if it is less than linewidth
-% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+%% maxwidth is the original width if it is less than linewidth
+%% otherwise use linewidth (to make sure the graphics do not exceed the margin)
 \makeatletter
 \def\maxwidth{ %
   \ifdim\Gin@nat@width>\linewidth
@@ -210,6 +210,30 @@ where
 After an AIC backward , we determine that $\mathbf{z}_i = (center_i, score\_education_i)$\\
 Model assumptions are checked in the appendix.
 \end{frame}
+
+
+
+\begin{frame}{EDA (II) - Exposure across centers}
+\begin{align*}
+	\textrm{logit}(P(gest_i \leq j)) = \beta_{0j} - \mathbf{X} \mathbf{\beta}_i + \varepsilon_i
+\end{align*}
+
+where $j = 0,1,2$ corresponds to the outcome level, and \textbf{X} contains:
+\begin{itemize}
+	\item DDE, PCB, race, center, smoke, the 3 scores [main effects]
+	\item (DDE + PCB) * (race + center) [interactions].
+\end{itemize}
+
+AIC-based backward variable selection:
+\begin{itemize}
+	\item DDE, PCB, \dots, (PCB + DDE) * race
+	\item (DDE + PCB) * center is not retained
+\end{itemize}
+
+Model assumptions are checked in the appendix.
+\end{frame}
+
+% https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3812826/#R13
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%% Model 2                   
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

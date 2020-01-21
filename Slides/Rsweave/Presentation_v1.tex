@@ -1,6 +1,6 @@
 \documentclass{beamer}\usepackage[]{graphicx}\usepackage[]{color}
-% maxwidth is the original width if it is less than linewidth
-% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+%% maxwidth is the original width if it is less than linewidth
+%% otherwise use linewidth (to make sure the graphics do not exceed the margin)
 \makeatletter
 \def\maxwidth{ %
   \ifdim\Gin@nat@width>\linewidth
@@ -176,7 +176,7 @@ $$adjDDE_i = \frac{DDE_i}{log(lipid_i)} \qquad adjPCB_i = \frac{PCB_i}{log(lipid
 
 \begin{figure}
   \centering
-  \includegraphics[width=0.8\textwidth]{Fig1-Adjusted_exposure_gestgroup.png}
+  \includegraphics[width=0.8\textwidth]{pcb_dde_per_gest.jpeg}
 \caption{Relationship between delivery group and adjusted exposures, by race}
 \label{fig:p1}
 \end{figure}
@@ -191,32 +191,7 @@ $$adjDDE_i = \frac{DDE_i}{log(lipid_i)} \qquad adjPCB_i = \frac{PCB_i}{log(lipid
 \section{Model (I) - Ordinal Logistic Regression}
 % Insert here the AIC part
 \begin{frame}{Model (I) - Ordinal Logistic Regression}
-<<<<<<< HEAD
-\footnotesize
-After an AIC backward variable selection procedure, our final model is:
-\begin{align*}
-textrm{logit}(P(gestgroup_i \leq j)) = \beta_{0j} - &\eta_1adjDDE_i - \eta_2adjPCB_i \\
-&-\eta_3 race_i \\
-&-\eta_4adjDDE_i*race_i -\eta_4adjDDE_i*race_i \\
-&- \sum_{j = center}\eta_{3,j}center_{j,i} + \eta_4smoke_i \eta_4adjDDE_i\boldsymbol{\xi}^T\mathbf{z}_i + \varepsilon_i
-\end{align*}
-where 
-\begin{itemize}
-\item $j = 0,1,2$ is the outcome level
-\item $DDE_i$ and $PCB_i$ are the amount of DDE and PCB
-\item $lipid_i$ measures the lipid deposit 
-\item $\mathbf{z}_i$ is a set of covariates. 
-\end{itemize}
-After an AIC backward , we determine that $\mathbf{z}_i = (center_i, score\_education_i)$\\
-Model assumptions are checked in the appendix.
-\end{frame}
-
-
-
-\begin{frame}{EDA (II) - Exposure across centers}
-=======
 We run the following ordinal logistic regression model:
->>>>>>> ce7a46f20c64e92997466f3644d2b3515a86434c
 \begin{align*}
 	\textrm{logit}(P(gestgroup \leq j)) = \beta_{0j} - \mathbf{X} \boldsymbol{\beta} + \boldsymbol{\varepsilon}
 \end{align*}
@@ -236,10 +211,7 @@ AIC-based backward variable selection:
 Model assumptions are checked in the appendix.
 \end{frame}
 
-<<<<<<< HEAD
-=======
 
->>>>>>> ce7a46f20c64e92997466f3644d2b3515a86434c
 % https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3812826/#R13
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%% Model 2                   
@@ -253,49 +225,7 @@ Model assumptions are checked in the appendix.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Results}
 \begin{frame}{Numerical Results}
-\begin{tabular}{l|r|r}
-\hline
-  & 5\% & 95\%\\
-\hline
-dde\_env\_bc & -0.0513582 & 0.0097459\\
-\hline
-pcb\_env\_bc & -2.7673825 & -0.7043851\\
-\hline
-race\_aggwhite & 0.0854250 & 0.8561411\\
-\hline
-center10 & -0.1122673 & 0.7602643\\
-\hline
-center15 & -1.0956887 & -0.2863208\\
-\hline
-center31 & -0.2567563 & 0.8024497\\
-\hline
-center37 & -1.0273528 & -0.3027346\\
-\hline
-center45 & -0.4292124 & 0.3496075\\
-\hline
-center50 & -0.5401077 & 0.2402548\\
-\hline
-center55 & -0.7698277 & 0.0759588\\
-\hline
-center60 & -0.6561040 & 0.1663142\\
-\hline
-center66 & -0.4817386 & 0.1849701\\
-\hline
-center71 & -0.4542238 & 0.2900110\\
-\hline
-center82 & -1.0930024 & -0.2869819\\
-\hline
-smoking\_status1 & -0.3170003 & -0.0014069\\
-\hline
-dde\_env\_bc:race\_aggwhite & -0.1174506 & 0.0160157\\
-\hline
-pcb\_env\_bc:race\_aggwhite & -0.0290488 & 3.2124015\\
-\hline
-0Dangerous|1Pre term & -3.2503005 & -2.5306140\\
-\hline
-1Pre term|2At term & -1.8930640 & -1.2207209\\
-\hline
-\end{tabular}
+The interpretation of 
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%% Results
@@ -328,7 +258,7 @@ pcb\_env\_bc:race\_aggwhite & -0.0290488 & 3.2124015\\
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Appendix}{Frequentist Model Checking}
-We can check the assumption of the (frequentist) ordinal logistic model by looking at the Surrogate residuals. \textcolor{red}{ADD CITATION HERE}\\
+We can check the assumption of the (frequentist) ordinal logistic model by looking at the Surrogate residuals (Liu and Zhang, 2017).\\
 \medskip
 If the model assumptions are correct, then the surrogate residuals $R_S$ will have three properties:
 \begin{enumerate}
@@ -339,7 +269,14 @@ If the model assumptions are correct, then the surrogate residuals $R_S$ will ha
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Appendix}{Frequentist Model Checking}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in eval(lhs, parent, parent): object 'd' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in eval(expr, p): object 'd\_subset' not found}}\end{kframe}
+\end{knitrout}
 Assumptions (i) and (ii) are checked with the Surrogate residuals plot. Both are satisfied in this case.
 \begin{figure}
   \centering
@@ -362,8 +299,15 @@ Assumptions (i) and (ii) are checked with the Surrogate residuals plot. Both are
 \begin{frame}{Appendix}{Box-Cox transformation of lipid}
 Following Li, Longnecker and Dunson (2013), we adjust the exposures by dividing for a Box-Cox tranformation of the level of lipids. We see that the optimal $\lambda$ is at 0, which suggests a $\log$ transformation. 
 \begin{knitrout}
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
-\includegraphics[width=\maxwidth]{figure/unnamed-chunk-5-1} 
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in eval(lhs, parent, parent): object 'd' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in eval(expr, envir, enclos): object 'd' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in FUN(X[[i]], ...): object 'log\_likelihood' not found}}\end{kframe}
+\includegraphics[width=\maxwidth]{figure/unnamed-chunk-3-1} 
 
 \end{knitrout}
 

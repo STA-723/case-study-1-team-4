@@ -1,16 +1,4 @@
 \beamer@slide {fig:p1}{6}
-<<<<<<< HEAD
-<<<<<<< HEAD
 \beamer@slide {fig:corrPCB}{13}
 \beamer@slide {fig:surrogateresid}{15}
 \beamer@slide {fig:qqplot}{16}
-=======
-\beamer@slide {fig:corrPCB}{12}
-\beamer@slide {fig:surrogateresid}{14}
-\beamer@slide {fig:qqplot}{15}
->>>>>>> ce7a46f20c64e92997466f3644d2b3515a86434c
-=======
-\beamer@slide {fig:corrPCB}{13}
-\beamer@slide {fig:surrogateresid}{15}
-\beamer@slide {fig:qqplot}{16}
->>>>>>> 41fd92f68963ee6f5280a529631d009975028d19

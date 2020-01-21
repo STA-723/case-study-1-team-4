@@ -150,7 +150,6 @@ $$PCB_i = \frac{1}{11}\sum_{j=1}^{11} \frac{PCB_{ij} - mean_i(PCB_{ij})}{sd_i(PC
 \item Mean impute of occupation, education and income scores 
 \item Aggregate race into $race = 1$ if white and $race=0$ if non-white
 \end{itemize}
-\medskip
 $\quad \Longrightarrow$ \textcolor{blue}{Total obs.} = \textbf{2336}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -212,46 +211,26 @@ p1 = ggarrange(pcb_race, dde_race, ncol=2,
 \section{Model (I) - Ordinal Logistic Regression}
 % Insert here the AIC part
 \begin{frame}{Model (I) - Ordinal Logistic Regression}
-\footnotesize
-After an AIC backward variable selection procedure, our final model is:
+We run the following ordinal logistic regression model:
 \begin{align*}
-textrm{logit}(P(gestgroup_i \leq j)) = \beta_{0j} - &\eta_1adjDDE_i - \eta_2adjPCB_i \\
-&-\eta_3 race_i \\
-&-\eta_4adjDDE_i*race_i -\eta_4adjDDE_i*race_i \\
-&- \sum_{j = center}\eta_{3,j}center_{j,i} + \eta_4smoke_i \eta_4adjDDE_i\boldsymbol{\xi}^T\mathbf{z}_i + \varepsilon_i
-\end{align*}
-where 
-\begin{itemize}
-\item $j = 0,1,2$ is the outcome level
-\item $DDE_i$ and $PCB_i$ are the amount of DDE and PCB
-\item $lipid_i$ measures the lipid deposit 
-\item $\mathbf{z}_i$ is a set of covariates. 
-\end{itemize}
-After an AIC backward , we determine that $\mathbf{z}_i = (center_i, score\_education_i)$\\
-Model assumptions are checked in the appendix.
-\end{frame}
-
-
-
-\begin{frame}{EDA (II) - Exposure across centers}
-\begin{align*}
-	\textrm{logit}(P(gest_i \leq j)) = \beta_{0j} - \mathbf{X} \mathbf{\beta}_i + \varepsilon_i
+	\textrm{logit}(P(gestgroup \leq j)) = \beta_{0j} - \mathbf{X} \boldsymbol{\beta} + \boldsymbol{\varepsilon}
 \end{align*}
 
 where $j = 0,1,2$ corresponds to the outcome level, and \textbf{X} contains:
 \begin{itemize}
-	\item DDE, PCB, race, center, smoke, the 3 scores [main effects]
-	\item (DDE + PCB) * (race + center) [interactions].
+	\item $adjDDE$, $adjPCB$, $race$, $center$, $smoke$, the 3 scores, and mother age [\textcolor{blue}{main effects}]
+	\item ($adjDDE$ + $adjPCB$) * ($race$ + $center$) [\textcolor{blue}{interactions}].
 \end{itemize}
-
+\medskip
 AIC-based backward variable selection:
 \begin{itemize}
-	\item DDE, PCB, \dots, (PCB + DDE) * race
-	\item (DDE + PCB) * center is not retained
+	\item \textcolor{blue}{Maintain} $DDE$, $PCB$, $smoke$, $center$, $race$, ($PCB$ + $DDE$) * $race$
+	\item \textcolor{red}{Drop} ($DDE$ + $PCB$) * $center$ , mother age, 
 \end{itemize}
 
 Model assumptions are checked in the appendix.
 \end{frame}
+
 
 % https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3812826/#R13
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -282,7 +261,7 @@ Model assumptions are checked in the appendix.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \appendix
 \section{Appendix}
-\begin{frame}{Appendix (I) - More EDA}
+\begin{frame}{Appendix}{More EDA}
 \begin{figure}
   \centering
   \includegraphics[width=0.6\textwidth]{corrplot_PCB.png}
@@ -291,7 +270,7 @@ Model assumptions are checked in the appendix.
 \end{figure}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Frequentist Model Checking}
+\begin{frame}{Appendix}{Frequentist Model Checking}
 We can check the assumption of the (frequentist) ordinal logistic model by looking at the Surrogate residuals. \textcolor{red}{ADD CITATION HERE}\\
 \medskip
 If the model assumptions are correct, then the surrogate residuals $R_S$ will have three properties:
@@ -302,7 +281,7 @@ If the model assumptions are correct, then the surrogate residuals $R_S$ will ha
 \end{enumerate}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Frequentist Model Checking}
+\begin{frame}{Appendix}{Frequentist Model Checking}
 <<results='hide', echo=FALSE, cache=TRUE, warning=FALSE>>=
 d_subset= d %>% 
   dplyr::select(outcome_3, dde_env_bc,
@@ -324,7 +303,7 @@ Assumptions (i) and (ii) are checked with the Surrogate residuals plot. Both are
 \end{figure}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Frequentist Model Checking}
+\begin{frame}{Appendix}{Frequentist Model Checking}
 <<echo=FALSE>>=
 #autoplot(res, what = "qq", x =d$pcb_env_bc, xlab = "Adjusted PCB")
 @
@@ -335,6 +314,41 @@ Assumptions (i) and (ii) are checked with the Surrogate residuals plot. Both are
 \label{fig:qqplot}
 \end{figure}
 \end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Appendix}{Box-Cox transformation of lipid}
+Following Li, Longnecker and Dunson (2013), we adjust the exposures by dividing for a Box-Cox tranformation of the level of lipids. We see that the optimal $\lambda$ is at 0, which suggests a $\log$ transformation. 
+<<echo=FALSE, results='hide', warning=FALSE>>=
+# A function to implement box-cox
+boxcox_transfomation = function(y, lambda){
+  if(lambda==0){
+    return(log(y))
+  } else {
+    return((y^lambda-1)/lambda)
+  }
+}
+# Import the original data
+d_boxcox_check= d %>% 
+  dplyr::select(outcome_3,race,maternal_age,score_occupation,
+                center,score_income,score_education, smoking_status)
+# Compute the boxcox
+lambda_list = seq(0,2,0.05)
+BOXCOX = NULL
+for(lambda in lambda_list){
+  d_boxcox_check$dde_check = d$dde/boxcox_transfomation(d$fat, lambda)
+  d_boxcox_check$pcb_check = d$pcb/boxcox_transfomation(d$fat, lambda)
+    model_lambda = polr(outcome_3 ~ . + center*dde_check 
+                                   + center*pcb_check +
+                                     race*dde_check +
+                                     race*pcb_check, data=d_boxcox_check,
+                              method = c("logistic"))
+    log_likelihood = logLik(model_lambda)
+    BOXCOX = rbind(BOXCOX, data.frame("lambda"=lambda, "log_likelihood" = log_likelihood))
+}
+ggplot(BOXCOX)+
+  geom_line(aes(x=lambda, y=log_likelihood))
+@
 
+
+\end{frame}
 
 \end{document}

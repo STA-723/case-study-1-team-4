@@ -19,6 +19,8 @@ library(MASS)
 library(sure) # Surrogate Residuals
 library(rstanarm)
 library(ggpubr)
+library(corrplot)
+library(RColorBrewer)
 ggplot2::theme_set(ggplot2::theme_bw())
 my_standardize <- function(x) (x - mean(x, na.rm = T)) / sd(x, na.rm = T)
 ```
@@ -41,14 +43,11 @@ d <- readRDS("Longnecker.rds") %>%
   filter(gestational_age <= 45) %>% # more accurate treatment would be to allow for error in measurement since the number of weeks is only estimated (there is room for error)
   mutate(outcome_2 = case_when(gestational_age <= 37 ~ "Pre term",
                                TRUE                  ~ "At term"),
-         outcome_3 = case_when(gestational_age <= 34 ~ "0Dangerous",
-                               gestational_age <= 37 ~ "1Pre term",
-                               TRUE                  ~ "2At term"),
          gestgroup = case_when(gestational_age <= 34 ~ "Dangerous",
                                gestational_age <= 37 ~ "Pre term",
                                TRUE                  ~ "At term")) %>%
-  mutate(outcome_3 = outcome_3 %>% factor) %>%
-  mutate(gestgroup = gestgroup %>% factor) %>%
+  mutate(gestgroup = gestgroup %>% factor %>% fct_relevel("Dangerous", "Pre term", "At term")) %>%
+  
   # Aggregate PCBs
   mutate_at(vars(starts_with("pcb")), my_standardize) %>% # standardize pcb's to give them all equal weight in the aggregate pcb variable
   rowwise() %>%
@@ -59,8 +58,12 @@ d <- readRDS("Longnecker.rds") %>%
   mutate(fat = 2.27 * cholesterol + triglycerides + 0.623) %>% # https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3893492/
   
   # Exposure
-  mutate(dde_env = dde / fat,
-         pcb_env = pcb / fat) %>%
+  mutate(dde_env_bc = dde / log(fat),
+         pcb_env_bc = pcb / log(fat)) %>%
+  
+  # Race
+  mutate(race_agg = case_when(race == "white" ~ "white",
+                              TRUE            ~ "non white") ) %>%
   
   # NA
   impute_if(na.mean, is.numeric) %>%
@@ -72,13 +75,6 @@ d <- readRDS("Longnecker.rds") %>%
                 everything())
 ```
 
-```{r}
-# Box Cox transform of fat
-d$dde_env_bc = d$dde/log(d$fat)
-d$pcb_env_bc = d$pcb/log(d$fat)
-d$race_agg = "white"
-d[d$race!="white", ]$race_agg = "non white"
-```
 ## EDA
 
 - justify aggregation of pcb: they are all correlated, tell the same story, reduce number of predictor (more stable parameter estimation).
@@ -86,75 +82,58 @@ d[d$race!="white", ]$race_agg = "non white"
 - fat per race
 - gestation per race & per center
 
-
-```{r, fig_height = 3}
-d %>% 
-  dplyr::select(dde, pcb, pcb_028 : pcb_203) %>%
-  #mutate_all(~(log(. + 0.1))) %>%
-  ggcorr(palette = "RdBu", label = TRUE)
-```
-
-```{r}
-d %>%
-  ggplot(aes(x = outcome_3, y = dde_env, fill = race)) +
-  geom_violin()
-
-d %>%
-  ggplot(aes(x = outcome_3, y = pcb_env, fill = race)) +
-  geom_violin()
-```
-
-```{r}
-d %>%
-  ggplot(aes(x = race, y = fat, fill = race)) +
-  geom_violin()
-```
-
-```{r}
-d %>%
-  ggplot(aes(x=race, fill = outcome_3)) +
-  geom_bar(position = "fill")
-
-d %>%
-  ggplot(aes(x=reorder(center, outcome_3 != "2At term"), fill = outcome_3)) +
-  geom_bar(position = "fill")
-```
-```{r}
-# DDE and outcome_3
-ggplot(d) +
-  geom_density(aes(x=dde_env_bc, color=outcome_3), alpha = 0.5)
-# PCB and outcome_3
-ggplot(d) +
-  geom_density(aes(x=pcb_env_bc, color=outcome_3), alpha = 0.5)
-```
-```{r}
+```{r, echo=FALSE, fig.align='center', fig.height=3, fig.width=5}
 # PCB and outcome_3
 pcb_race = ggplot(d) +
-  geom_boxplot(aes(x=gestgroup,y=pcb_env_bc, fill=race_agg))+
+  geom_boxplot(aes(x=gestgroup, y=pcb_env_bc, fill=race_agg))+
   ylab("Adjusted PCB")+
   labs(fill="Race")+
   xlab("")+
-  facet_grid(~"Adjusted PCB across delivery groups")
+  facet_grid(~"Adjusted PCB by group")
+
 # DDE and outcome_3
 dde_race = ggplot(d) +
-  geom_boxplot(aes(x=gestgroup,y=dde_env_bc, fill=race_agg))+
+  geom_boxplot(aes(x=gestgroup, y=dde_env_bc, fill=race_agg))+
   ylab("Adjusted DDE")+
   labs(fill="Race")+
   xlab("")+
-  facet_grid(~"Adjusted DDE across delivery groups")
+  facet_grid(~"Adjusted DDE by group")
+
 ggarrange(pcb_race, dde_race, ncol=2, 
           common.legend = T, legend = "bottom")
 
+ggsave("pcb_dde_per_gest.jpeg", path = "Slides/Rsweave")
 ```
 
+```{r}
+d %>% 
+  dplyr::select(starts_with("pcb")) %>%
+  cor(use = "pairwise.complete.obs" ) %>%
+  corrplot(col=brewer.pal(n=8, name="RdYlBu"))
+
+ggsave("pcb_corr.jpeg", path = "Slides/Rsweave")
+```
+
+```{r}
+d %>%
+   ggplot(aes(x=reorder(center, gestgroup == "Dangerous"), fill = gestgroup)) +
+   geom_bar(position = "fill") +
+   scale_fill_brewer(name = "Outcome", palette = "Spectral") +
+   labs(x = "Centers", y = "Count") +
+   theme(legend.position = "bottom")
+
+ggsave("outcome_per_center.jpeg", path = "Slides/Rsweave")
+```
+
+
 ## Model
-<<<<<<< HEAD
+
 ### Model Building
 The cumulative logistics model(ordinal regression model) is fitted. The model is paramterized as:
 $$
 logit(P(Y\leq j))=\beta_{j0}-\eta_1x_1-\cdots-\eta_px_p
 $$
-=======
+
 
 The cumulative logistics model is fitted. First, we detect the full model. Then, we make a variable selection.
 ```{r}
@@ -350,8 +329,9 @@ exp(-posterior_interval(m,prob=.95))-1
 -
 ## Try to summarize the result
 Graphical Summary of the cumulative probability
+
 ```{r}
-k=18
+k=30
 newdata=m$x[1:k,]
 newdata=as.data.frame(newdata)
 newdata$dde_env_bc=seq(0,k-1)
@@ -366,6 +346,7 @@ prob_cum0=1/(1+exp(-mu0))
 prob_cum1=1/(1+exp(-mu1))
 prob0=prob_cum0
 prob1=prob_cum1-prob_cum0
+prob2=1-(prob0+prob1)
 #####Calculate CIs
 draws=as.matrix(m)
 beta=-draws[,1:17]
@@ -377,27 +358,35 @@ prob_cum0_draws=1/(1+exp(-mu0_draws))
 prob_cum1_draws=1/(1+exp(-mu1_draws))
 prob0_draws=prob_cum0_draws
 prob1_draws=prob_cum1_draws-prob_cum0_draws
+prob2_draws=1-prob_cum1_draws
 prob0_quants=apply(prob0_draws,1,quantile,prob=c(.05,.95)) ##Calculate the quantiles of P(Y=0)
 prob1_quants=apply(prob1_draws,1,quantile,prob=c(.05,.95)) ##Calculate the quantiles of P(Y=1)
+prob2_quants=apply(prob2_draws,1,quantile,prob=c(.05,.95))
+prob2=1-(prob0+prob1)
+
 ```
 
 Plot Pr(Y=j|dde) vs dde
 ```{r}
-tibble(dde = seq(0,k-1),
-       p0 = prob0, p1 = prob1) %>%
-  gather(Outcome, Probability,p0,p1) %>%
-  mutate(low = c(prob0_quants[1,], prob1_quants[1,]),
-         upp = c(prob0_quants[2,], prob1_quants[2,])) %>%
+predict_DDE_w = tibble(dde = seq(0,k-1),
+       p0 = prob0, p1 = prob1, p2=prob2) %>%
+  gather(Outcome, Probability,p0,p1,p2) %>%
+    mutate(Outcome = case_when(Outcome == "p0" ~ "Dangerous",
+                             Outcome == "p1" ~ "Pre term", 
+                             TRUE~"At term"))%>%
+  mutate(low = c(prob0_quants[1,], prob1_quants[1,],prob2_quants[1,]),
+         upp = c(prob0_quants[2,], prob1_quants[2,],prob2_quants[2,])) %>%
   ggplot(aes(x=dde)) +
   geom_line(aes(y=Probability, col = Outcome)) +
   geom_ribbon(aes(ymin = low, ymax = upp, fill = Outcome), alpha = 0.1) +
   theme(legend.position = "bottom")+
-  facet_grid(~"something")
+  xlab("Adjusted DDE") +
+  facet_grid(~"Race = White")
 ```
 
 Plot Pr(Y=j|pcb) vs pcb
 ```{r}
-k=30
+k=50
 newdata=m$x[1:k,]
 newdata=as.data.frame(newdata)
 newdata$dde_env_bc=rep(mean(d$dde_env_bc),k)
@@ -412,7 +401,7 @@ prob_cum0=1/(1+exp(-mu0))
 prob_cum1=1/(1+exp(-mu1))
 prob0=prob_cum0
 prob1=prob_cum1-prob_cum0
-#####Calculate CIs
+prob2=1-(prob1+prob0)
 #####Calculate CIs
 draws=as.matrix(m)
 beta=-draws[,1:17]
@@ -424,20 +413,138 @@ prob_cum0_draws=1/(1+exp(-mu0_draws))
 prob_cum1_draws=1/(1+exp(-mu1_draws))
 prob0_draws=prob_cum0_draws
 prob1_draws=prob_cum1_draws-prob_cum0_draws
+prob2_draws=1-prob_cum1_draws
 prob0_quants=apply(prob0_draws,1,quantile,prob=c(.05,.95)) ##Calculate the quantiles of P(Y=0)
 prob1_quants=apply(prob1_draws,1,quantile,prob=c(.05,.95)) ##Calculate the quantiles of P(Y=1)
+prob2_quants=apply(prob2_draws,1,quantile,prob=c(.05,.95)) ##Calculate the quantiles of P(Y=2)
+
+
 #####Plot
-tibble(pcb = seq(-0.3,.8,length.out =k ),
-       p0 = prob0, p1 = prob1) %>%
-  gather(Outcome, Probability,p0,p1) %>%
-  mutate(low = c(prob0_quants[1,], prob1_quants[1,]),
-         upp = c(prob0_quants[2,], prob1_quants[2,])) %>%
+predict_PCB_w = tibble(pcb = seq(-0.3,.8,length.out =k ),
+       p0 = prob0, p1 = prob1,p2=prob2) %>%
+  gather(Outcome, Probability,p0,p1,p2) %>%
+    mutate(Outcome = case_when(Outcome == "p0" ~ "Dangerous",
+                             Outcome == "p1" ~ "Pre term", 
+                             TRUE~"At term"))%>%
+  mutate(low = c(prob0_quants[1,], prob1_quants[1,],prob2_quants[1,]),
+         upp = c(prob0_quants[2,], prob1_quants[2,],prob2_quants[2,])) %>%
   ggplot(aes(x=pcb)) +
   geom_line(aes(y=Probability, col = Outcome)) +
   geom_ribbon(aes(ymin = low, ymax = upp, fill = Outcome), alpha = 0.1) +
   theme(legend.position = "bottom")+
-  facet_grid(~"Pr(Y|pcb)")
+  facet_grid(~"Race = White") +
+  xlab("Adjusted PCB")
 
+```
+```{r}
+#ggarrange(predict_DDE, predict_PCB, ncol=2,common.legend = TRUE , legend = "bottom")
+```
+
+For non-white people prob vs dde
+```{r}
+k=30
+newdata=m$x[1:k,]
+newdata=as.data.frame(newdata)
+newdata$dde_env_bc=seq(0,k-1)
+newdata$pcb_env_bc=rep(mean(d$pcb_env_bc),k)
+newdata$race_aggwhite=rep(0,k) #all whites
+newdata$smoking_status1=rep(1,k) #no smoking 
+newdata$`dde_env_bc:race_aggwhite`=newdata$dde_env_bc*newdata$race_aggwhite
+newdata$`pcb_env_bc:race_aggwhite`=newdata$pcb_env_bc*newdata$race_aggwhite
+mu0=as.matrix(newdata) %*% -coef(m)+m$zeta[1] #mu of Pr(Y<=0)
+mu1=as.matrix(newdata) %*% -coef(m)+m$zeta[2] #mu of Pr(Y<=1)
+prob_cum0=1/(1+exp(-mu0))
+prob_cum1=1/(1+exp(-mu1))
+prob0=prob_cum0
+prob1=prob_cum1-prob_cum0
+prob2=1-(prob0+prob1)
+#####Calculate CIs
+draws=as.matrix(m)
+beta=-draws[,1:17]
+zeta0=draws[,18]
+zeta1=draws[,19]
+mu0_draws=as.matrix(newdata) %*% t(beta)+zeta0
+mu1_draws=as.matrix(newdata) %*% t(beta)+zeta1
+prob_cum0_draws=1/(1+exp(-mu0_draws))
+prob_cum1_draws=1/(1+exp(-mu1_draws))
+prob0_draws=prob_cum0_draws
+prob1_draws=prob_cum1_draws-prob_cum0_draws
+prob2_draws=1-prob_cum1_draws
+prob0_quants=apply(prob0_draws,1,quantile,prob=c(.05,.95)) ##Calculate the quantiles of P(Y=0)
+prob1_quants=apply(prob1_draws,1,quantile,prob=c(.05,.95)) ##Calculate the quantiles of P(Y=1)
+prob2_quants=apply(prob2_draws,1,quantile,prob=c(.05,.95))
+prob2=1-(prob0+prob1)
+#####plot
+predict_DDE_nw = tibble(dde = seq(0,k-1),
+       p0 = prob0, p1 = prob1, p2=prob2) %>%
+  gather(Outcome, Probability,p0,p1,p2) %>%
+    mutate(Outcome = case_when(Outcome == "p0" ~ "Dangerous",
+                             Outcome == "p1" ~ "Pre term", 
+                             TRUE~"At term"))%>%
+  mutate(low = c(prob0_quants[1,], prob1_quants[1,],prob2_quants[1,]),
+         upp = c(prob0_quants[2,], prob1_quants[2,],prob2_quants[2,])) %>%
+  ggplot(aes(x=dde)) +
+  geom_line(aes(y=Probability, col = Outcome)) +
+  geom_ribbon(aes(ymin = low, ymax = upp, fill = Outcome), alpha = 0.1) +
+  theme(legend.position = "bottom")+
+  xlab("Adjusted DDE") +
+  facet_grid(~"Race = Non-white")
+```
+For non-white prob vs pcb
+```{r}
+k=50
+newdata=m$x[1:k,]
+newdata=as.data.frame(newdata)
+newdata$dde_env_bc=rep(mean(d$dde_env_bc),k)
+newdata$pcb_env_bc=seq(-0.3,.8,length.out =k )
+newdata$race_aggwhite=rep(0,k) #all whites
+newdata$smoking_status1=rep(1,k) #non smoking 
+newdata$`dde_env_bc:race_aggwhite`=newdata$dde_env_bc*newdata$race_aggwhite
+newdata$`pcb_env_bc:race_aggwhite`=newdata$pcb_env_bc*newdata$race_aggwhite
+mu0=as.matrix(newdata) %*% -coef(m)+m$zeta[1] #mu of Pr(Y<=0)
+mu1=as.matrix(newdata) %*% -coef(m)+m$zeta[2] #mu of Pr(Y<=1)
+prob_cum0=1/(1+exp(-mu0))
+prob_cum1=1/(1+exp(-mu1))
+prob0=prob_cum0
+prob1=prob_cum1-prob_cum0
+prob2=1-(prob1+prob0)
+#####Calculate CIs
+draws=as.matrix(m)
+beta=-draws[,1:17]
+zeta0=draws[,18]
+zeta1=draws[,19]
+mu0_draws=as.matrix(newdata) %*% t(beta)+zeta0
+mu1_draws=as.matrix(newdata) %*% t(beta)+zeta1
+prob_cum0_draws=1/(1+exp(-mu0_draws))
+prob_cum1_draws=1/(1+exp(-mu1_draws))
+prob0_draws=prob_cum0_draws
+prob1_draws=prob_cum1_draws-prob_cum0_draws
+prob2_draws=1-prob_cum1_draws
+prob0_quants=apply(prob0_draws,1,quantile,prob=c(.05,.95)) ##Calculate the quantiles of P(Y=0)
+prob1_quants=apply(prob1_draws,1,quantile,prob=c(.05,.95)) ##Calculate the quantiles of P(Y=1)
+prob2_quants=apply(prob2_draws,1,quantile,prob=c(.05,.95)) ##Calculate the quantiles of P(Y=2)
+
+
+#####Plot
+predict_PCB_nw = tibble(pcb = seq(-0.3,.8,length.out =k ),
+       p0 = prob0, p1 = prob1,p2=prob2) %>%
+  gather(Outcome, Probability,p0,p1,p2) %>%
+  mutate(Outcome = case_when(Outcome == "p0" ~ "Dangerous",
+                             Outcome == "p1" ~ "Pre term", 
+                             TRUE~"At term"))%>%
+  mutate(low = c(prob0_quants[1,], prob1_quants[1,],prob2_quants[1,]),
+         upp = c(prob0_quants[2,], prob1_quants[2,],prob2_quants[2,])) %>%
+  ggplot(aes(x=pcb)) +
+  geom_line(aes(y=Probability, col = Outcome)) +
+  geom_ribbon(aes(ymin = low, ymax = upp, fill = Outcome), alpha = 0.1) +
+  theme(legend.position = "bottom")+
+  facet_grid(~"Race = Non-white")+
+  xlab("Adjusted PCB")
+```
+Last Plot
+```{r}
+ggarrange(predict_DDE_w, predict_PCB_w, predict_DDE_nw, predict_PCB_nw, 
+          nrow =2, ncol=2,common.legend = TRUE , legend = "bottom") 
 ```
 
 

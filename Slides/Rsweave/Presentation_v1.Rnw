@@ -50,62 +50,7 @@
 \institute[Stat 723]{Case Study 1 - Stat 723}
 \date{\today}
 \begin{document}
-<<echo=FALSE, results='hide', warning=FALSE>>=
-suppressMessages(library(tidyverse))
-suppressMessages(library(GGally)) # ggpairs()
-suppressMessages(library(tidyimpute)) # NA imputation
-suppressMessages(library(na.tools)) # NA imputation
-suppressMessages(library(MASS))
-suppressMessages(library(sure)) # Surrogate Residuals 
-suppressMessages(library(rstanarm))
-suppressMessages(library(ggpubr))
-suppressMessages(library(knitr))
-suppressMessages(library(corrplot))
-suppressMessages(library(RColorBrewer))
-my_standardize <- function(x) (x - mean(x, na.rm = T)) / sd(x, na.rm = T)
-ggplot2::theme_set(ggplot2::theme_bw())
-d = readRDS("Longnecker.rds") %>%
-  mutate_at(vars(center, smoking_status), factor) %>%
-  dplyr::select(-albumin) %>% # too many NAs
-  # Dependent Variable
-  filter(gestational_age <= 45) %>% # more accurate treatment would be to allow for error in measurement since the number of weeks is only estimated (there is room for error)
-  mutate(outcome_2 = case_when(gestational_age <= 37 ~ "Pre term",
-                               TRUE                  ~ "At term"),
-         outcome_3 = case_when(gestational_age <= 34 ~ "0Dangerous",
-                               gestational_age <= 37 ~ "1Pre term",
-                               TRUE                  ~ "2At term"),
-         gestgroup = case_when(gestational_age <= 34 ~ "Dangerous",
-                               gestational_age <= 37 ~ "Pre term",
-                               TRUE                  ~ "At term")) %>%
-  mutate(outcome_3 = outcome_3 %>% factor) %>%
-  mutate(gestgroup = gestgroup %>% factor) %>%
-  # Aggregate PCBs
-  mutate_at(vars(starts_with("pcb")), my_standardize) %>% # standardize pcb's to give them all equal weight in the aggregate pcb variable
-  rowwise() %>%
-  mutate(pcb = mean(c(pcb_028, pcb_052, pcb_074, pcb_105, pcb_118, pcb_153, pcb_170, pcb_138, pcb_180, pcb_194, pcb_203))) %>%
-  ungroup %>%
-  
-  # Fat
-  mutate(fat = 2.27 * cholesterol + triglycerides + 0.623) %>% # https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3893492/
-  
-  # Exposure
-  mutate(dde_env = dde / fat,
-         pcb_env = pcb / fat) %>%
-  # Adjusted Exposure 
-  mutate(dde_env_bc = dde / log(fat),
-         pcb_env_bc = pcb / log(fat)) %>%
-  
-  # NA
-  impute_if(na.mean, is.numeric) %>%
-  #impute_if(na.mode, is.character) %>% # not necessary
-  
-  dplyr::select(starts_with("outcome"), # Y
-                starts_with("dde|pcb"), # X
-                starts_with("score"), race, maternal_age, center, smoking_status, # Z
-                everything())
-d$race_agg = "white"
-d[d$race!="white", ]$race_agg = "non white"
-@
+
 \begin{frame}
 \titlepage
 \end{frame}
@@ -166,8 +111,8 @@ $$gestgroup_i =
 \end{cases}$$
 \item To account for triglyceredes and cholesterol, we introduce an \textbf{adjusted measure for} $PCB$ \textbf{and} $DDE$ by:
 \begin{enumerate}
-\item Computing total lipids using Phillips et al.(1989) and Bernert et al.(2007) forumula $$lipid_i =  2.27 * cholesterol_i + triglycerides_i + 0.623$$ 
-\item Setting\footnote{The choice of the log comes from a Box-Cox analysis of the log-likelihood, as in Li, Longnecker and Dunson (2013)}
+\item Computing total lipids using \cite{Phillips1989} and \cite{Bernert2007} forumula $$lipid_i =  2.27 * cholesterol_i + triglycerides_i + 0.623$$ 
+\item Setting\footnote{The choice of the log comes from a Box-Cox analysis of the log-likelihood, as in \cite{Li_Long_Duns}}
 $$adjDDE_i = \frac{DDE_i}{log(lipid_i)} \qquad adjPCB_i = \frac{PCB_i}{log(lipid_i)}$$
 \end{enumerate}
 \end{itemize}
@@ -177,27 +122,10 @@ $$adjDDE_i = \frac{DDE_i}{log(lipid_i)} \qquad adjPCB_i = \frac{PCB_i}{log(lipid
 %%%% EDA                    
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{EDA (I) - Exposures and gestational groups by race}
-<<echo=FALSE, fig.align='center', fig.height=3, fig.width=5>>=
-# PCB and outcome_3
-pcb_race = ggplot(d) +
-  geom_boxplot(aes(x=gestgroup,y=pcb_env_bc, fill=race_agg))+
-  ylab("Adjusted PCB")+
-  labs(fill="Race")+
-  xlab("")+
-  facet_grid(~"Adjusted PCB by group")
-# DDE and outcome_3
-dde_race = ggplot(d) +
-  geom_boxplot(aes(x=gestgroup,y=dde_env_bc, fill=race_agg))+
-  ylab("Adjusted DDE")+
-  labs(fill="Race")+
-  xlab("")+
-  facet_grid(~"Adjusted DDE by group")
-p1 = ggarrange(pcb_race, dde_race, ncol=2, 
-          common.legend = T, legend = "bottom")
-@
+
 \begin{figure}
   \centering
-  \includegraphics[width=0.8\textwidth]{Fig1-Adjusted_exposure_gestgroup.png}
+  \includegraphics[width=0.8\textwidth]{pcb_dde_per_gest.jpeg}
 \caption{Relationship between delivery group and adjusted exposures, by race}
 \label{fig:p1}
 \end{figure}
@@ -280,6 +208,30 @@ The interpretation of results are as follow:
 \begin{frame}{Conclusions}
 \end{frame}
 
+\begin{frame}
+\frametitle{References}
+\footnotesize{
+\begin{thebibliography}{99} % Beamer does not support BibTeX so references must be inserted manually as below
+	
+	\bibitem[Li et al, 2013]{Li_Long_Duns} Li, D; Longnecker, M.P.; and Dunson, D.B. \\
+	\newblock Lipid Adjustment for Chemical Exposures: Accounting for Concomitant Variables.\\
+	\newblock \emph{Epidemiology}, Nov 2013
+
+	\bibitem[Phillips et al.(1989)]{Phillips1989}Phillips, D; Pirke, J., Burse, V.; Bernert, J.; Henderson, L.; Needham, L.\\
+	\newblock Chlorinated hydrocarbon levels in human serum: Effects of fasting and feeding.\\
+	\newblock \emph{Archives of Environmental Contamination and Toxicology}, 1989
+	
+	\bibitem[Bernert et al, 2007]{Bernert2007} Bernert, JT.; Turner, WE.;, Patterson, DG. Jr;, Needham, LL.\\
+	\newblock Calculation of serum total lipid concentrations for the adjustment of persistent organohalogen toxicant measurements in human samples.\\
+	\newblock \emph{Chemosphere}, 1989
+	
+	\bibitem[Liu and Zhang, 2018]{Liu2018} Liu, D.; and Zhang, H.;\\
+	\newblock Residuals and Diagnostics for Ordinal Regression Models: A Surrogate Approach\\
+	\newblock \emph{Journal of the Americal Statistical Association}, 2018
+	
+\end{thebibliography}
+}
+\end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%% Appendix                 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -295,7 +247,11 @@ The interpretation of results are as follow:
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Appendix}{Frequentist Model Checking}
-We can check the assumption of the (frequentist) ordinal logistic model by looking at the Surrogate residuals. \textcolor{red}{ADD CITATION HERE}\\
+<<<<<<< HEAD
+We can check the assumption of the (frequentist) ordinal logistic model by looking at the Surrogate residuals (Liu and Zhang, 2017).\\
+=======
+We can check the assumption of the (frequentist) ordinal logistic model by looking at the Surrogate residuals (Liu and Zhang, 2018).\\
+>>>>>>> 353a75fa4d92a6cb38ec201a2d273a8c618aa4ba
 \medskip
 If the model assumptions are correct, then the surrogate residuals $R_S$ will have three properties:
 \begin{enumerate}
@@ -306,18 +262,6 @@ If the model assumptions are correct, then the surrogate residuals $R_S$ will ha
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Appendix}{Frequentist Model Checking}
-<<results='hide', echo=FALSE, cache=TRUE, warning=FALSE>>=
-d_subset= d %>% 
-  dplyr::select(outcome_3, dde_env_bc,
-                pcb_env_bc,race_agg,maternal_age,score_occupation,
-                center,score_income,score_education, smoking_status)
-cum_logit_model_bc= polr(outcome_3 ~ . + dde_env_bc*race_agg + pcb_env_bc*race_agg + dde_env_bc*center + pcb_env_bc*center, data=d_subset,method = c("logistic"))
-#cumlogit_model_env_selected=stepAIC(cum_logit_model_bc,direction="both")
-#res=resids(cum_logit_model_bc) #surrogate residuals
-#surr_pcb = autoplot(res, what = "covariate", x =d$pcb_env_bc, xlab = "Adjusted PCB")
-#surr_dde = autoplot(res, what = "covariate", x =d$dde_env_bc, xlab = "Adjusted DDE")
-#surrresid =  ggarrange(surr_dde,surr_pcb, ncol = 2)
-@
 Assumptions (i) and (ii) are checked with the Surrogate residuals plot. Both are satisfied in this case.
 \begin{figure}
   \centering
@@ -328,9 +272,6 @@ Assumptions (i) and (ii) are checked with the Surrogate residuals plot. Both are
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Appendix}{Frequentist Model Checking}
-<<echo=FALSE>>=
-#autoplot(res, what = "qq", x =d$pcb_env_bc, xlab = "Adjusted PCB")
-@
 \begin{figure}
   \centering
   \includegraphics[width=0.7\textwidth]{qqplot.png}
@@ -340,6 +281,7 @@ Assumptions (i) and (ii) are checked with the Surrogate residuals plot. Both are
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Appendix}{Box-Cox transformation of lipid}
+<<<<<<< HEAD
 Following Li, Longnecker and Dunson (2013), we adjust the exposures by dividing for a Box-Cox tranformation of the level of lipids. We see that the optimal $\lambda$ is at 0, which suggests a $\log$ transformation. 
 <<echo=FALSE, results='hide', warning=FALSE>>=
 # A function to implement box-cox
@@ -352,27 +294,32 @@ boxcox_transfomation = function(y, lambda){
 }
 # Import the original data
 d_boxcox_check= d %>% 
-  dplyr::select(outcome_3,race,maternal_age,score_occupation,
+  dplyr::select(outcome_3,race_agg,maternal_age,score_occupation,
                 center,score_income,score_education, smoking_status)
 # Compute the boxcox
 lambda_list = seq(0,2,0.05)
 BOXCOX = NULL
 for(lambda in lambda_list){
-  d_boxcox_check$dde_check = d$dde/boxcox_transfomation(d$fat, lambda)
+  d_boxcox_check$dde_check = d$dde/boxcox_transfomation(d$fat, 0)
   d_boxcox_check$pcb_check = d$pcb/boxcox_transfomation(d$fat, lambda)
-    model_lambda = polr(outcome_3 ~ . + center*dde_check 
-                                   + center*pcb_check +
-                                     race*dde_check +
-                                     race*pcb_check, data=d_boxcox_check,
-                              method = c("logistic"))
+    model_lambda = polr(outcome_3 ~ . + 
+                                     center*dde_check +center*pcb_check +
+                                     race_agg*dde_check +
+                                     race_agg*pcb_check , data=d_boxcox_check, method = c("logistic"))
     log_likelihood = logLik(model_lambda)
     BOXCOX = rbind(BOXCOX, data.frame("lambda"=lambda, "log_likelihood" = log_likelihood))
 }
 ggplot(BOXCOX)+
   geom_line(aes(x=lambda, y=log_likelihood))
 @
-
-
+=======
+Following Li et al (2013), we adjust the exposures by dividing for a Box-Cox tranformation of the level of lipids. We see that the optimal $\lambda$ is at 0, which suggests a $\log$ transformation. 
 \end{frame}
+
+
+
+>>>>>>> 353a75fa4d92a6cb38ec201a2d273a8c618aa4ba
+
+
 
 \end{document}

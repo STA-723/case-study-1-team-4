@@ -1,6 +1,6 @@
 \documentclass{beamer}\usepackage[]{graphicx}\usepackage[]{color}
-% maxwidth is the original width if it is less than linewidth
-% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+%% maxwidth is the original width if it is less than linewidth
+%% otherwise use linewidth (to make sure the graphics do not exceed the margin)
 \makeatletter
 \def\maxwidth{ %
   \ifdim\Gin@nat@width>\linewidth
@@ -162,8 +162,8 @@ $$gestgroup_i =
 \end{cases}$$
 \item To account for triglyceredes and cholesterol, we introduce an \textbf{adjusted measure for} $PCB$ \textbf{and} $DDE$ by:
 \begin{enumerate}
-\item Computing total lipids using Phillips et al.(1989) and Bernert et al.(2007) forumula $$lipid_i =  2.27 * cholesterol_i + triglycerides_i + 0.623$$ 
-\item Setting\footnote{The choice of the log comes from a Box-Cox analysis of the log-likelihood, as in Li, Longnecker and Dunson (2013)}
+\item Computing total lipids using \cite{Phillips1989} and \cite{Bernert2007} forumula $$lipid_i =  2.27 * cholesterol_i + triglycerides_i + 0.623$$ 
+\item Setting\footnote{The choice of the log comes from a Box-Cox analysis of the log-likelihood, as in \cite{Li_Long_Duns}}
 $$adjDDE_i = \frac{DDE_i}{log(lipid_i)} \qquad adjPCB_i = \frac{PCB_i}{log(lipid_i)}$$
 \end{enumerate}
 \end{itemize}
@@ -176,7 +176,7 @@ $$adjDDE_i = \frac{DDE_i}{log(lipid_i)} \qquad adjPCB_i = \frac{PCB_i}{log(lipid
 
 \begin{figure}
   \centering
-  \includegraphics[width=0.8\textwidth]{Fig1-Adjusted_exposure_gestgroup.png}
+  \includegraphics[width=0.8\textwidth]{pcb_dde_per_gest.jpeg}
 \caption{Relationship between delivery group and adjusted exposures, by race}
 \label{fig:p1}
 \end{figure}
@@ -226,6 +226,7 @@ Model assumptions are checked in the appendix.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Results}
 \begin{frame}{Numerical Results}
+<<<<<<< HEAD
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
@@ -267,6 +268,9 @@ The interpretation of results are as follow:
 	
 	\item adjPCB: Nonwhite, when the adjPCB increases by 1 unit, the odd ratio of the cumulative probability $P(Y\leq j)$ increases by $(e^{(1.73)}-1)*100\%=464.06\%$. White, when the adjPCB increases by 1 unit, the odd ratio of the cumulative probability $P(Y\leq j)$ increases by $(e^{(1.73-1.59)}-1)*100\%=15.03\%$
 \end{itemize}
+=======
+The interpretation of 
+>>>>>>> 9bff559a497aa0fac65bc94c25e0b014909e49ea
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%% Results
@@ -284,6 +288,30 @@ The interpretation of results are as follow:
 \begin{frame}{Conclusions}
 \end{frame}
 
+\begin{frame}
+\frametitle{References}
+\footnotesize{
+\begin{thebibliography}{99} % Beamer does not support BibTeX so references must be inserted manually as below
+	
+	\bibitem[Li et al, 2013]{Li_Long_Duns} Li, D; Longnecker, M.P.; and Dunson, D.B. \\
+	\newblock Lipid Adjustment for Chemical Exposures: Accounting for Concomitant Variables.\\
+	\newblock \emph{Epidemiology}, Nov 2013
+
+	\bibitem[Phillips et al.(1989)]{Phillips1989}Phillips, D; Pirke, J., Burse, V.; Bernert, J.; Henderson, L.; Needham, L.\\
+	\newblock Chlorinated hydrocarbon levels in human serum: Effects of fasting and feeding.\\
+	\newblock \emph{Archives of Environmental Contamination and Toxicology}, 1989
+	
+	\bibitem[Bernert et al, 2007]{Bernert2007} Bernert, JT.; Turner, WE.;, Patterson, DG. Jr;, Needham, LL.\\
+	\newblock Calculation of serum total lipid concentrations for the adjustment of persistent organohalogen toxicant measurements in human samples.\\
+	\newblock \emph{Chemosphere}, 1989
+	
+	\bibitem[Liu and Zhang, 2018]{Liu2018} Liu, D.; and Zhang, H.;\\
+	\newblock Residuals and Diagnostics for Ordinal Regression Models: A Surrogate Approach\\
+	\newblock \emph{Journal of the Americal Statistical Association}, 2018
+	
+\end{thebibliography}
+}
+\end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%% Appendix                 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -299,7 +327,11 @@ The interpretation of results are as follow:
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Appendix}{Frequentist Model Checking}
-We can check the assumption of the (frequentist) ordinal logistic model by looking at the Surrogate residuals. \textcolor{red}{ADD CITATION HERE}\\
+<<<<<<< HEAD
+We can check the assumption of the (frequentist) ordinal logistic model by looking at the Surrogate residuals (Liu and Zhang, 2017).\\
+=======
+We can check the assumption of the (frequentist) ordinal logistic model by looking at the Surrogate residuals (Liu and Zhang, 2018).\\
+>>>>>>> 353a75fa4d92a6cb38ec201a2d273a8c618aa4ba
 \medskip
 If the model assumptions are correct, then the surrogate residuals $R_S$ will have three properties:
 \begin{enumerate}
@@ -310,7 +342,14 @@ If the model assumptions are correct, then the surrogate residuals $R_S$ will ha
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Appendix}{Frequentist Model Checking}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in eval(lhs, parent, parent): object 'd' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in eval(expr, p): object 'd\_subset' not found}}\end{kframe}
+\end{knitrout}
 Assumptions (i) and (ii) are checked with the Surrogate residuals plot. Both are satisfied in this case.
 \begin{figure}
   \centering
@@ -331,14 +370,29 @@ Assumptions (i) and (ii) are checked with the Surrogate residuals plot. Both are
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Appendix}{Box-Cox transformation of lipid}
-Following Li, Longnecker and Dunson (2013), we adjust the exposures by dividing for a Box-Cox tranformation of the level of lipids. We see that the optimal $\lambda$ is at 0, which suggests a $\log$ transformation. 
+Following Li et al (2013), we adjust the exposures by dividing for a Box-Cox tranformation of the level of lipids. We see that the optimal $\lambda$ is at 0, which suggests a $\log$ transformation. 
 \begin{knitrout}
+<<<<<<< HEAD
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
 \includegraphics[width=\maxwidth]{figure/unnamed-chunk-6-1} 
+=======
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+>>>>>>> 9bff559a497aa0fac65bc94c25e0b014909e49ea
+
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in eval(lhs, parent, parent): object 'd' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in eval(expr, envir, enclos): object 'd' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in FUN(X[[i]], ...): object 'log\_likelihood' not found}}\end{kframe}
+\includegraphics[width=\maxwidth]{figure/unnamed-chunk-3-1} 
 
 \end{knitrout}
-
-
 \end{frame}
+
+
+
+
+
 
 \end{document}

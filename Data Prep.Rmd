@@ -106,12 +106,12 @@ ggsave("pcb_dde_per_gest.jpeg", path = "Slides/Rsweave")
 ```
 
 ```{r}
+jpeg('Slides/Rsweave/pcb_corr.jpeg')
 d %>% 
   dplyr::select(starts_with("pcb")) %>%
   cor(use = "pairwise.complete.obs" ) %>%
   corrplot(col=brewer.pal(n=8, name="RdYlBu"))
-
-ggsave("pcb_corr.jpeg", path = "Slides/Rsweave")
+dev.off()
 ```
 
 ```{r}

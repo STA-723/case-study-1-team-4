@@ -397,11 +397,11 @@ tibble(dde = seq(0,k-1),
 
 Plot Pr(Y=j|pcb) vs pcb
 ```{r}
-k=18
+k=30
 newdata=m$x[1:k,]
 newdata=as.data.frame(newdata)
 newdata$dde_env_bc=rep(mean(d$dde_env_bc),k)
-newdata$pcb_env_bc=seq(0,k-1)
+newdata$pcb_env_bc=seq(-0.3,.8,length.out =k )
 newdata$race_aggwhite=rep(1,k) #all whites
 newdata$smoking_status1=rep(1,k) #non smoking 
 newdata$`dde_env_bc:race_aggwhite`=newdata$dde_env_bc*newdata$race_aggwhite
@@ -412,11 +412,22 @@ prob_cum0=1/(1+exp(-mu0))
 prob_cum1=1/(1+exp(-mu1))
 prob0=prob_cum0
 prob1=prob_cum1-prob_cum0
+#####Calculate CIs
+#####Calculate CIs
+draws=as.matrix(m)
+beta=-draws[,1:17]
+zeta0=draws[,18]
+zeta1=draws[,19]
+mu0_draws=as.matrix(newdata) %*% t(beta)+zeta0
+mu1_draws=as.matrix(newdata) %*% t(beta)+zeta1
+prob_cum0_draws=1/(1+exp(-mu0_draws))
+prob_cum1_draws=1/(1+exp(-mu1_draws))
 prob0_draws=prob_cum0_draws
 prob1_draws=prob_cum1_draws-prob_cum0_draws
 prob0_quants=apply(prob0_draws,1,quantile,prob=c(.05,.95)) ##Calculate the quantiles of P(Y=0)
 prob1_quants=apply(prob1_draws,1,quantile,prob=c(.05,.95)) ##Calculate the quantiles of P(Y=1)
-tibble(pcb = seq(0,k-1),
+#####Plot
+tibble(pcb = seq(-0.3,.8,length.out =k ),
        p0 = prob0, p1 = prob1) %>%
   gather(Outcome, Probability,p0,p1) %>%
   mutate(low = c(prob0_quants[1,], prob1_quants[1,]),
@@ -425,9 +436,7 @@ tibble(pcb = seq(0,k-1),
   geom_line(aes(y=Probability, col = Outcome)) +
   geom_ribbon(aes(ymin = low, ymax = upp, fill = Outcome), alpha = 0.1) +
   theme(legend.position = "bottom")+
-  facet_grid(~"something")
-
-
+  facet_grid(~"Pr(Y|pcb)")
 
 ```
 

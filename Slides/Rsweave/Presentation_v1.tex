@@ -198,14 +198,14 @@ We run the following ordinal logistic regression model:
 
 where $j = 0,1,2$ corresponds to the outcome level, and \textbf{X} contains:
 \begin{itemize}
-	\item $adjDDE$, $adjPCB$, $race$, $center$, $smoke$, the 3 scores [\textcolor{blue}{main effects}]
-	\item ($DDE$ + $PCB$) * ($race$ + $center$) [\textcolor{blue}{interactions}].
+	\item $adjDDE$, $adjPCB$, $race$, $center$, $smoke$, the 3 scores, and mother age [\textcolor{blue}{main effects}]
+	\item ($adjDDE$ + $adjPCB$) * ($race$ + $center$) [\textcolor{blue}{interactions}].
 \end{itemize}
 \medskip
 AIC-based backward variable selection:
 \begin{itemize}
-	\item \textcolor{blue}{Maintain} $DDE$, $PCB$, \dots, ($PCB$ + $DDE$) * $race$
-	\item \textcolor{red}{Drop} ($DDE$ + $PCB$) * $center$ 
+	\item \textcolor{blue}{Maintain} $DDE$, $PCB$, $smoke$, $center$, $race$, ($PCB$ + $DDE$) * $race$
+	\item \textcolor{red}{Drop} ($DDE$ + $PCB$) * $center$ , mother age, 
 \end{itemize}
 
 Model assumptions are checked in the appendix.
@@ -224,9 +224,58 @@ Model assumptions are checked in the appendix.
 %%%% Results
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Results}
-\begin{frame}{Results}
+\begin{frame}{Numerical Results}
+\begin{tabular}{l|r|r}
+\hline
+  & 5\% & 95\%\\
+\hline
+dde\_env\_bc & -0.0513582 & 0.0097459\\
+\hline
+pcb\_env\_bc & -2.7673825 & -0.7043851\\
+\hline
+race\_aggwhite & 0.0854250 & 0.8561411\\
+\hline
+center10 & -0.1122673 & 0.7602643\\
+\hline
+center15 & -1.0956887 & -0.2863208\\
+\hline
+center31 & -0.2567563 & 0.8024497\\
+\hline
+center37 & -1.0273528 & -0.3027346\\
+\hline
+center45 & -0.4292124 & 0.3496075\\
+\hline
+center50 & -0.5401077 & 0.2402548\\
+\hline
+center55 & -0.7698277 & 0.0759588\\
+\hline
+center60 & -0.6561040 & 0.1663142\\
+\hline
+center66 & -0.4817386 & 0.1849701\\
+\hline
+center71 & -0.4542238 & 0.2900110\\
+\hline
+center82 & -1.0930024 & -0.2869819\\
+\hline
+smoking\_status1 & -0.3170003 & -0.0014069\\
+\hline
+dde\_env\_bc:race\_aggwhite & -0.1174506 & 0.0160157\\
+\hline
+pcb\_env\_bc:race\_aggwhite & -0.0290488 & 3.2124015\\
+\hline
+0Dangerous|1Pre term & -3.2503005 & -2.5306140\\
+\hline
+1Pre term|2At term & -1.8930640 & -1.2207209\\
+\hline
+\end{tabular}
 \end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Results
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Results}
+\begin{frame}{Graphical Results}
 
+\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%% Conclusions                  
@@ -241,7 +290,7 @@ Model assumptions are checked in the appendix.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \appendix
 \section{Appendix}
-\begin{frame}{Appendix (I) - More EDA}
+\begin{frame}{Appendix}{More EDA}
 \begin{figure}
   \centering
   \includegraphics[width=0.6\textwidth]{corrplot_PCB.png}
@@ -250,7 +299,7 @@ Model assumptions are checked in the appendix.
 \end{figure}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Frequentist Model Checking}
+\begin{frame}{Appendix}{Frequentist Model Checking}
 We can check the assumption of the (frequentist) ordinal logistic model by looking at the Surrogate residuals. \textcolor{red}{ADD CITATION HERE}\\
 \medskip
 If the model assumptions are correct, then the surrogate residuals $R_S$ will have three properties:
@@ -261,7 +310,7 @@ If the model assumptions are correct, then the surrogate residuals $R_S$ will ha
 \end{enumerate}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Frequentist Model Checking}
+\begin{frame}{Appendix}{Frequentist Model Checking}
 
 Assumptions (i) and (ii) are checked with the Surrogate residuals plot. Both are satisfied in this case.
 \begin{figure}
@@ -272,7 +321,7 @@ Assumptions (i) and (ii) are checked with the Surrogate residuals plot. Both are
 \end{figure}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Frequentist Model Checking}
+\begin{frame}{Appendix}{Frequentist Model Checking}
 
 \begin{figure}
   \centering
@@ -281,6 +330,16 @@ Assumptions (i) and (ii) are checked with the Surrogate residuals plot. Both are
 \label{fig:qqplot}
 \end{figure}
 \end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Appendix}{Box-Cox transformation of lipid}
+Following Li, Longnecker and Dunson (2013), we adjust the exposures by dividing for a Box-Cox tranformation of the level of lipids. We see that the optimal $\lambda$ is at 0, which suggests a $\log$ transformation. 
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\maxwidth]{figure/unnamed-chunk-5-1} 
 
+\end{knitrout}
+
+
+\end{frame}
 
 \end{document}

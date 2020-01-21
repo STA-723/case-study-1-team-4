@@ -59,6 +59,7 @@ suppressMessages(library(MASS))
 suppressMessages(library(sure)) # Surrogate Residuals 
 suppressMessages(library(rstanarm))
 suppressMessages(library(ggpubr))
+suppressMessages(library(knitr))
 suppressMessages(library(corrplot))
 suppressMessages(library(RColorBrewer))
 my_standardize <- function(x) (x - mean(x, na.rm = T)) / sd(x, na.rm = T)
@@ -244,9 +245,16 @@ Model assumptions are checked in the appendix.
 %%%% Results
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Results}
-\begin{frame}{Results}
+\begin{frame}{Numerical Results}
+The interpretation of 
 \end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Results
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Results}
+\begin{frame}{Graphical Results}
 
+\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%% Conclusions                  

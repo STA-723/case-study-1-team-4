@@ -179,10 +179,10 @@ Data collected by 12 centers contained gestational age (in weeks) of the mother,
 \medskip 
 \textcolor{red}{\textbf{Preprocessing}}:
 \begin{itemize}
-	\item Drop obs. with gestational age $>$ 45 (the world record)
-	\item Standardize and average levels of PCBs\footnote{This avoids the correlation between the PCBs. See the appendix.}
+	\item Drop obs. with gestational age $>$ 45 
+	\item Average of standardized PCBs\footnote{This avoids the correlation between the PCBs. See the appendix.}
 	$$PCB_i = \frac{1}{11}\sum_{j=1}^{11} \frac{PCB_{ij} - mean_i(PCB_{ij})}{sd_i(PCB_{ij})}$$
-	\item Mean impute of occupation, education and income scores 
+	\item Mean imputation of occupation, education and income scores 
 	\item Aggregate race into $race = 1$ if white and $race=0$ if non-white
 \end{itemize}
 $\quad \Longrightarrow$ \textcolor{blue}{Total obs.} = \textbf{2336}
@@ -196,9 +196,9 @@ $\quad \Longrightarrow$ \textcolor{blue}{Total obs.} = \textbf{2336}
 	\item \textbf{Ordinal dependent variable}:
 	$$gestgroup_i = 
 	\begin{cases}
-	\textrm{Dangerous} & \text{if } \text{\#weeks} < 35 \\
-	\textrm{Pre term } & \text{if }  35 \le \text{\#weeks} < 37 \\
-	\textrm{At term  } & \text{if }  37 \le \text{\#weeks} \\
+	\textrm{Dangerous} & \text{if } \text{\#weeks} \leq 34 \\
+	\textrm{Pre term } & \text{if }  34 < \text{\#weeks} \leq 37 \\
+	\textrm{At term  } & \text{if }  37 < \text{\#weeks} \\
 	\end{cases}$$
 	\item \textbf{Adjusted measure for} $PCB$ \textbf{and} $DDE$ to estimate the level of \textit{exposure}:
 	\begin{enumerate}
@@ -244,10 +244,10 @@ $\quad \Longrightarrow$ \textcolor{blue}{Total obs.} = \textbf{2336}
 \begin{frame}{Model - Ordinal Logistic Regression}
 We run the following ordinal logistic regression model:
 \begin{align*}
-\textrm{logit}(P(gestgroup \leq j)) = \beta_{0j} - \mathbf{X} \boldsymbol{\beta} + \boldsymbol{\varepsilon}
+\textrm{logit}(P(gestgroup \leq j)) = \beta_{0j} - \mathbf{X} \boldsymbol{\beta}
 \end{align*}
 
-where $j = 0,1,2$ corresponds to the outcome level, and \textbf{X} contains:
+where $j = 0,1$ corresponds to the outcome level, and \textbf{X} contains:
 \begin{itemize}
 	\item $DDE$, $PCB$, $race$, $center$, $smoke$, the 3 scores, mother age [\textcolor{blue}{main effects}]
 	\item ($adjDDE$ + $adjPCB$) * ($race$ + $center$) [\textcolor{blue}{interactions}].
@@ -277,15 +277,26 @@ Bayesian ordinal logistic regression using the variables selected by AIC-based b
 %%%% Results
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Results}
+
 \begin{frame}{Numerical Results}
-
-MUST BE DONE
-
+\begin{table}
+\centering
+\begin{tabular}{l|r|r|r}\hline  & mean & 5\% & 95\%\\\hlineadjDDE & 0.02 & -0.01 & 0.05\\\hlineadjPCB & 1.76 & 0.72 & 2.75\\\hlineadjDDE*white & 0.05 & -0.02 & 0.12\\\hlineadjPCB*white & -1.60 & -3.26 & 0.02\\\hline\end{tabular}
+\end{table}
+\medskip
+\small
+\textcolor{red}{\textbf{Interpretation:}}\\
+For a 1 unit increase of \textcolor{blue}{adjDDE}: 
 \begin{itemize}
-	\item very strong evidence of a detrimental effect of DDE on gestation 
-	\item some evidence of a detrimental effect of PCB on gestation
-	\item effect of the chemicals is race-dependent
+\item \textbf{Nonwhite}: the odds of having a more dangerous delivery increase by $(e^{(0.02)}-1)*100\%=2.02\%$ 
+\item \textbf{White}:  the same odds increase by $(e^{(0.02+0.05)}-1)*100\%=7.25\%$
 \end{itemize}
+For a $0.1$ unit increase of \textcolor{blue}{adjPCB}:
+\begin{itemize}
+\item \textbf{Nonwhite}: the odds of having a more dangerous delivery increase by $(e^{(1.76)*0.1}-1)*100\%=19.22\%$
+\item \textbf{White}:  the same odds increase by $(e^{0.1*(1.76-1.60)}-1)*100\%=1.595\%$
+\end{itemize}
+
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%% Results
@@ -308,9 +319,12 @@ MUST BE DONE
 
 \section{Conclusions}
 \begin{frame}{Conclusions}
-
-MUST BE DONE
-
+To summarize:
+\begin{itemize}
+	\item Effect of the chemicals is race-dependent
+	\item DDE has more impact on white people
+	\item PCB has more impact on non-white people
+\end{itemize}
 \end{frame}
 
 

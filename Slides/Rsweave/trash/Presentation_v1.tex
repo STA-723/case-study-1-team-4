@@ -218,7 +218,6 @@ Model assumptions are checked in the appendix.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Model (II) - Bayesian Ordinal Logistic Regression}
 \begin{frame}{Model (II) - Bayesian Ordinal Logistic Regression}
-
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -226,51 +225,7 @@ Model assumptions are checked in the appendix.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Results}
 \begin{frame}{Numerical Results}
-<<<<<<< HEAD
-\begin{knitrout}
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
-\begin{alltt}
-\hlstd{ints}\hlkwb{=}\hlopt{-}\hlkwd{posterior_interval}\hlstd{(m)[}\hlkwd{c}\hlstd{(}\hlnum{1}\hlstd{,}\hlnum{2}\hlstd{,}\hlnum{16}\hlstd{,}\hlnum{17}\hlstd{),]}
-\end{alltt}
-
-
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in posterior\_interval(m): object 'm' not found}}\begin{alltt}
-\hlstd{means}\hlkwb{=}\hlopt{-}\hlkwd{coef}\hlstd{(m)[}\hlkwd{c}\hlstd{(}\hlnum{1}\hlstd{,}\hlnum{2}\hlstd{,}\hlnum{16}\hlstd{,}\hlnum{17}\hlstd{)]}
-\end{alltt}
-
-
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in coef(m): object 'm' not found}}\begin{alltt}
-\hlstd{resmat}\hlkwb{=}\hlkwd{cbind}\hlstd{(ints,}\hlkwd{t}\hlstd{(}\hlkwd{t}\hlstd{(means)))}
-\end{alltt}
-
-
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in cbind(ints, t(t(means))): object 'ints' not found}}\begin{alltt}
-\hlkwd{colnames}\hlstd{(resmat)}\hlkwb{=}\hlkwd{c}\hlstd{(}\hlstr{"95%"}\hlstd{,}\hlstr{"5%"}\hlstd{,}\hlstr{"mean"}\hlstd{)}
-\end{alltt}
-
-
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in colnames(resmat) = c("{}95\%"{}, "{}5\%"{}, "{}mean"{}): object 'resmat' not found}}\begin{alltt}
-\hlkwd{rownames}\hlstd{(resmat)}\hlkwb{=}\hlkwd{c}\hlstd{(}\hlstr{"adjDDE"}\hlstd{,}\hlstr{"adjPCB"}\hlstd{,}\hlstr{"adjDDE*white"}\hlstd{,}\hlstr{"adjPCB*white"}\hlstd{)}
-\end{alltt}
-
-
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in rownames(resmat) = c("{}adjDDE"{}, "{}adjPCB"{}, "{}adjDDE*white"{}, "{}adjPCB*white"{}): object 'resmat' not found}}\begin{alltt}
-\hlstd{resmat}
-\end{alltt}
-
-
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in eval(expr, envir, enclos): object 'resmat' not found}}\end{kframe}
-\end{knitrout}
-
-The interpretation of results are as follow:
-\begin{itemize}
-	\item adjDDE: Nonwhite, when the adjDDE increases by 1 unit, the odd ratio of the cumulative probability $P(Y\leq j)$ increases by $(e^{(0.02)}-1)*100\%=2.02\%$. White when the adjDDE increases by 1 unit, the odd ratio of the cumulative probability $P(Y\leq j)$ increases by $(e^{(0.02+0.05)}-1)*100\%=7.25\%$
-	
-	\item adjPCB: Nonwhite, when the adjPCB increases by 1 unit, the odd ratio of the cumulative probability $P(Y\leq j)$ increases by $(e^{(1.73)}-1)*100\%=464.06\%$. White, when the adjPCB increases by 1 unit, the odd ratio of the cumulative probability $P(Y\leq j)$ increases by $(e^{(1.73-1.59)}-1)*100\%=15.03\%$
-\end{itemize}
-=======
 The interpretation of 
->>>>>>> 9bff559a497aa0fac65bc94c25e0b014909e49ea
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%% Results
@@ -320,18 +275,16 @@ The interpretation of
 \begin{frame}{Appendix}{More EDA}
 \begin{figure}
   \centering
-  \includegraphics[width=0.6\textwidth]{corrplot_PCB.png}
+  \includegraphics[width=0.6\textwidth]{pcb_corr.jpeg}
 \caption{Correlation plot across PCBs}
 \label{fig:corrPCB}
 \end{figure}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Appendix}{Frequentist Model Checking}
-<<<<<<< HEAD
-We can check the assumption of the (frequentist) ordinal logistic model by looking at the Surrogate residuals (Liu and Zhang, 2017).\\
-=======
+
 We can check the assumption of the (frequentist) ordinal logistic model by looking at the Surrogate residuals (Liu and Zhang, 2018).\\
->>>>>>> 353a75fa4d92a6cb38ec201a2d273a8c618aa4ba
+
 \medskip
 If the model assumptions are correct, then the surrogate residuals $R_S$ will have three properties:
 \begin{enumerate}
@@ -342,14 +295,6 @@ If the model assumptions are correct, then the surrogate residuals $R_S$ will ha
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Appendix}{Frequentist Model Checking}
-\begin{knitrout}
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
-
-
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in eval(lhs, parent, parent): object 'd' not found}}
-
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in eval(expr, p): object 'd\_subset' not found}}\end{kframe}
-\end{knitrout}
 Assumptions (i) and (ii) are checked with the Surrogate residuals plot. Both are satisfied in this case.
 \begin{figure}
   \centering
@@ -360,7 +305,6 @@ Assumptions (i) and (ii) are checked with the Surrogate residuals plot. Both are
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Appendix}{Frequentist Model Checking}
-
 \begin{figure}
   \centering
   \includegraphics[width=0.7\textwidth]{qqplot.png}
@@ -370,27 +314,11 @@ Assumptions (i) and (ii) are checked with the Surrogate residuals plot. Both are
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Appendix}{Box-Cox transformation of lipid}
+
 Following Li et al (2013), we adjust the exposures by dividing for a Box-Cox tranformation of the level of lipids. We see that the optimal $\lambda$ is at 0, which suggests a $\log$ transformation. 
-\begin{knitrout}
-<<<<<<< HEAD
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
-\includegraphics[width=\maxwidth]{figure/unnamed-chunk-6-1} 
-=======
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
->>>>>>> 9bff559a497aa0fac65bc94c25e0b014909e49ea
 
 
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in eval(lhs, parent, parent): object 'd' not found}}
-
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in eval(expr, envir, enclos): object 'd' not found}}
-
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in FUN(X[[i]], ...): object 'log\_likelihood' not found}}\end{kframe}
-\includegraphics[width=\maxwidth]{figure/unnamed-chunk-3-1} 
-
-\end{knitrout}
 \end{frame}
-
-
 
 
 

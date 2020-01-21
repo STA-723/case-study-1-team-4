@@ -1,2 +1,8 @@
 \beamer@slide {fig:p1}{6}
+<<<<<<< HEAD
 \beamer@slide {fig:corrPCB}{13}
+=======
+\beamer@slide {fig:corrPCB}{12}
+\beamer@slide {fig:surrogateresid}{14}
+\beamer@slide {fig:qqplot}{15}
+>>>>>>> fbd7bb1f35bb0b4c9ff66c884ab611a555fe0eb0

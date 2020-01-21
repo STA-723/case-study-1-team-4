@@ -210,6 +210,7 @@ where
 After an AIC backward , we determine that $\mathbf{z}_i = (center_i, score\_education_i)$\\
 Model assumptions are checked in the appendix.
 \end{frame}
+<<<<<<< HEAD
 
 
 
@@ -233,6 +234,8 @@ AIC-based backward variable selection:
 Model assumptions are checked in the appendix.
 \end{frame}
 
+=======
+>>>>>>> fbd7bb1f35bb0b4c9ff66c884ab611a555fe0eb0
 % https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3812826/#R13
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%% Model 2                   
@@ -270,14 +273,38 @@ Model assumptions are checked in the appendix.
 \label{fig:corrPCB}
 \end{figure}
 \end{frame}
-\begin{frame}{Model Checking}
-We can check the assumption of the (frequentist) ordinal logistic model by looking at the Surrogate residuals.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Frequentist Model Checking}
+We can check the assumption of the (frequentist) ordinal logistic model by looking at the Surrogate residuals. \textcolor{red}{ADD CITATION HERE}
+\medskip
 If the model assumptions are correct, then the surrogate residuals $R_S$ will have three properties:
-\begin{itemize}
+\begin{enumerate}
  \item $E(R_S|X)=0$
  \item $Var(R_S|X)=c$, the conditional variance of $R_S$ is constant
  \item The emiprical distribution of $R_S$ resembles an explicit distribution that is related to the link function $G^{-1}(\cdot)$. Specifically, $R_S\sim G(c+\int ud G(u))$.
-\end{itemize}
+\end{enumerate}
 \end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Frequentist Model Checking}
+
+Assumptions (i) and (ii) are checked with the Surrogate residuals plot. Both are satisfied in this case.
+\begin{figure}
+  \centering
+  \includegraphics[width=0.7\textwidth]{Surrogate_residuals.png}
+\caption{Surrogate residuals of DDE and PCB}
+\label{fig:surrogateresid}
+\end{figure}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Frequentist Model Checking}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.7\textwidth]{qqplot.png}
+\caption{QQ plot of the Surrogate residuals}
+\label{fig:qqplot}
+\end{figure}
+\end{frame}
+
 
 \end{document}

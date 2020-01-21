@@ -50,6 +50,7 @@
 \headcommand {\beamer@subsectionpages {13}{12}}
 \headcommand {\slideentry {7}{0}{1}{13/13}{}{1}}
 \headcommand {\beamer@framepages {13}{13}}
+<<<<<<< HEAD
 \headcommand {\slideentry {7}{0}{2}{14/14}{}{1}}
 \headcommand {\beamer@framepages {14}{14}}
 \headcommand {\beamer@partpages {13}{14}}
@@ -59,3 +60,16 @@
 \headcommand {\def \inserttotalframenumber {2}}
 \headcommand {\gdef \inserttotalframenumber {12}}
 \headcommand {\gdef \appendixtotalframenumber {2}}
+=======
+\headcommand {\slideentry {7}{0}{3}{14/14}{}{1}}
+\headcommand {\beamer@framepages {14}{14}}
+\headcommand {\slideentry {7}{0}{4}{15/15}{}{1}}
+\headcommand {\beamer@framepages {15}{15}}
+\headcommand {\beamer@partpages {12}{15}}
+\headcommand {\beamer@subsectionpages {12}{15}}
+\headcommand {\beamer@sectionpages {12}{15}}
+\headcommand {\beamer@documentpages {15}}
+\headcommand {\def \inserttotalframenumber {4}}
+\headcommand {\def \inserttotalframenumber {11}}
+\headcommand {\def \appendixtotalframenumber {4}}
+>>>>>>> fbd7bb1f35bb0b4c9ff66c884ab611a555fe0eb0

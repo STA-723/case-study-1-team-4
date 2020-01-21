@@ -271,7 +271,7 @@ Model assumptions are checked in the appendix.
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Appendix}{Frequentist Model Checking}
-We can check the assumption of the (frequentist) ordinal logistic model by looking at the Surrogate residuals. \textcolor{red}{ADD CITATION HERE}\\
+We can check the assumption of the (frequentist) ordinal logistic model by looking at the Surrogate residuals (Liu and Zhang, 2017).\\
 \medskip
 If the model assumptions are correct, then the surrogate residuals $R_S$ will have three properties:
 \begin{enumerate}
@@ -328,19 +328,18 @@ boxcox_transfomation = function(y, lambda){
 }
 # Import the original data
 d_boxcox_check= d %>% 
-  dplyr::select(outcome_3,race,maternal_age,score_occupation,
+  dplyr::select(outcome_3,race_agg,maternal_age,score_occupation,
                 center,score_income,score_education, smoking_status)
 # Compute the boxcox
 lambda_list = seq(0,2,0.05)
 BOXCOX = NULL
 for(lambda in lambda_list){
-  d_boxcox_check$dde_check = d$dde/boxcox_transfomation(d$fat, lambda)
+  d_boxcox_check$dde_check = d$dde/boxcox_transfomation(d$fat, 0)
   d_boxcox_check$pcb_check = d$pcb/boxcox_transfomation(d$fat, lambda)
-    model_lambda = polr(outcome_3 ~ . + center*dde_check 
-                                   + center*pcb_check +
-                                     race*dde_check +
-                                     race*pcb_check, data=d_boxcox_check,
-                              method = c("logistic"))
+    model_lambda = polr(outcome_3 ~ . + 
+                                     center*dde_check +center*pcb_check +
+                                     race_agg*dde_check +
+                                     race_agg*pcb_check , data=d_boxcox_check, method = c("logistic"))
     log_likelihood = logLik(model_lambda)
     BOXCOX = rbind(BOXCOX, data.frame("lambda"=lambda, "log_likelihood" = log_likelihood))
 }

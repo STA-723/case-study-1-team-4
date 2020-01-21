@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.5.8)  20 JAN 2020 20:43
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.5.8)  20 JAN 2020 22:04
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1303,7 +1303,7 @@ thkerncmss.
 ] [5
 
 ]
-<Fig1-Adjusted_exposure_gestgroup.png, id=274, 654.445pt x 436.63126pt>
+<Fig1-Adjusted_exposure_gestgroup.png, id=254, 654.445pt x 436.63126pt>
 File: Fig1-Adjusted_exposure_gestgroup.png Graphic file (type png)
 <use Fig1-Adjusted_exposure_gestgroup.png>
 Package pdftex.def Info: Fig1-Adjusted_exposure_gestgroup.png  used on input li
@@ -1317,115 +1317,31 @@ ne 183.
 
 ] [9
 
-]
-Overfull \vbox (51.3291pt too high) detected at line 271
- []
+])
+Runaway argument?
+ \par \par {\ttfamily \noindent \bfseries \color {errorcolor}{\#\# Er\ETC.
+! File ended while scanning use of \frame.
+<inserted text> 
+                \par 
+<*> Presentation_v1.tex
+                       
+I suspect you have forgotten a `}', causing me
+to read past where you wanted me to stop.
+I'll try to recover; but if the error is serious,
+you'd better type `E' or `X' now and fix your file.
 
-[10
+! Emergency stop.
+<*> Presentation_v1.tex
+                       
+*** (job aborted, no legal \end found)
 
-] [11
-
-] [12
-
-]
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `\translate ' on input line 291.
-
-<corrplot_PCB.png, id=479, 483.8075pt x 436.63126pt>
-File: corrplot_PCB.png Graphic file (type png)
-<use corrplot_PCB.png>
-Package pdftex.def Info: corrplot_PCB.png  used on input line 300.
-(pdftex.def)             Requested size: 205.37926pt x 185.35596pt.
-
-Overfull \vbox (2.28537pt too high) detected at line 300
- []
-
-[13
-
- <./corrplot_PCB.png>] [14
-
-]
-<Surrogate_residuals.png, id=547, 616.3025pt x 436.63126pt>
-File: Surrogate_residuals.png Graphic file (type png)
-<use Surrogate_residuals.png>
-Package pdftex.def Info: Surrogate_residuals.png  used on input line 322.
-(pdftex.def)             Requested size: 239.60567pt x 169.7525pt.
-
-Overfull \vbox (13.88193pt too high) detected at line 322
- []
-
-[15
-
- <./Surrogate_residuals.png>]
-<qqplot.png, id=578, 616.3025pt x 436.63126pt>
-File: qqplot.png Graphic file (type png)
-<use qqplot.png>
-Package pdftex.def Info: qqplot.png  used on input line 332.
-(pdftex.def)             Requested size: 239.60567pt x 169.7525pt.
- [16
-
- <./qqplot.png>]
-<figure/unnamed-chunk-5-1.pdf, id=609, 505.89pt x 505.89pt>
-File: figure/unnamed-chunk-5-1.pdf Graphic file (type pdf)
-<use figure/unnamed-chunk-5-1.pdf>
-Package pdftex.def Info: figure/unnamed-chunk-5-1.pdf  used on input line 343.
-(pdftex.def)             Requested size: 342.2953pt x 342.3024pt.
-
-Overfull \hbox (238.20331pt too wide) in paragraph at lines 343--343
-\OT1/cmss/m/n/10.95 ti-mal $\OML/cmm/m/it/10.95 ^^U$ \OT1/cmss/m/n/10.95 is at 
-0, which sug-gests a $[]$ trans-for-ma-tion.  [][] 
- []
-
-
-Overfull \vbox (156.69016pt too high) detected at line 343
- []
-
-[17
-
- <./figure/unnamed-chunk-5-1.pdf>]
-\tf@nav=\write7
-\openout7 = `Presentation_v1.nav'.
-
-\tf@toc=\write8
-\openout8 = `Presentation_v1.toc'.
-
-\tf@snm=\write9
-\openout9 = `Presentation_v1.snm'.
-
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 345.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 345.
- (./Presentation_v1.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 345.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 345.
-Package rerunfilecheck Info: File `Presentation_v1.out' has not changed.
-(rerunfilecheck)             Checksum: 3BF87EC7A10586F59B3237D5495791B7;470.
- ) 
+ 
 Here is how much of TeX's memory you used:
- 33414 strings out of 492616
- 655773 string characters out of 6129482
- 806496 words of memory out of 5000000
- 36711 multiletter control sequences out of 15000+600000
+ 33342 strings out of 492616
+ 654432 string characters out of 6129482
+ 805317 words of memory out of 5000000
+ 36666 multiletter control sequences out of 15000+600000
  551278 words of font info for 86 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  56i,15n,70p,847b,798s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb
-></usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb>
-</usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb>
-</usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></
-usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></u
-sr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmss12.pfb></us
-r/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/
-local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmss9.pfb></usr/lo
-cal/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/l
-ocal/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi10.pfb></usr/l
-ocal/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi8.pfb></usr/lo
-cal/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/loc
-al/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on Presentation_v1.pdf (17 pages, 343613 bytes).
-PDF statistics:
- 699 PDF objects out of 1000 (max. 8388607)
- 609 compressed objects within 7 object streams
- 48 named destinations out of 1000 (max. 500000)
- 344 words of extra memory for PDF output out of 10000 (max. 10000000)
-
+!  ==> Fatal error occurred, no output PDF file produced!

@@ -239,6 +239,7 @@ Model assumptions are checked in the appendix.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Model (II) - Bayesian Ordinal Logistic Regression}
 \begin{frame}{Model (II) - Bayesian Ordinal Logistic Regression}
+
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -246,7 +247,22 @@ Model assumptions are checked in the appendix.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Results}
 \begin{frame}{Numerical Results}
-The interpretation of 
+<<echo=FALSE>>=
+ints=-posterior_interval(m)[c(1,2,16,17),]
+means=-coef(m)[c(1,2,16,17)]
+resmat=cbind(ints,t(t(means)))
+colnames(resmat)=c("95%","5%","mean")
+rownames(resmat)=c("adjDDE","adjPCB","adjDDE*white","adjPCB*white")
+resmat
+@
+
+The interpretation of results are as follow:
+\begin{itemize}
+	\item adjDDE: Nonwhite, when the adjDDE increases by 1 unit, the odd ratio of the cumulative probability $P(Y\leq j)$ increases by $(e^{(0.02)}-1)*100\%=2.02\%$. White when the adjDDE increases by 1 unit, the odd ratio of the cumulative probability $P(Y\leq j)$ increases by $(e^{(0.02+0.05)}-1)*100\%=7.25\%$
+	
+	\item adjPCB: Nonwhite, when the adjPCB increases by 1 unit, the odd ratio of the cumulative probability $P(Y\leq j)$ increases by $(e^{(1.73)}-1)*100\%=464.06\%$. White, when the adjPCB increases by 1 unit, the odd ratio of the cumulative probability $P(Y\leq j)$ increases by $(e^{(1.73-1.59)}-1)*100\%=15.03\%$
+	
+\end{itemize}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%% Results

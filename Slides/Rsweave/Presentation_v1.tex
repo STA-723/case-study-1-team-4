@@ -218,6 +218,7 @@ Model assumptions are checked in the appendix.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Model (II) - Bayesian Ordinal Logistic Regression}
 \begin{frame}{Model (II) - Bayesian Ordinal Logistic Regression}
+
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -225,49 +226,47 @@ Model assumptions are checked in the appendix.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Results}
 \begin{frame}{Numerical Results}
-\begin{tabular}{l|r|r}
-\hline
-  & 5\% & 95\%\\
-\hline
-dde\_env\_bc & -0.0513582 & 0.0097459\\
-\hline
-pcb\_env\_bc & -2.7673825 & -0.7043851\\
-\hline
-race\_aggwhite & 0.0854250 & 0.8561411\\
-\hline
-center10 & -0.1122673 & 0.7602643\\
-\hline
-center15 & -1.0956887 & -0.2863208\\
-\hline
-center31 & -0.2567563 & 0.8024497\\
-\hline
-center37 & -1.0273528 & -0.3027346\\
-\hline
-center45 & -0.4292124 & 0.3496075\\
-\hline
-center50 & -0.5401077 & 0.2402548\\
-\hline
-center55 & -0.7698277 & 0.0759588\\
-\hline
-center60 & -0.6561040 & 0.1663142\\
-\hline
-center66 & -0.4817386 & 0.1849701\\
-\hline
-center71 & -0.4542238 & 0.2900110\\
-\hline
-center82 & -1.0930024 & -0.2869819\\
-\hline
-smoking\_status1 & -0.3170003 & -0.0014069\\
-\hline
-dde\_env\_bc:race\_aggwhite & -0.1174506 & 0.0160157\\
-\hline
-pcb\_env\_bc:race\_aggwhite & -0.0290488 & 3.2124015\\
-\hline
-0Dangerous|1Pre term & -3.2503005 & -2.5306140\\
-\hline
-1Pre term|2At term & -1.8930640 & -1.2207209\\
-\hline
-\end{tabular}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{ints}\hlkwb{=}\hlopt{-}\hlkwd{posterior_interval}\hlstd{(m)[}\hlkwd{c}\hlstd{(}\hlnum{1}\hlstd{,}\hlnum{2}\hlstd{,}\hlnum{16}\hlstd{,}\hlnum{17}\hlstd{),]}
+\end{alltt}
+
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in posterior\_interval(m): object 'm' not found}}\begin{alltt}
+\hlstd{means}\hlkwb{=}\hlopt{-}\hlkwd{coef}\hlstd{(m)[}\hlkwd{c}\hlstd{(}\hlnum{1}\hlstd{,}\hlnum{2}\hlstd{,}\hlnum{16}\hlstd{,}\hlnum{17}\hlstd{)]}
+\end{alltt}
+
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in coef(m): object 'm' not found}}\begin{alltt}
+\hlstd{resmat}\hlkwb{=}\hlkwd{cbind}\hlstd{(ints,}\hlkwd{t}\hlstd{(}\hlkwd{t}\hlstd{(means)))}
+\end{alltt}
+
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in cbind(ints, t(t(means))): object 'ints' not found}}\begin{alltt}
+\hlkwd{colnames}\hlstd{(resmat)}\hlkwb{=}\hlkwd{c}\hlstd{(}\hlstr{"95%"}\hlstd{,}\hlstr{"5%"}\hlstd{,}\hlstr{"mean"}\hlstd{)}
+\end{alltt}
+
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in colnames(resmat) = c("{}95\%"{}, "{}5\%"{}, "{}mean"{}): object 'resmat' not found}}\begin{alltt}
+\hlkwd{rownames}\hlstd{(resmat)}\hlkwb{=}\hlkwd{c}\hlstd{(}\hlstr{"adjDDE"}\hlstd{,}\hlstr{"adjPCB"}\hlstd{,}\hlstr{"adjDDE*white"}\hlstd{,}\hlstr{"adjPCB*white"}\hlstd{)}
+\end{alltt}
+
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in rownames(resmat) = c("{}adjDDE"{}, "{}adjPCB"{}, "{}adjDDE*white"{}, "{}adjPCB*white"{}): object 'resmat' not found}}\begin{alltt}
+\hlstd{resmat}
+\end{alltt}
+
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in eval(expr, envir, enclos): object 'resmat' not found}}\end{kframe}
+\end{knitrout}
+
+The interpretation of results are as follow:
+\begin{itemize}
+	\item adjDDE: Nonwhite, when the adjDDE increases by 1 unit, the odd ratio of the cumulative probability $P(Y\leq j)$ increases by $(e^{(0.02)}-1)*100\%=2.02\%$. White when the adjDDE increases by 1 unit, the odd ratio of the cumulative probability $P(Y\leq j)$ increases by $(e^{(0.02+0.05)}-1)*100\%=7.25\%$
+	
+	\item adjPCB: Nonwhite, when the adjPCB increases by 1 unit, the odd ratio of the cumulative probability $P(Y\leq j)$ increases by $(e^{(1.73)}-1)*100\%=464.06\%$. White, when the adjPCB increases by 1 unit, the odd ratio of the cumulative probability $P(Y\leq j)$ increases by $(e^{(1.73-1.59)}-1)*100\%=15.03\%$
+\end{itemize}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%% Results
@@ -335,7 +334,7 @@ Assumptions (i) and (ii) are checked with the Surrogate residuals plot. Both are
 Following Li, Longnecker and Dunson (2013), we adjust the exposures by dividing for a Box-Cox tranformation of the level of lipids. We see that the optimal $\lambda$ is at 0, which suggests a $\log$ transformation. 
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
-\includegraphics[width=\maxwidth]{figure/unnamed-chunk-5-1} 
+\includegraphics[width=\maxwidth]{figure/unnamed-chunk-6-1} 
 
 \end{knitrout}
 

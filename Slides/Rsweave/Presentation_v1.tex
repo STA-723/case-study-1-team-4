@@ -1,6 +1,6 @@
 \documentclass{beamer}\usepackage[]{graphicx}\usepackage[]{color}
-%% maxwidth is the original width if it is less than linewidth
-%% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+% maxwidth is the original width if it is less than linewidth
+% otherwise use linewidth (to make sure the graphics do not exceed the margin)
 \makeatletter
 \def\maxwidth{ %
   \ifdim\Gin@nat@width>\linewidth
@@ -147,7 +147,6 @@ $$PCB_i = \frac{1}{11}\sum_{j=1}^{11} \frac{PCB_{ij} - mean_i(PCB_{ij})}{sd_i(PC
 \item Mean impute of occupation, education and income scores 
 \item Aggregate race into $race = 1$ if white and $race=0$ if non-white
 \end{itemize}
-\medskip
 $\quad \Longrightarrow$ \textcolor{blue}{Total obs.} = \textbf{2336}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -192,6 +191,7 @@ $$adjDDE_i = \frac{DDE_i}{log(lipid_i)} \qquad adjPCB_i = \frac{PCB_i}{log(lipid
 \section{Model (I) - Ordinal Logistic Regression}
 % Insert here the AIC part
 \begin{frame}{Model (I) - Ordinal Logistic Regression}
+<<<<<<< HEAD
 \footnotesize
 After an AIC backward variable selection procedure, our final model is:
 \begin{align*}
@@ -214,25 +214,32 @@ Model assumptions are checked in the appendix.
 
 
 \begin{frame}{EDA (II) - Exposure across centers}
+=======
+We run the following ordinal logistic regression model:
+>>>>>>> ce7a46f20c64e92997466f3644d2b3515a86434c
 \begin{align*}
-	\textrm{logit}(P(gest_i \leq j)) = \beta_{0j} - \mathbf{X} \mathbf{\beta}_i + \varepsilon_i
+	\textrm{logit}(P(gestgroup \leq j)) = \beta_{0j} - \mathbf{X} \boldsymbol{\beta} + \boldsymbol{\varepsilon}
 \end{align*}
 
 where $j = 0,1,2$ corresponds to the outcome level, and \textbf{X} contains:
 \begin{itemize}
-	\item DDE, PCB, race, center, smoke, the 3 scores [main effects]
-	\item (DDE + PCB) * (race + center) [interactions].
+	\item $adjDDE$, $adjPCB$, $race$, $center$, $smoke$, the 3 scores [\textcolor{blue}{main effects}]
+	\item ($DDE$ + $PCB$) * ($race$ + $center$) [\textcolor{blue}{interactions}].
 \end{itemize}
-
+\medskip
 AIC-based backward variable selection:
 \begin{itemize}
-	\item DDE, PCB, \dots, (PCB + DDE) * race
-	\item (DDE + PCB) * center is not retained
+	\item \textcolor{blue}{Maintain} $DDE$, $PCB$, \dots, ($PCB$ + $DDE$) * $race$
+	\item \textcolor{red}{Drop} ($DDE$ + $PCB$) * $center$ 
 \end{itemize}
 
 Model assumptions are checked in the appendix.
 \end{frame}
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> ce7a46f20c64e92997466f3644d2b3515a86434c
 % https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3812826/#R13
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%% Model 2                   

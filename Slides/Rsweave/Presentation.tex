@@ -193,16 +193,16 @@ $\quad \Longrightarrow$ \textcolor{blue}{Total obs.} = \textbf{2336}
 \begin{frame}{Data}
 \small
 \begin{itemize}
-	\item \textbf{Our dependent varible is}:
+	\item \textbf{Ordinal dependent variable}:
 	$$gestgroup_i = 
 	\begin{cases}
-	0 & if \ \textrm{Dangerous preterm} \\
-	1 & if \ \textrm{Preterm} \\
-	2 & if \ \textrm{At term} 
+	\textrm{Dangerous} & \text{if } \text{\#weeks} < 35 \\
+	\textrm{Pre term } & \text{if }  35 \le \text{\#weeks} < 37 \\
+	\textrm{At term  } & \text{if }  37 \le \text{\#weeks} \\
 	\end{cases}$$
-	\item To account for triglyceredes and cholesterol, we introduce an \textbf{adjusted measure for} $PCB$ \textbf{and} $DDE$ by:
+	\item \textbf{Adjusted measure for} $PCB$ \textbf{and} $DDE$ to estimate the level of \textit{exposure}:
 	\begin{enumerate}
-		\item Computing total lipids using \cite{Phillips1989} and \cite{Bernert2007} forumula $$lipid_i =  2.27 * cholesterol_i + triglycerides_i + 0.623$$ 
+		\item Computing total lipids using \cite{Phillips1989} and \cite{Bernert2007} formula $$lipid_i =  2.27 * cholesterol_i + triglycerides_i + 0.623$$ 
 		\item Setting\footnote{The choice of the log comes from a Box-Cox analysis of the log-likelihood, as in \cite{Li_Long_Duns}}
 		$$adjDDE_i = \frac{DDE_i}{log(lipid_i)} \qquad adjPCB_i = \frac{PCB_i}{log(lipid_i)}$$
 	\end{enumerate}
@@ -217,13 +217,20 @@ $\quad \Longrightarrow$ \textcolor{blue}{Total obs.} = \textbf{2336}
 	\begin{figure}
 		\centering
 		\includegraphics[width=0.8\textwidth]{pcb_dde_per_gest.jpeg}
-		\caption{Relationship between delivery group and adjusted exposures, by race}
+		\caption{Relationship between gestation outcome and adjusted exposures, by race.}
 		\label{fig:p1}
 	\end{figure}
 \end{frame}
 
 \begin{frame}{EDA (II) - Exposure across centers}
-% Ask Raphael to do this. Need a slide with distribution of DDE and PCB or gestgroup across centers
+
+	\begin{figure}
+	\centering
+	\includegraphics[width=0.8\textwidth]{outcome_per_center.jpeg}
+	\caption{Distribution of gestation outcome per center.}
+	\label{fig:p1}
+\end{figure}
+
 \end{frame}
 
 
@@ -242,7 +249,7 @@ We run the following ordinal logistic regression model:
 
 where $j = 0,1,2$ corresponds to the outcome level, and \textbf{X} contains:
 \begin{itemize}
-	\item $adjDDE$, $adjPCB$, $race$, $center$, $smoke$, the 3 scores, and mother age [\textcolor{blue}{main effects}]
+	\item $DDE$, $PCB$, $race$, $center$, $smoke$, the 3 scores, mother age [\textcolor{blue}{main effects}]
 	\item ($adjDDE$ + $adjPCB$) * ($race$ + $center$) [\textcolor{blue}{interactions}].
 \end{itemize}
 
@@ -254,8 +261,8 @@ where $j = 0,1,2$ corresponds to the outcome level, and \textbf{X} contains:
 Bayesian ordinal logistic regression using the variables selected by AIC-based backward variable selection procedure.
 \begin{itemize}
 	\item \textcolor{blue}{Maintain} $DDE$, $PCB$, $smoke$, $center$, $race$, ($PCB$ + $DDE$) * $race$
-	\item \textcolor{red}{Drop} ($DDE$ + $PCB$) * $center$ , mother age
-	\item $R^2$ prior on coefficients
+	\item \textcolor{red}{Drop} 3 scores, ($DDE$ + $PCB$) * $center$ , mother age
+	\item uniform, and $R^2$ prior on coefficients
 	\item Model assumptions are checked in the appendix.
 \end{itemize}
 
@@ -286,8 +293,12 @@ MUST BE DONE
 \section{Results}
 
 \begin{frame}{Graphical Results}
-
-MUST BE DONE
+\begin{figure}
+	\centering
+	\includegraphics[width=1\textwidth]{results.jpeg}
+	\caption{Estimated probability of gestation outcomes for DDE and PCB, by race.}
+	\label{fig:corrPCB}☺
+\end{figure}
 
 \end{frame}
 

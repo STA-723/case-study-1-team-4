@@ -33,6 +33,9 @@
 \jmlrproceedings{}{}
 
 
+\usepackage[toc,page]{appendix}
+
+
 % start article
 % \titlebreak
 % \footnote{}
@@ -83,18 +86,20 @@ Dichlorodiphenyldichloroethylene (DDE) and Polychlorinated Biphenyls (PCB) are t
 
 In this report, we examine the effect of DDE and PCB on fetuses; more precisely, we assess the potential association between the exposure to these chemicals and the chance of early delivery. Ideally, a higher exposure to the substances induces a preterm delivery, which may have adverse consequences for the child. To verify this theory, we construct an ordinal logistic regression model over three delivery groups  We find that the impact of the substances is essentially race specific: exposure to DDE increases the risk of early childbirth among white people and exposure to PCB increases the risk among non-white ones. 
 
-The report is divided as follows: \sectionref{sec:data} describes the data, \sectionref{sec:method} presents our methodology,  \sectionref{sec:results} reports our findings, \sectionref{sec:conclusion} discusses the results and concludes.
+The report is divided as follows: \sectionref{sec:method} presents the data and our methodology,  \sectionref{sec:results} reports our findings, \sectionref{sec:conclusion} discusses the results and concludes.
 
-\section{Data}
-\label{sec:data}
-The data set consists of 2,380 pregnant women that visited a hospital during their pregnancy in 2001. It contains the length of the gestation in weeks, the concentration doses of DDE and the twelve PCB breakdown products in the blood, the concentration of cholesterol and triglycerides and several demographic information (race, level of education, income, occupation, age, smoking status and the center attended by the woman).
-
- The data were not clean. In particular, 43 women showed a length of gestation superior to 45 weeks (the second longest gestation period ever recorded), and 1 women did not show any records of the PCBs levels. Thus, we decide to drop them, reducing the observations to 2,336. Finally, we mean impute the missing data on the income, education and occupational scores\footnote{Note that these scores will not end up in the final model.}
 
 
 \section{Method}
 \label{sec:method}
-As a first step, we divide the 
+
+
+\subsection{Data}
+\label{sec:data}
+The data set consists of 2,380 pregnant women that visited a hospital during their pregnancy in 2001. It contains the length of the gestation in weeks, the concentration doses of DDE and the twelve PCB breakdown products in the blood, the concentration of cholesterol and triglycerides and several demographic information (race, level of education, income, occupation, age, smoking status and the center attended by the woman).
+
+The data were not clean. In particular, 43 women showed a length of gestation superior to 45 weeks (the second longest gestation period ever recorded), and 1 women did not show any records of the PCBs levels. Thus, we decide to drop them, reducing the observations to 2,336. Finally, we mean impute the missing data on the income, education and occupational scores\footnote{Note that these scores will not end up in the final model.}
+
 \subsection{Feature Engineering}
 First, since we focus on the impact of DDE and PCB on early delivery, we dichotomize the dependent variable \textit{gestational duration} measured in weeks into three levels: at risk for gestation shorter than $33$ weeks, pre term for gestation between $34$ and $36$ week, and at term for gestation longer than $37$ weeks. 
 Second, we also aggregate the 12 PCB measurement into one variable since these variables are highly correlated (see \figureref{fig:corr}). To accomplish this, we take their average after standardizing them in order to prevent one measurement to dominate the aggregate variable. 
@@ -133,12 +138,13 @@ Since not all attributes are necessarily related to the dependent variable, we c
 We use the variables selected y the procedure as predictors in a Bayesian ordinal logistic regression model. The model was fit using stan. We use $10$ chains of $10,000$ iterations each, and put a uniform prior on the coefficients.
 
 \subsection{Model Checking}
-Since the ordinal data is used here, the common residual plot model checking is not applicable here. Instead, the surrogate residual method suggested by ($\ref{zz2017}$) is used. If the model assumption is satisfied, the surrogate residual $R_S$ should display three features: 
+Since the ordinal data is used here, the common residual plot model checking is not applicable here. Instead, the surrogate residual method suggested by (%$\ref{zz2017}$
+) is used. If the model assumption is satisfied, the surrogate residual $R_S$ should display three features: 
 
 \begin{enumerate}
 	\item $E(R_S|X)=0$
 	\item $Var(R_S|X)=c$, the conditional variance of $R_S$ is constant
-	\item The emiprical distribution of $R_S$ resembles an explicit distribution that is related to the link function $G^{-1}(\cdot)$. Specifically, $R_S\sim G(c+\int ud G(u))$.
+	\item The emprical distribution of $R_S$ resembles an explicit distribution that is related to the link function $G^{-1}(\cdot)$. Specifically, $R_S\sim G(c+\int ud G(u))$.
 \end{enumerate}
 
 The scatterplot (Figure\ref{fig:surrogateresid}) indicates that feature 1 and 2 are roughly satisfied. The QQ plot indicates that feature 3 is roughly satisfied, although the tail of our sample distribution is lighter than that of the theoretical one. 
@@ -185,6 +191,11 @@ The scatterplot (Figure\ref{fig:surrogateresid}) indicates that feature 1 and 2 
 
 \section{Results}
 \label{sec:results}
+
+
+\subsection{EDA}
+
+
 We gave the 90\% credible intervals for coefficients and their posterior mean. (Table \ref{tab:confints}). The interpretation of coefficients are as follow:
 \begin{itemize}
 	\item $\text{DDE}_{\text{exposure}}$: For a 1 unit increase of $\text{DDE}_{\text{exposure}}$, holding other covariates constant,
@@ -198,6 +209,9 @@ We gave the 90\% credible intervals for coefficients and their posterior mean. (
 				\item \textbf{White}:  the same odds increase by $(e^{0.1*(1.76-1.60)}-1)*100\%=1.595\%$
 			\end{itemize}
 \end{itemize}
+
+
+\subsection{Main Findings}
 
 Main findings: the effect of the chemicals on the risk of early delivery is race dependent. Exposure to DDE has a particularly detrimental impact on the gestation process among white women, while exposure to PCB affects non-white more (see \figureref{fig:results})).
 
@@ -229,6 +243,8 @@ Main findings: the effect of the chemicals on the risk of early delivery is race
 
 
 
+\subsection{Sensitivity Analysis}
+
 \section{Conclusion}
 \label{sec:conclusion}
 
@@ -237,5 +253,6 @@ Future, add quadratic term to age since gestations at a young and an old age are
 Consider interaction between PCB and DDE
 
 %\bibliography{bibliography}
+
 
 \end{document}

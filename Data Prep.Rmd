@@ -324,9 +324,19 @@ If other covariates are held constant, when a covariate $x$ increases by one uni
 
 Printing
 ```{r}
-exp(-posterior_interval(m,prob=.95))-1
+-coef(m)
+exp(-posterior_interval(m,prob=.95))
 ```
--
+```{r}
+ints=-posterior_interval(m)[c(1,2,16,17),]
+means=-coef(m)[c(1,2,16,17)]
+resmat=cbind(ints,t(t(means)))
+colnames(resmat)=c("95%","5%","mean")
+rownames(resmat)=c("adjDDE","adjPCB","adjDDE*white","adjPCB*white")
+resmat[,c(1,2,3)] = resmat[,c(3,2,1)]
+colnames(resmat) = c("mean", "5%", "95%")
+```
+
 ## Try to summarize the result
 Graphical Summary of the cumulative probability
 

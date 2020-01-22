@@ -79,24 +79,22 @@
 \section{Introduction}
 \label{sec:intro}
 
-Dichlorodiphenyldichloroethylene (DDE) and Polychlorinated Biphenyls (PCB) are two chemical elements which were commonly in use in the United States and were banned during the 70's due to their detrimental effect on human health. Exposure to these chemical products has been linked to XXX. Because they remain in the environment and in the human body for a long period of time, studying their impact on human health is particularly important.
+Dichlorodiphenyldichloroethylene (DDE) and Polychlorinated Biphenyls (PCB) are two chemical elements which were commonly in use in the United States for agricultural purpouses and were banned during the 70's due to their detrimental effect on human health. Exposure to these chemical products has been linked to neurobehavioral and developmental deficits in newborns. As the human body stores them in its fatty tissues, studying their impact on human health is particularly important.
 
-In this study, we examine the effect of DDE and PCB on feutus; more precisely, we attempt to estimate the impact of exposure to these chemicals elements to early delivery. To accomplish this, we use an ordinal logistic regression model. We find that the impact of these chemical components is race specific: exposure to DDE increases the risk of early birth among white people and exposure to PCB increases the risk among non white people.
+In this report, we examine the effect of DDE and PCB on fetuses; more precisely, we assess the potential association between the exposure to these chemicals and the chance of early delivery. Ideally, a higher exposure to the substances induces a preterm delivery, which may have adverse consequences for the child. To verify this theory, we construct an ordinal logistic regression model over three delivery groups  We find that the impact of the substances is essentially race specific: exposure to DDE increases the risk of early childbirth among white people and exposure to PCB increases the risk among non-white ones. 
 
-
-\sectionref{sec:data} introduces the data and \sectionref{sec:method} presents our methodology.
-\sectionref{sec:results} describes our finding.
-We discuss these and conclude the report in \sectionref{sec:conclusion} concludes.
+The report is divided as follows: \sectionref{sec:data} describes the data, \sectionref{sec:method} presents our methodology,  \sectionref{sec:results} reports our findings, \sectionref{sec:conclusion} discusses the results and concludes.
 
 \section{Data}
 \label{sec:data}
-The data set consists of 2,380 pregnant women that visited a hospital during their pregnancy in 2001 and contains the length of the gestation in weeks and the concentration doses of DDE and 12 PCB breakdown products in the blood. It also contains the concentration of cholesterol and triglycerides in the women's blood along with demographic information (race, level of education, income, occupation, age, smoking status and the center attend by the woman).
+The data set consists of 2,380 pregnant women that visited a hospital during their pregnancy in 2001. It contains the length of the gestation in weeks, the concentration doses of DDE and the twelve PCB breakdown products in the blood, the concentration of cholesterol and triglycerides and several demographic information (race, level of education, income, occupation, age, smoking status and the center attended by the woman).
 
-\todo{mention that PCB and DDE are stored in fatty tissues}
+ The data were not clean. In particular, 43 women showed a length of gestation superior to 45 weeks (the second longest gestation period ever recorded), and 1 women did not show any records of the PCBs levels. Thus, we decide to drop them, reducing the observations to 2,336. Finally, we mean impute the missing data on the income, education and occupational scores\footnote{Note that these scores will not end up in the final model.}
+
 
 \section{Method}
 \label{sec:method}
-
+As a first step, we divide the 
 \subsection{Feature Engineering}
 First, since we focus on the impact of DDE and PCB on early delivery, we dichotomize the dependent variable \textit{gestational duration} measured in weeks into three levels: at risk for gestation shorter than $33$ weeks, pre term for gestation between $34$ and $36$ week, and at term for gestation longer than $37$ weeks. 
 Second, we also aggregate the 12 PCB measurement into one variable since these variables are highly correlated (see \figureref{fig:corr}). To accomplish this, we take their average after standardizing them in order to prevent one measurement to dominate the aggregate variable. 

@@ -160,7 +160,6 @@ AIC-based backward variable selection:
 Model assumptions are checked in the appendix.
 \end{frame}
 
-
 % https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3812826/#R13
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%% Model 2                   

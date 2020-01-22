@@ -125,13 +125,37 @@ Finally, we combine \textit{black} ($n=??)$ and \textit{other} ($n=??$) in the v
 \end{figure}
 
 \subsection{Ordinal Logistic Regression Model}
-$\text{DDE}_{\text{exposure}}$ and $\text{¨CB}_{\text{exposure}}$ are the variables of interest. In order to identify non-spurious association between these variable and the occurrence of early deliveries, we control for $7$ background attributes: \todo{list them}.
+$\text{DDE}_{\text{exposure}}$ and $\text{PCB}_{\text{exposure}}$ are the variables of interest. In order to identify non-spurious association between these variable and the occurrence of early deliveries, we control for $7$ background attributes: \todo{list them}.
 \todo{interaction with centers and race to allow different effect across centers and race}
 
 Since not all attributes are necessarily related to the dependent variable, we conduct an backward AIC-based variable selection procedure. Ideally, we would have preferred to avoid selecting variables and instead run a BMA, but since Merlise's package does not allow ordinal logistic regression, we opted for the simpler frequentist approach. The variable selection procedure includes \todo{list variables} and drops \todo{list variables}.
 
 We use the variables selected y the procedure as predictors in a Bayesian ordinal logistic regression model. The model was fit using stan. We use $10$ chains of $10,000$ iterations each, and put a uniform prior on the coefficients.
 
+\subsection{Model Checking}
+Since the ordinal data is used here, the common residual plot model checking is not applicable here. Instead, the surrogate residual method suggested by ($\ref{zz2017}$) is used. If the model assumption is satisfied, the surrogate residual $R_S$ should display three features: 
+
+\begin{enumerate}
+	\item $E(R_S|X)=0$
+	\item $Var(R_S|X)=c$, the conditional variance of $R_S$ is constant
+	\item The emiprical distribution of $R_S$ resembles an explicit distribution that is related to the link function $G^{-1}(\cdot)$. Specifically, $R_S\sim G(c+\int ud G(u))$.
+\end{enumerate}
+
+The scatterplot (Figure\ref{fig:surrogateresid}) indicates that feature 1 and 2 are roughly satisfied. The QQ plot indicates that feature 3 is roughly satisfied, although the tail of our sample distribution is lighter than that of the theoretical one. 
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.7\textwidth]{Surrogate_residuals.png}
+	\caption{Surrogate residuals of DDE and PCB}
+	\label{fig:surrogateresid}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.7\textwidth]{qqplot.png}
+	\caption{QQ plot of the Surrogate residuals}
+	\label{fig:qqplot}
+\end{figure}
 
 
 
@@ -161,8 +185,39 @@ We use the variables selected y the procedure as predictors in a Bayesian ordina
 
 \section{Results}
 \label{sec:results}
+We gave the 90\% credible intervals for coefficients and their posterior mean. (Table \ref{tab:confints}). The interpretation of coefficients are as follow:
+\begin{itemize}
+	\item $\text{DDE}_{\text{exposure}}$: For a 1 unit increase of $\text{DDE}_{\text{exposure}}$, holding other covariates constant,
+		    \begin{itemize}
+		    	\item \textbf{Nonwhite}: the odds of having a more dangerous delivery increase by $(e^{(0.02)}-1)*100\%=2.02\%$. The 90\% credible interval is $[-2.00\%, 4.12\%]$.
+		    	\item \textbf{White}:  the same odds increase by $(e^{(0.02+0.05)}-1)*100\%=7.25\%$
+		    \end{itemize}
+	\item $\text{PCB}_{\text{exposure}}$: For a $0.1$ unit increase of $\text{PCB}_{\text{exposure}}$, holding other covariates constant,
+			\begin{itemize}
+				\item \textbf{Nonwhite}: the odds of having a more dangerous delivery increase by $(e^{(1.76)*0.1}-1)*100\%=19.22\%$. The 90\% credible interval is $[6.47\%,30.65\%]$.
+				\item \textbf{White}:  the same odds increase by $(e^{0.1*(1.76-1.60)}-1)*100\%=1.595\%$
+			\end{itemize}
+\end{itemize}
 
 Main findings: the effect of the chemicals on the risk of early delivery is race dependent. Exposure to DDE has a particularly detrimental impact on the gestation process among white women, while exposure to PCB affects non-white more (see \figureref{fig:results})).
+
+\begin{table}
+	\centering
+	\begin{tabular}{l|r|r|r}
+		\hline
+		& mean & 5\% & 95\%\\
+		\hline
+		$\text{DDE}_{\text{exposure}}$ & 0.02 & -0.01 & 0.05\\
+		\hline
+		$\text{PCB}_{\text{exposure}}$& 1.76 & 0.72 & 2.75\\
+		\hline
+		$\text{DDE}_{\text{exposure}}$*white & 0.05 & -0.02 & 0.12\\
+		\hline
+		$\text{PCB}_{\text{exposure}}$*white & -1.60 & -3.26 & 0.02\\
+		\hline
+	\end{tabular}
+    \caption{\label{tab:confints} 90\% credible intervals and posterior mean of coefficients}
+\end{table}
 
 
 \begin{figure}[htbp]

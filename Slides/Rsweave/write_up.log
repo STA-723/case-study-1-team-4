@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6300 64-bit) (preloaded format=pdflatex 2017.8.14)  23 JAN 2020 14:34
-=======
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.5.8)  23 JAN 2020 14:29
->>>>>>> 73a8c6a040b586e36ad71635eb9d52e5fc7aea14
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6300 64-bit) (preloaded format=pdflatex 2017.8.14)  23 JAN 2020 16:44
 entering extended mode
 **./write_up.tex
 (write_up.tex
@@ -49,8 +45,8 @@ Package: etoolbox 2017/01/02 v2.4 e-TeX tools for LaTeX (JAW)
 ("C:\Users\JeanLuc\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\article.cls
 "
 Document Class: article 2014/09/29 v1.4h Standard LaTeX document class
-("C:\Users\JeanLuc\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\size11.clo"
-File: size11.clo 2014/09/29 v1.4h Standard LaTeX file (size option)
+("C:\Users\JeanLuc\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\size10.clo"
+File: size10.clo 2014/09/29 v1.4h Standard LaTeX file (size option)
 )
 \c@part=\count84
 \c@section=\count85
@@ -909,7 +905,6 @@ Package grfext Info: Graphics extension search list:
 (grfext)             [.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPE
 G,.JBIG2,.JB2,.eps]
 (grfext)             \AppendGraphicsExtensions on input line 456.
-<<<<<<< HEAD
 )
 \AtBeginShipoutBox=\box67
 Package hyperref Info: Link coloring ON on input line 77.
@@ -917,18 +912,6 @@ LaTeX Info: Redefining \ref on input line 77.
 LaTeX Info: Redefining \pageref on input line 77.
 LaTeX Info: Redefining \nameref on input line 77.
  (write_up.out) (write_up.out)
-=======
-
-(/usr/local/texlive/2019/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
-File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
-e
-))
-\AtBeginShipoutBox=\box73
-Package hyperref Info: Link coloring ON on input line 76.
-LaTeX Info: Redefining \ref on input line 76.
-LaTeX Info: Redefining \pageref on input line 76.
-LaTeX Info: Redefining \nameref on input line 76.
->>>>>>> 73a8c6a040b586e36ad71635eb9d52e5fc7aea14
 \@outlinefile=\write3
 \openout3 = `write_up.out'.
 
@@ -2134,113 +2117,81 @@ LaTeX Font Info:    Try loading font information for OMS+cmr on input line 79.
  ("C:\Users\JeanLuc\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\omscmr.fd"
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <8> not available
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <7> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 79.
  [1{C:/Users/JeanLuc/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}
 
-<<<<<<< HEAD
 ]
-[2] [3]
-LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 172.
- [4]
-Underfull \hbox (badness 1383) in paragraph at lines 207--210
-\OT1/cmr/m/n/10.95 Cal-cu-la-tion of serum to-tal lipid con-cen-tra-tions for t
-he ad-just-ment of per-sis-tent
- []
+[2]
 
-[5] <pcb_corr.jpeg, id=130, 481.8pt x 481.8pt>
-=======
-] [2] [3]
-<pcb_corr.jpeg, id=60, 481.8pt x 481.8pt>
->>>>>>> 73a8c6a040b586e36ad71635eb9d52e5fc7aea14
+Class jmlr Warning: Obsolete command \tt detected on input line 150.
+
+[3]
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 154.
+ [4] [5] <pcb_corr.jpeg, id=144, 481.8pt x 481.8pt>
 File: pcb_corr.jpeg Graphic file (type jpg)
  <use pcb_corr.jpeg>
-Package pdftex.def Info: pcb_corr.jpeg used on input line 231.
+Package pdftex.def Info: pcb_corr.jpeg used on input line 213.
 (pdftex.def)             Requested size: 216.81pt x 216.80798pt.
-<<<<<<< HEAD
 
-<outcome_per_center.jpeg, id=131, 361.35pt x 252.945pt>
-=======
-<outcome_per_center.jpeg, id=61, 2818.53pt x 2174.1225pt>
->>>>>>> 73a8c6a040b586e36ad71635eb9d52e5fc7aea14
+<outcome_per_center.jpeg, id=145, 361.35pt x 252.945pt>
 File: outcome_per_center.jpeg Graphic file (type jpg)
 
 <use outcome_per_center.jpeg>
-<<<<<<< HEAD
-Package pdftex.def Info: outcome_per_center.jpeg used on input line 238.
+Package pdftex.def Info: outcome_per_center.jpeg used on input line 220.
 (pdftex.def)             Requested size: 303.53267pt x 212.47235pt.
 
-<pcb_dde_per_gest.jpeg, id=132, 361.35pt x 252.945pt>
-=======
-Package pdftex.def Info: outcome_per_center.jpeg  used on input line 157.
-(pdftex.def)             Requested size: 260.17464pt x 200.6719pt.
-<pcb_dde_per_gest.jpeg, id=62, 2818.53pt x 2174.1225pt>
->>>>>>> 73a8c6a040b586e36ad71635eb9d52e5fc7aea14
+<pcb_dde_per_gest.jpeg, id=146, 361.35pt x 252.945pt>
 File: pcb_dde_per_gest.jpeg Graphic file (type jpg)
 
 <use pcb_dde_per_gest.jpeg>
-<<<<<<< HEAD
-Package pdftex.def Info: pcb_dde_per_gest.jpeg used on input line 245.
+Package pdftex.def Info: pcb_dde_per_gest.jpeg used on input line 227.
 (pdftex.def)             Requested size: 303.53267pt x 212.47235pt.
- <results.jpeg, id=133, 361.35pt x 252.945pt>
-=======
-Package pdftex.def Info: pcb_dde_per_gest.jpeg  used on input line 164.
-(pdftex.def)             Requested size: 260.17464pt x 200.6719pt.
-<results.jpeg, id=63, 528.2937pt x 305.4612pt>
->>>>>>> 73a8c6a040b586e36ad71635eb9d52e5fc7aea14
+ <results.jpeg, id=147, 361.35pt x 252.945pt>
 File: results.jpeg Graphic file (type jpg)
 
-<<<<<<< HEAD
 <use results.jpeg>
-Package pdftex.def Info: results.jpeg used on input line 252.
+Package pdftex.def Info: results.jpeg used on input line 234.
 (pdftex.def)             Requested size: 303.53267pt x 212.47235pt.
  [6 <./pcb_corr.jpeg> <./outcome_per_center.jpeg>] [7 <./pcb_dde_per_gest.jpeg>
- <./results.jpeg>]
-<Surrogate_residuals.png, id=144, 616.3025pt x 436.63126pt>
-=======
-LaTeX Warning: Reference `fig:results' on page 4 undefined on input line 198.
-
-[4 <./pcb_corr.jpeg>] [5 <./outcome_per_center.jpeg> <./pcb_dde_per_gest.jpeg>]
-LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 201.
-[6 <./results.jpeg>] [7]
-<Surrogate_residuals.png, id=90, 616.3025pt x 436.63126pt>
->>>>>>> 73a8c6a040b586e36ad71635eb9d52e5fc7aea14
+ <./results.jpeg>] [8]
+<BocCox.jpeg, id=163, 1505.625pt x 1053.9375pt>
+File: BocCox.jpeg Graphic file (type jpg)
+ <use BocCox.jpeg>
+Package pdftex.def Info: BocCox.jpeg used on input line 283.
+(pdftex.def)             Requested size: 303.53267pt x 212.47235pt.
+ [9 <./BocCox.jpeg>] <Surrogate_residuals.png, id=175, 616.3025pt x 436.63126pt
+>
 File: Surrogate_residuals.png Graphic file (type png)
 
 <use Surrogate_residuals.png>
-Package pdftex.def Info: Surrogate_residuals.png used on input line 283.
+Package pdftex.def Info: Surrogate_residuals.png used on input line 311.
 (pdftex.def)             Requested size: 303.53267pt x 215.04382pt.
-<<<<<<< HEAD
- <qqplot.png, id=146, 616.3025pt x 436.63126pt>
-=======
-<qqplot.png, id=92, 616.3025pt x 436.63126pt>
->>>>>>> 73a8c6a040b586e36ad71635eb9d52e5fc7aea14
+ <qqplot.png, id=177, 616.3025pt x 436.63126pt>
 File: qqplot.png Graphic file (type png)
 
 <use qqplot.png>
-Package pdftex.def Info: qqplot.png used on input line 290.
+Package pdftex.def Info: qqplot.png used on input line 318.
 (pdftex.def)             Requested size: 303.53267pt x 215.04382pt.
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 300.
- [8] [9 <./Surrogate_residuals.png> <./qqplot.png>]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 300.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 328.
+ [10 <./Surrogate_residuals.png>] [11 <./qqplot.png>]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 328.
 
-<<<<<<< HEAD
 (write_up.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 300.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 300.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 328.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 328.
 Package rerunfilecheck Info: File `write_up.out' has not changed.
-(rerunfilecheck)             Checksum: 6A29AAC118423301A1F1FCF9086F2E39;872.
+(rerunfilecheck)             Checksum: 9ACB5B6AE93B17BE37A3848AB7DE6B9C;917.
  ) 
 Here is how much of TeX's memory you used:
- 21077 strings out of 493324
- 396877 string characters out of 3129169
- 518129 words of memory out of 3000000
- 24377 multiletter control sequences out of 15000+200000
- 541255 words of font info for 62 fonts, out of 3000000 for 9000
+ 21103 strings out of 493324
+ 397130 string characters out of 3129169
+ 519099 words of memory out of 3000000
+ 24391 multiletter control sequences out of 15000+200000
+ 542950 words of font info for 70 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 36i,13n,43p,10361b,848s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 36i,13n,43p,10361b,862s stack positions out of 5000i,500n,10000p,200000b,50000s
 <C:/Users/JeanLuc/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfon
 ts/cm/cmbx10.pfb><C:/Users/JeanLuc/AppData/Local/Programs/MiKTeX 2.9/fonts/type
 1/public/amsfonts/cm/cmbx12.pfb><C:/Users/JeanLuc/AppData/Local/Programs/MiKTeX
@@ -2248,66 +2199,23 @@ ts/cm/cmbx10.pfb><C:/Users/JeanLuc/AppData/Local/Programs/MiKTeX 2.9/fonts/type
 /Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/JeanLu
 c/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><
 C:/Users/JeanLuc/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/
-cm/cmmi8.pfb><C:/Users/JeanLuc/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/pu
-blic/amsfonts/cm/cmmib10.pfb><C:/Users/JeanLuc/AppData/Local/Programs/MiKTeX 2.
-9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/JeanLuc/AppData/Local/Prog
-rams/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/JeanLuc/AppDa
-ta/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr9.pfb><C:/Users/
-JeanLuc/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10
-.pfb><C:/Users/JeanLuc/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/ams
-fonts/cm/cmsy8.pfb><C:/Users/JeanLuc/AppData/Local/Programs/MiKTeX 2.9/fonts/ty
-pe1/public/amsfonts/cm/cmti10.pfb>
-Output written on write_up.pdf (9 pages, 718118 bytes).
+cm/cmmi5.pfb><C:/Users/JeanLuc/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/pu
+blic/amsfonts/cm/cmmi7.pfb><C:/Users/JeanLuc/AppData/Local/Programs/MiKTeX 2.9/
+fonts/type1/public/amsfonts/cm/cmmib10.pfb><C:/Users/JeanLuc/AppData/Local/Prog
+rams/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/JeanLuc/AppD
+ata/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Users
+/JeanLuc/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr7.
+pfb><C:/Users/JeanLuc/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsf
+onts/cm/cmr8.pfb><C:/Users/JeanLuc/AppData/Local/Programs/MiKTeX 2.9/fonts/type
+1/public/amsfonts/cm/cmr9.pfb><C:/Users/JeanLuc/AppData/Local/Programs/MiKTeX 2
+.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/JeanLuc/AppData/Local/Pr
+ograms/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/JeanLuc/Ap
+pData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/U
+sers/JeanLuc/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/c
+mtt10.pfb>
+Output written on write_up.pdf (11 pages, 885727 bytes).
 PDF statistics:
- 217 PDF objects out of 1000 (max. 8388607)
- 48 named destinations out of 1000 (max. 500000)
- 143 words of extra memory for PDF output out of 10000 (max. 10000000)
-=======
-(./write_up.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 267.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 267.
-
-
-Package rerunfilecheck Warning: File `write_up.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `write_up.out':
-(rerunfilecheck)             Before: <no file>
-(rerunfilecheck)             After:  15E6FF88CF869BB67DDD8D3B6CE1E347;907.
-
-LaTeX Warning: There were undefined references.
-
-
-LaTeX Warning: There were multiply-defined labels.
-
- ) 
-Here is how much of TeX's memory you used:
- 22600 strings out of 492616
- 414301 string characters out of 6129482
- 533544 words of memory out of 5000000
- 26297 multiletter control sequences out of 15000+600000
- 543321 words of font info for 64 fonts, out of 8000000 for 9000
- 1141 hyphenation exceptions out of 8191
- 40i,13n,63p,1204b,872s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
-></usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
-</usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb>
-</usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><
-/usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></
-usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></us
-r/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></us
-r/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/
-local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/loc
-al/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/
-texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/t
-exlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/tex
-live/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on write_up.pdf (9 pages, 1221453 bytes).
-PDF statistics:
- 168 PDF objects out of 1000 (max. 8388607)
- 134 compressed objects within 2 object streams
- 43 named destinations out of 1000 (max. 500000)
- 31 words of extra memory for PDF output out of 10000 (max. 10000000)
->>>>>>> 73a8c6a040b586e36ad71635eb9d52e5fc7aea14
+ 261 PDF objects out of 1000 (max. 8388607)
+ 55 named destinations out of 1000 (max. 500000)
+ 156 words of extra memory for PDF output out of 10000 (max. 10000000)
 

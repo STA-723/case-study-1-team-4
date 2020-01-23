@@ -19,6 +19,7 @@ library(MASS)
 library(sure) # Surrogate Residuals
 library(rstanarm)
 library(ggpubr)
+library(knitr)
 library(corrplot)
 library(mice)
 library(RColorBrewer)
@@ -594,15 +595,18 @@ m_r2_08 <- stan_polr(
 ```
 Look at the credible intervals for .3
 ```{r}
-posterior_interval(m_r2_03)
+posterior_interval(m) %>% round(2) %>% kable("latex")
+```
+```{r} 
+posterior_interval(m_r2_03) %>% round(2) %>% kable("latex")
 ```
 for .5
 ```{r}
-posterior_interval(m_r2_05)
+posterior_interval(m_r2_05) %>% round(2) %>% kable("latex")
 ```
 for .8
 ```{r}
-posterior_interval(m_r2_08)
+posterior_interval(m_r2_08) %>% round(2) %>% kable("latex")
 ```
 Our method is not sensitive to priors.
 

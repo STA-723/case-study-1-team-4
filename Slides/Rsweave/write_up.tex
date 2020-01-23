@@ -238,39 +238,36 @@ mice. Conducting variable selection on on mean-imputed data reduces the chance o
 
 \begin{table}
 	\footnotesize
-	\begin{tabular}{lrr}
+	\begin{tabular}{lrrr}
 		\toprule
-		& 5\% & 95\%\\
+		  & mean & 95\% & 5\%\\
 		\midrule
-		$\text{DDE}_{\text{exposure}}$ & -0.05 & 0.01\\
-		$\text{PCB}_{\text{exposure}}$ & -2.90 & -0.81\\
-		\addlinespace
-		$\text{DDE}_{\text{exposure}}$*white & -0.12 & 0.02\\
-		$\text{PCB}_{\text{exposure}}$*white & 0.07 & 3.38\\
+		adjDDE & -0.02 & 0.01 & -0.05\\
+		adjPCB & -1.87 & -0.81 & -2.87\\
+		adjDDE*white & -0.06 & 0.02 & -0.12\\
+		adjPCB*white & 1.69 & 3.36 & 0.08\\
 		\bottomrule
 	\end{tabular}
 	\hfill
-	\begin{tabular}{lrr}
+	\begin{tabular}{lrrr}
 		\toprule
-		& 5\% & 95\%\\
+		  & mean & 95\% & 5\%\\
 		\midrule
-		$\text{DDE}_{\text{exposure}}$& -0.05 & 0.01\\
-		$\text{PCB}_{\text{exposure}}$ & -2.96 & -0.87\\
-		\addlinespace
-		$\text{DDE}_{\text{exposure}}$*white & -0.13 & 0.01\\
-		$\text{PCB}_{\text{exposure}}$*white & 0.00 & 3.48\\
+		adjDDE & -0.02 & 0.01 & -0.05\\
+		adjPCB & -1.88 & -0.82 & -2.90\\
+		adjDDE*white & -0.06 & 0.02 & -0.13\\
+		adjPCB*white & 1.74 & 3.47 & 0.02\\
 		\bottomrule
 	\end{tabular}
 	\hfill
-	\begin{tabular}{lrr}
+	\begin{tabular}{lrrr}
 		\toprule
-		& 5\% & 95\%\\
+		  & mean & 95\% & 5\%\\
 		\midrule
-		$\text{DDE}_{\text{exposure}}$ & -0.05 & 0.01\\
-		$\text{PCB}_{\text{exposure}}$ & -3.01 & -0.83\\
-		\addlinespace
-		$\text{DDE}_{\text{exposure}}$ & -0.13 & 0.01\\
-		$\text{PCB}_{\text{exposure}}$ & 0.05 & 3.55\\
+		adjDDE & -0.02 & 0.01 & -0.05\\
+		adjPCB & -1.94 & -0.88 & -2.96\\
+		adjDDE*white & -0.06 & 0.01 & -0.13\\
+		adjPCB*white & 1.77 & 3.60 & 0.04\\
 		\bottomrule
 	\end{tabular}
 	\label{tab:priors} 
@@ -281,12 +278,12 @@ mice. Conducting variable selection on on mean-imputed data reduces the chance o
 	\centering
 	\begin{tabular}{lrrr}
 		\toprule
-		& mean & 5\% & 95\%\\
+		& mean & 95\% & 5\%\\
 		\midrule
-		$\text{DDE}_{\text{exposure}}$ & 0.02 & -0.01 & 0.05\\
-		$\text{PCB}_{\text{exposure}}$& 1.76 & 0.72 & 2.75\\
-		$\text{DDE}_{\text{exposure}}$*white & 0.05 & -0.02 & 0.12\\
-		$\text{PCB}_{\text{exposure}}$*white & -1.60 & -3.26 & 0.02\\
+		$\text{DDE}_{\text{exposure}}$ & -0.02 & 0.01 & -0.05\\
+		$\text{PCB}_{\text{exposure}}$& -1.76 & -0.72 & -2.75\\
+		$\text{DDE}_{\text{exposure}}$*white & -0.05 & 0.02 & -0.12\\
+		$\text{PCB}_{\text{exposure}}$*white & 1.60 & 3.26 & -0.02\\
 		\bottomrule
 	\end{tabular}
 	\caption{\label{tab:confints} 90\% credible intervals and posterior mean of coefficients}
@@ -373,34 +370,32 @@ The comprehensive output of our model is also included (See Table \ref{tab:fullc
 \end{itemize}
 
 \begin{table}
-	\begin{tabular}{lrr}
+	\begin{tabular}{lrrr}
 		\toprule
-		& 5\% & 95\%\\
+		 & 5\% & 95\% & mean\\
 		\midrule
-		$\text{DDE}_{\text{exposure}}$ & -0.05 & 0.01\\
-		$\text{PCB}_{\text{exposure}}$& -2.73 & -0.75\\
-		white & 0.10 & 0.85\\
-		center10 & -0.13 & 0.77\\
-		center15 & -1.11 & -0.28\\
+		dde\_env\_bc & -0.05 & 0.01 & -0.02\\
+		pcb\_env\_bc & -2.73 & -0.75 & -1.76\\
+		race\_aggwhite & 0.10 & 0.85 & 0.47\\
+		center10 & -0.13 & 0.77 & 0.31\\
+		center15 & -1.11 & -0.28 & -0.69\\
 		\addlinespace
-		center31 & -0.25 & 0.80\\
-		center37 & -1.01 & -0.32\\
-		center45 & -0.42 & 0.35\\
-		center50 & -0.54 & 0.23\\
-		center55 & -0.78 & 0.08\\
+		center31 & -0.25 & 0.80 & 0.26\\
+		center37 & -1.01 & -0.32 & -0.65\\
+		center45 & -0.42 & 0.35 & -0.04\\
+		center50 & -0.54 & 0.23 & -0.16\\
+		center55 & -0.78 & 0.08 & -0.35\\
 		\addlinespace
-		center60 & -0.66 & 0.16\\
-		center66 & -0.48 & 0.19\\
-		center71 & -0.46 & 0.28\\
-		center82 & -1.09 & -0.29\\
-		smoking\_status1 & -0.31 & 0.00\\
+		center60 & -0.66 & 0.16 & -0.25\\
+		center66 & -0.48 & 0.19 & -0.14\\
+		center71 & -0.46 & 0.28 & -0.09\\
+		center82 & -1.09 & -0.29 & -0.69\\
+		smoking\_status1 & -0.31 & 0.00 & -0.16\\
 		\addlinespace
-		$\text{DDE}_{\text{exposure}}$:white & -0.12 & 0.02\\
-		$\text{PCB}_{\text{exposure}}$:white & 0.01 & 3.21\\
-		Dangerous|Pre term & -3.24 & -2.54\\
-		Pre term|At term & -1.88 & -1.22\\
+		dde\_env\_bc:race\_aggwhite & -0.12 & 0.02 & -0.05\\
+		pcb\_env\_bc:race\_aggwhite & 0.01 & 3.21 & 1.61\\
 		\bottomrule
-	\end{tabular}
+		\end{tabular}
 	\label{tab:fullcoef}
 	\caption{90\% credible intervals for all coefficients, under the uniform prior}
 \end{table}

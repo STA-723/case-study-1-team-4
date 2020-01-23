@@ -581,7 +581,8 @@ m_r2_05 <- stan_polr(
   iter=8*1e3,
   chains=1,
   method = "logistic", 
-  prior = R2(.5))
+  prior = R2(.5),
+  seed=1927)
 
 m_r2_03 <- stan_polr(
   gestgroup ~ dde_env_bc + pcb_env_bc + race_agg + center + smoking_status + dde_env_bc:race_agg + pcb_env_bc:race_agg,
@@ -589,7 +590,8 @@ m_r2_03 <- stan_polr(
   iter=8*1e3,
   chains=1,
   method = "logistic", 
-  prior = R2(.3))
+  prior = R2(.3),
+  seed=1927)
 
 m_r2_08 <- stan_polr(
   gestgroup ~ dde_env_bc + pcb_env_bc + race_agg + center + smoking_status + dde_env_bc:race_agg + pcb_env_bc:race_agg,
@@ -597,27 +599,50 @@ m_r2_08 <- stan_polr(
   iter=8*1e3,
   chains=1,
   method = "logistic", 
-  prior = R2(.8))
+  prior = R2(.8),
+  seed=1927)
 ```
 Look at the credible intervals for .3
 ```{r}
-posterior_interval(m) %>% round(2) %>% kable("latex")
-```
-```{r} 
-posterior_interval(m_r2_03) %>% round(2) %>% kable("latex", booktabs = TRUE)
+ints=posterior_interval(m_r2_03)[c(1,2,16,17),] 
+means=coef(m_r2_03)[c(1,2,16,17)]
+resmat=cbind(ints,t(t(means)))
+colnames(resmat)=c("95%","5%","mean")
+rownames(resmat)=c("adjDDE","adjPCB","adjDDE*white","adjPCB*white")
+resmat[,c(1,2,3)] = resmat[,c(3,2,1)]
+colnames(resmat) = c("mean", "95%", "5%")
+resmat %>% round(2) %>% kable("latex",booktabs = TRUE)
 ```
 for .5
 ```{r}
-posterior_interval(m_r2_05) %>% round(2) %>% kable("latex", booktabs = TRUE)
+ints=posterior_interval(m_r2_05)[c(1,2,16,17),] 
+means=coef(m_r2_05)[c(1,2,16,17)]
+resmat=cbind(ints,t(t(means)))
+colnames(resmat)=c("95%","5%","mean")
+rownames(resmat)=c("adjDDE","adjPCB","adjDDE*white","adjPCB*white")
+resmat[,c(1,2,3)] = resmat[,c(3,2,1)]
+colnames(resmat) = c("mean", "95%", "5%")
+resmat %>% round(2) %>% kable("latex",booktabs = TRUE)
 ```
 for .8
 ```{r}
-posterior_interval(m_r2_08) %>% round(2) %>% kable("latex", booktabs = TRUE)
+ints=posterior_interval(m_r2_08)[c(1,2,16,17),] 
+means=coef(m_r2_08)[c(1,2,16,17)]
+resmat=cbind(ints,t(t(means)))
+colnames(resmat)=c("95%","5%","mean")
+rownames(resmat)=c("adjDDE","adjPCB","adjDDE*white","adjPCB*white")
+resmat[,c(1,2,3)] = resmat[,c(3,2,1)]
+colnames(resmat) = c("mean", "95%", "5%")
+resmat %>% round(2) %>% kable("latex",booktabs = TRUE)
 ```
 Our method is not sensitive to priors.
 
 ```{r}
-posterior_interval(m) %>% round(2) %>% kable("latex",booktabs=TRUE)
+ints=posterior_interval(m)[c(1:17),]
+means=coef(m)
+res=cbind(ints,t(t(means)))
+colnames(resmat) = c("mean", "95%", "5%")
+res %>% round(2) %>% kable("latex",booktabs = TRUE)
 ```
 
 ```{r}

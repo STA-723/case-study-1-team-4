@@ -296,7 +296,7 @@ Will check & compare with other competing models.
 A Bayesian model is fitted. 5 chains with 3000 iterations each are ran. All Rhats are closed to 1 and effective sample sizes exceed 8000, so there is strong evidence that the chains converge. 
 ```{r}
 m <- stan_polr(
-  outcome_3 ~ dde_env_bc + pcb_env_bc + race_agg + center + smoking_status + dde_env_bc:race_agg + pcb_env_bc:race_agg,
+  gestgroup ~ dde_env_bc + pcb_env_bc + race_agg + center + smoking_status + dde_env_bc:race_agg + pcb_env_bc:race_agg,
   d,
   iter=8*1e3,
   chains=1,
@@ -557,6 +557,45 @@ ggarrange(predict_DDE_w, predict_PCB_w, predict_DDE_nw, predict_PCB_nw,
           nrow =2, ncol=2,common.legend = TRUE , legend = "bottom") 
 ```
 
+##Sensitvity analysis
+Varying the prior. Use the prior on R^2 with location=.3, .5, .8
+```{r}
+m_r2_05 <- stan_polr(
+  gestgroup ~ dde_env_bc + pcb_env_bc + race_agg + center + smoking_status + dde_env_bc:race_agg + pcb_env_bc:race_agg,
+  d,
+  iter=8*1e3,
+  chains=1,
+  method = "logistic", 
+  prior = R2(.5))
+
+m_r2_03 <- stan_polr(
+  gestgroup ~ dde_env_bc + pcb_env_bc + race_agg + center + smoking_status + dde_env_bc:race_agg + pcb_env_bc:race_agg,
+  d,
+  iter=8*1e3,
+  chains=1,
+  method = "logistic", 
+  prior = R2(.3))
+
+m_r2_08 <- stan_polr(
+  gestgroup ~ dde_env_bc + pcb_env_bc + race_agg + center + smoking_status + dde_env_bc:race_agg + pcb_env_bc:race_agg,
+  d,
+  iter=8*1e3,
+  chains=1,
+  method = "logistic", 
+  prior = R2(.8))
+```
+Look at the credible intervals for .3
+```{r}
+posterior_interval(m_r2_03)
+```
+for .5
+```{r}
+posterior_interval(m_r2_05)
+```
+for .8
+```{r}
+posterior_interval(m_r2_08)
+```
 
 
 

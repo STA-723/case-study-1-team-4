@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6300 64-bit) (preloaded format=pdflatex 2017.8.14)  22 JAN 2020 17:34
 entering extended mode
 **./write_up.tex
@@ -6,6 +7,18 @@ LaTeX2e <2017-04-15>
 Babel <3.9t> and hyphenation patterns for 75 language(s) loaded.
 ("C:\Users\JeanLuc\AppData\Local\Programs\MiKTeX 2.9\tex\latex\jmlr\jmlr.cls"
 Document Class: jmlr 2017/08/01 v1.24 (NLCT) Journal of Machine Learning Resear
+=======
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2017.4.19)  22 JAN 2020 19:26
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**write_up.tex
+(./write_up.tex
+LaTeX2e <2016/03/31>
+Babel <3.9r> and hyphenation patterns for 83 language(s) loaded.
+(/usr/local/texlive/2016/texmf-dist/tex/latex/jmlr/jmlr.cls
+Document Class: jmlr 2015/02/24 v1.21 (NLCT) Journal of Machine Learning Resear
+>>>>>>> c048dae5c846e4cc25c70dd60c14d2bfc49e420a
 ch
 
 ("C:\Users\JeanLuc\AppData\Local\Programs\MiKTeX 2.9\tex\latex\xkeyval\xkeyval.
@@ -37,9 +50,14 @@ LaTeX Info: Redefining \addtolength on input line 81.
 \calc@Ccount=\count82
 \calc@Cskip=\skip43
 )
+<<<<<<< HEAD
 ("C:\Users\JeanLuc\AppData\Local\Programs\MiKTeX 2.9\tex\latex\etoolbox\etoolbo
 x.sty"
 Package: etoolbox 2017/01/02 v2.4 e-TeX tools for LaTeX (JAW)
+=======
+(/usr/local/texlive/2016/texmf-dist/tex/latex/etoolbox/etoolbox.sty
+Package: etoolbox 2015/08/02 v2.2a e-TeX tools for LaTeX (JAW)
+>>>>>>> c048dae5c846e4cc25c70dd60c14d2bfc49e420a
 \etb@tempcnta=\count83
 )
 ("C:\Users\JeanLuc\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\article.cls
@@ -60,25 +78,38 @@ File: size11.clo 2014/09/29 v1.4h Standard LaTeX file (size option)
 \belowcaptionskip=\skip45
 \bibindent=\dimen104
 )
+<<<<<<< HEAD
 ("C:\Users\JeanLuc\AppData\Local\Programs\MiKTeX 2.9\tex\latex\amsmath\amsmath.
 sty"
 Package: amsmath 2016/11/05 v2.16a AMS math features
+=======
+(/usr/local/texlive/2016/texmf-dist/tex/latex/amsmath/amsmath.sty
+Package: amsmath 2016/03/10 v2.15b AMS math features
+>>>>>>> c048dae5c846e4cc25c70dd60c14d2bfc49e420a
 \@mathmargin=\skip46
 
 For additional information on amsmath, use the `?' option.
 
+<<<<<<< HEAD
 ("C:\Users\JeanLuc\AppData\Local\Programs\MiKTeX 2.9\tex\latex\amsmath\amstext.
 sty"
 Package: amstext 2000/06/29 v2.01 AMS text
 
 ("C:\Users\JeanLuc\AppData\Local\Programs\MiKTeX 2.9\tex\latex\amsmath\amsgen.s
 ty"
+=======
+(/usr/local/texlive/2016/texmf-dist/tex/latex/amsmath/amsgen.sty
+>>>>>>> c048dae5c846e4cc25c70dd60c14d2bfc49e420a
 File: amsgen.sty 1999/11/30 v2.0 generic functions
 \@emptytoks=\toks16
 \ex@=\dimen105
 ))
+<<<<<<< HEAD
 ("C:\Users\JeanLuc\AppData\Local\Programs\MiKTeX 2.9\tex\latex\amsmath\amsbsy.s
 ty"
+=======
+(/usr/local/texlive/2016/texmf-dist/tex/latex/amsmath/amsbsy.sty
+>>>>>>> c048dae5c846e4cc25c70dd60c14d2bfc49e420a
 Package: amsbsy 1999/11/29 v1.2d Bold Symbols
 \pmbraise@=\dimen106
 )
@@ -121,31 +152,48 @@ LaTeX Font Info:    Redeclaring font encoding OMS on input line 713.
 \multlinegap=\skip47
 \multlinetaggap=\skip48
 \mathdisplay@stack=\toks20
+<<<<<<< HEAD
 LaTeX Info: Redefining \[ on input line 2817.
 LaTeX Info: Redefining \] on input line 2818.
+=======
+LaTeX Info: Redefining \[ on input line 2739.
+LaTeX Info: Redefining \] on input line 2740.
+>>>>>>> c048dae5c846e4cc25c70dd60c14d2bfc49e420a
 )
 ("C:\Users\JeanLuc\AppData\Local\Programs\MiKTeX 2.9\tex\latex\amsfonts\amssymb
 .sty"
 Package: amssymb 2013/01/14 v3.01 AMS font symbols
 
+<<<<<<< HEAD
 ("C:\Users\JeanLuc\AppData\Local\Programs\MiKTeX 2.9\tex\latex\amsfonts\amsfont
 s.sty"
+=======
+(/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/amsfonts.sty
+>>>>>>> c048dae5c846e4cc25c70dd60c14d2bfc49e420a
 Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
 \symAMSa=\mathgroup4
 \symAMSb=\mathgroup5
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
 ))
+<<<<<<< HEAD
 ("C:\Users\JeanLuc\AppData\Local\Programs\MiKTeX 2.9\tex\latex\natbib\natbib.st
 y"
+=======
+(/usr/local/texlive/2016/texmf-dist/tex/latex/natbib/natbib.sty
+>>>>>>> c048dae5c846e4cc25c70dd60c14d2bfc49e420a
 Package: natbib 2010/09/13 8.31b (PWD, AO)
 \bibhang=\skip49
 \bibsep=\skip50
 LaTeX Info: Redefining \cite on input line 694.
 \c@NAT@ctr=\count104
 )
+<<<<<<< HEAD
 ("C:\Users\JeanLuc\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics\graphic
 x.sty"
+=======
+(/usr/local/texlive/2016/texmf-dist/tex/latex/graphics/graphicx.sty
+>>>>>>> c048dae5c846e4cc25c70dd60c14d2bfc49e420a
 Package: graphicx 2014/10/28 v1.0g Enhanced LaTeX Graphics (DPC,SPQR)
 
 ("C:\Users\JeanLuc\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics\graphic
@@ -156,15 +204,25 @@ Package: graphics 2017/04/14 v1.1b Standard LaTeX Graphics (DPC,SPQR)
 y"
 Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
 )
+<<<<<<< HEAD
 ("C:\Users\JeanLuc\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics-cfg\gra
 phics.cfg"
 File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+=======
+(/usr/local/texlive/2016/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+File: graphics.cfg 2016/01/02 v1.10 sample graphics configuration
+>>>>>>> c048dae5c846e4cc25c70dd60c14d2bfc49e420a
 )
 Package graphics Info: Driver file: pdftex.def on input line 99.
 
+<<<<<<< HEAD
 ("C:\Users\JeanLuc\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics-def\pdf
 tex.def"
 File: pdftex.def 2017/01/12 v0.06k Graphics/color for pdfTeX
+=======
+(/usr/local/texlive/2016/texmf-dist/tex/latex/pdftex-def/pdftex.def
+File: pdftex.def 2011/05/27 v0.06d Graphics/color for pdfTeX
+>>>>>>> c048dae5c846e4cc25c70dd60c14d2bfc49e420a
 
 ("C:\Users\JeanLuc\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\infwa
 rerr.sty"
@@ -179,6 +237,7 @@ Package: ltxcmds 2016/05/16 v1.23 LaTeX kernel commands for general use (HO)
 \Gin@req@height=\dimen114
 \Gin@req@width=\dimen115
 )
+<<<<<<< HEAD
 ("C:\Users\JeanLuc\AppData\Local\Programs\MiKTeX 2.9\tex\latex\url\url.sty"
 \Urlmuskip=\muskip11
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
@@ -189,6 +248,16 @@ Package: xcolor 2016/05/11 v2.12 LaTeX color extensions (UK)
 
 ("C:\Users\JeanLuc\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics-cfg\col
 or.cfg"
+=======
+(/usr/local/texlive/2016/texmf-dist/tex/latex/url/url.sty
+\Urlmuskip=\muskip11
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
+)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/xcolor/xcolor.sty
+Package: xcolor 2016/05/11 v2.12 LaTeX color extensions (UK)
+
+(/usr/local/texlive/2016/texmf-dist/tex/latex/graphics-cfg/color.cfg
+>>>>>>> c048dae5c846e4cc25c70dd60c14d2bfc49e420a
 File: color.cfg 2016/01/02 v1.6 sample color configuration
 )
 Package xcolor Info: Driver file: pdftex.def on input line 225.
@@ -202,6 +271,7 @@ Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1369.
 Package xcolor Info: Model `Gray' substituted by `gray' on input line 1370.
 Package xcolor Info: Model `wave' substituted by `hsb' on input line 1371.
 
+<<<<<<< HEAD
 ("C:\Users\JeanLuc\AppData\Local\Programs\MiKTeX 2.9\tex\latex\xcolor\x11nam.de
 f"
 File: x11nam.def 2016/05/11 v2.12 Predefined colors according to Unix/X11 (UK)
@@ -212,10 +282,21 @@ Package: algorithm2e 2017/07/18 v5.2 algorithms environments
 \c@AlgoLine=\count106
 
 ("C:\Users\JeanLuc\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\ifthen.sty"
+=======
+(/usr/local/texlive/2016/texmf-dist/tex/latex/xcolor/x11nam.def
+File: x11nam.def 2016/05/11 v2.12 Predefined colors according to Unix/X11 (UK)
+))
+(/usr/local/texlive/2016/texmf-dist/tex/latex/algorithm2e/algorithm2e.sty
+Package: algorithm2e 2013/01/06 v5.00 algorithms environments
+\c@AlgoLine=\count106
+
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/ifthen.sty
+>>>>>>> c048dae5c846e4cc25c70dd60c14d2bfc49e420a
 Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
 )
 \algocf@hangindent=\skip51
 
+<<<<<<< HEAD
 ("C:\Users\JeanLuc\AppData\Local\Programs\MiKTeX 2.9\tex\latex\ifoddpage\ifoddp
 age.sty"
 Package: ifoddpage 2016/04/23 v1.1 Conditionals for odd/even page detection
@@ -228,6 +309,13 @@ Package: xspace 2014/10/28 v1.13 Space after command names (DPC,MH)
 ("C:\Users\JeanLuc\AppData\Local\Programs\MiKTeX 2.9\tex\latex\ltxmisc\relsize.
 sty"
 Package: relsize 2003/07/04 ver 3.1
+=======
+(/usr/local/texlive/2016/texmf-dist/tex/latex/tools/xspace.sty
+Package: xspace 2014/10/28 v1.13 Space after command names (DPC,MH)
+)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/relsize/relsize.sty
+Package: relsize 2013/03/29 ver 4.1
+>>>>>>> c048dae5c846e4cc25c70dd60c14d2bfc49e420a
 )
 \skiptotal=\skip52
 \skiplinenumber=\skip53
@@ -254,6 +342,7 @@ Package: relsize 2003/07/04 ver 3.1
 \algocf@untilbox=\box32
 \algocf@skipuntil=\skip64
 \algocf@capbox=\box33
+<<<<<<< HEAD
 \algocf@lcaptionbox=\skip65
 \algoheightruledefault=\skip66
 \algoheightrule=\skip67
@@ -286,6 +375,25 @@ Package: hobsub-hyperref 2016/05/16 v1.14 Bundle oberdiek, subset hyperref (HO)
 
 ("C:\Users\JeanLuc\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\hobsu
 b-generic.sty"
+=======
+\algoheightruledefault=\skip65
+\algoheightrule=\skip66
+\algotitleheightruledefault=\skip67
+\algotitleheightrule=\skip68
+\c@algocfline=\count107
+\c@algocfproc=\count108
+\c@algocf=\count109
+\algocf@algoframe=\box34
+\algocf@algobox=\box35
+) (/usr/local/texlive/2016/texmf-dist/tex/latex/hyperref/hyperref.sty
+Package: hyperref 2016/05/05 v6.83n Hypertext links for LaTeX
+
+(/usr/local/texlive/2016/texmf-dist/tex/generic/oberdiek/hobsub-hyperref.sty
+Package: hobsub-hyperref 2016/05/16 v1.14 Bundle oberdiek, subset hyperref (HO)
+
+
+(/usr/local/texlive/2016/texmf-dist/tex/generic/oberdiek/hobsub-generic.sty
+>>>>>>> c048dae5c846e4cc25c70dd60c14d2bfc49e420a
 Package: hobsub-generic 2016/05/16 v1.14 Bundle oberdiek, subset generic (HO)
 Package: hobsub 2016/05/16 v1.14 Construct package bundles (HO)
 Package hobsub Info: Skipping package `infwarerr' (already loaded).
@@ -295,7 +403,11 @@ Package ifluatex Info: LuaTeX not detected.
 Package: ifvtex 2016/05/16 v1.6 Detect VTeX and its facilities (HO)
 Package ifvtex Info: VTeX not detected.
 Package: intcalc 2016/05/16 v1.2 Expandable calculations with integers (HO)
+<<<<<<< HEAD
 Package: ifpdf 2017/03/15 v3.2 Provides the ifpdf switch
+=======
+Package: ifpdf 2016/05/14 v3.1 Provides the ifpdf switch
+>>>>>>> c048dae5c846e4cc25c70dd60c14d2bfc49e420a
 Package: etexcmds 2016/05/16 v1.6 Avoid name clashes with e-TeX commands (HO)
 Package etexcmds Info: Could not find \expanded.
 (etexcmds)             That can mean that you are not using pdfTeX 1.50 or
@@ -303,7 +415,11 @@ Package etexcmds Info: Could not find \expanded.
 (etexcmds)             In the latter case, load this package earlier.
 Package: kvsetkeys 2016/05/16 v1.17 Key value parser (HO)
 Package: kvdefinekeys 2016/05/16 v1.4 Define keys (HO)
+<<<<<<< HEAD
 Package: pdftexcmds 2017/03/19 v0.25 Utility functions of pdfTeX for LuaTeX (HO
+=======
+Package: pdftexcmds 2016/05/10 v0.21 Utility functions of pdfTeX for LuaTeX (HO
+>>>>>>> c048dae5c846e4cc25c70dd60c14d2bfc49e420a
 )
 Package pdftexcmds Info: LuaTeX not detected.
 Package pdftexcmds Info: \pdf@primitive is available.
@@ -324,28 +440,42 @@ Package: atbegshi 2016/06/09 v1.18 At begin shipout hook (HO)
 Package: refcount 2016/05/16 v3.5 Data extraction from label references (HO)
 Package: hycolor 2016/05/16 v1.8 Color options for hyperref/bookmark (HO)
 )
+<<<<<<< HEAD
 ("C:\Users\JeanLuc\AppData\Local\Programs\MiKTeX 2.9\tex\generic\ifxetex\ifxete
 x.sty"
+=======
+(/usr/local/texlive/2016/texmf-dist/tex/generic/ifxetex/ifxetex.sty
+>>>>>>> c048dae5c846e4cc25c70dd60c14d2bfc49e420a
 Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
 )
 ("C:\Users\JeanLuc\AppData\Local\Programs\MiKTeX 2.9\tex\latex\oberdiek\auxhook
 .sty"
 Package: auxhook 2016/05/16 v1.4 Hooks for auxiliary files (HO)
 )
+<<<<<<< HEAD
 ("C:\Users\JeanLuc\AppData\Local\Programs\MiKTeX 2.9\tex\latex\oberdiek\kvoptio
 ns.sty"
+=======
+(/usr/local/texlive/2016/texmf-dist/tex/latex/oberdiek/kvoptions.sty
+>>>>>>> c048dae5c846e4cc25c70dd60c14d2bfc49e420a
 Package: kvoptions 2016/05/16 v3.12 Key value format for package options (HO)
 )
 \@linkdim=\dimen122
 \Hy@linkcounter=\count115
 \Hy@pagecounter=\count116
 
+<<<<<<< HEAD
 ("C:\Users\JeanLuc\AppData\Local\Programs\MiKTeX 2.9\tex\latex\hyperref\pd1enc.
 def"
 File: pd1enc.def 2017/03/14 v6.85a Hyperref: PDFDocEncoding definition (HO)
+=======
+(/usr/local/texlive/2016/texmf-dist/tex/latex/hyperref/pd1enc.def
+File: pd1enc.def 2016/05/05 v6.83n Hyperref: PDFDocEncoding definition (HO)
+>>>>>>> c048dae5c846e4cc25c70dd60c14d2bfc49e420a
 )
 \Hy@SavedSpaceFactor=\count117
 
+<<<<<<< HEAD
 ("C:\Users\JeanLuc\AppData\Local\Programs\MiKTeX 2.9\tex\latex\00miktex\hyperre
 f.cfg"
 File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
@@ -359,10 +489,25 @@ Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
 Package hyperref Info: Bookmarks ON on input line 4751.
 \c@Hy@tempcnt=\count118
 LaTeX Info: Redefining \url on input line 5104.
+=======
+(/usr/local/texlive/2016/texmf-dist/tex/latex/latexconfig/hyperref.cfg
+File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
+)
+Package hyperref Info: Hyper figures OFF on input line 4446.
+Package hyperref Info: Link nesting OFF on input line 4451.
+Package hyperref Info: Hyper index ON on input line 4454.
+Package hyperref Info: Plain pages OFF on input line 4461.
+Package hyperref Info: Backreferencing OFF on input line 4466.
+Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
+Package hyperref Info: Bookmarks ON on input line 4691.
+\c@Hy@tempcnt=\count113
+LaTeX Info: Redefining \url on input line 5044.
+>>>>>>> c048dae5c846e4cc25c70dd60c14d2bfc49e420a
 \XeTeXLinkMargin=\dimen123
 \Fld@menulength=\count119
 \Field@Width=\dimen124
 \Fld@charsize=\dimen125
+<<<<<<< HEAD
 Package hyperref Info: Hyper figures OFF on input line 6358.
 Package hyperref Info: Link nesting OFF on input line 6363.
 Package hyperref Info: Hyper index ON on input line 6366.
@@ -375,11 +520,26 @@ LaTeX Info: Redefining \pageref on input line 6432.
 \Hy@abspage=\count120
 \c@Item=\count121
 \c@Hfootnote=\count122
+=======
+Package hyperref Info: Hyper figures OFF on input line 6298.
+Package hyperref Info: Link nesting OFF on input line 6303.
+Package hyperref Info: Hyper index ON on input line 6306.
+Package hyperref Info: backreferencing OFF on input line 6313.
+Package hyperref Info: Link coloring OFF on input line 6318.
+Package hyperref Info: Link coloring with OCG OFF on input line 6323.
+Package hyperref Info: PDF/A mode OFF on input line 6328.
+LaTeX Info: Redefining \ref on input line 6368.
+LaTeX Info: Redefining \pageref on input line 6372.
+\Hy@abspage=\count115
+\c@Item=\count116
+\c@Hfootnote=\count117
+>>>>>>> c048dae5c846e4cc25c70dd60c14d2bfc49e420a
 )
 
 Package hyperref Message: Driver (autodetected): hpdftex.
 
 
+<<<<<<< HEAD
 ("C:\Users\JeanLuc\AppData\Local\Programs\MiKTeX 2.9\tex\latex\hyperref\hpdftex
 .def"
 File: hpdftex.def 2017/03/14 v6.85a Hyperref driver for pdfTeX
@@ -388,12 +548,16 @@ File: hpdftex.def 2017/03/14 v6.85a Hyperref driver for pdfTeX
 
 ("C:\Users\JeanLuc\AppData\Local\Programs\MiKTeX 2.9\tex\latex\oberdiek\rerunfi
 lecheck.sty"
+=======
+(/usr/local/texlive/2016/texmf-dist/tex/latex/oberdiek/rerunfilecheck.sty
+>>>>>>> c048dae5c846e4cc25c70dd60c14d2bfc49e420a
 Package: rerunfilecheck 2016/05/16 v1.8 Rerun checks for auxiliary files (HO)
 Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 82.
 )
 \Hy@SectionHShift=\skip70
 )
+<<<<<<< HEAD
 ("C:\Users\JeanLuc\AppData\Local\Programs\MiKTeX 2.9\tex\latex\hyperref\nameref
 .sty"
 Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
@@ -425,11 +589,48 @@ Package: longtable 2014/10/28 v4.11 Multi-page Table package (DPC)
 \LTpre=\skip80
 \LTpost=\skip81
 \LTchunksize=\count127
+=======
+(/usr/local/texlive/2016/texmf-dist/tex/latex/hyperref/nameref.sty
+Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
+
+(/usr/local/texlive/2016/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
+Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
+)
+\c@section@level=\count120
+)
+Package hyperref Info: Option `colorlinks' set `true' on input line 142.
+Package hyperref Info: Option `linktocpage' set `true' on input line 142.
+Package hyperref Info: Option `plainpages' set `false' on input line 142.
+\aftertitskip=\skip70
+\beforetitskip=\skip71
+\interauthorskip=\skip72
+\aftermaketitskip=\skip73
+\jmlrlength=\skip74
+\jmlrbox=\box36
+\c@example=\count121
+\c@theorem=\count122
+\c@subfigure=\count123
+\@subfloatcapbox=\box37
+\@subfloatcontsbox=\box38
+\c@subtable=\count124
+\c@chapter=\count125
+\postchapterskip=\skip75
+\prechapterskip=\skip76
+)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/tools/longtable.sty
+Package: longtable 2014/10/28 v4.11 Multi-page Table package (DPC)
+\LTleft=\skip77
+\LTright=\skip78
+\LTpre=\skip79
+\LTpost=\skip80
+\LTchunksize=\count126
+>>>>>>> c048dae5c846e4cc25c70dd60c14d2bfc49e420a
 \LTcapwidth=\dimen126
 \LT@head=\box39
 \LT@firsthead=\box40
 \LT@foot=\box41
 \LT@lastfoot=\box42
+<<<<<<< HEAD
 \LT@cols=\count128
 \LT@rows=\count129
 \c@LT@tables=\count130
@@ -439,6 +640,16 @@ Package: longtable 2014/10/28 v4.11 Multi-page Table package (DPC)
 ("C:\Users\JeanLuc\AppData\Local\Programs\MiKTeX 2.9\tex\latex\booktabs\booktab
 s.sty"
 Package: booktabs 2005/04/14 v1.61803 publication quality tables
+=======
+\LT@cols=\count127
+\LT@rows=\count128
+\c@LT@tables=\count129
+\c@LT@chunks=\count130
+\LT@p@ftn=\toks21
+)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/booktabs/booktabs.sty
+Package: booktabs 2016/04/27 v1.618033 publication quality tables
+>>>>>>> c048dae5c846e4cc25c70dd60c14d2bfc49e420a
 \heavyrulewidth=\dimen127
 \lightrulewidth=\dimen128
 \cmidrulewidth=\dimen129
@@ -457,6 +668,7 @@ Package: booktabs 2005/04/14 v1.61803 publication quality tables
 \@lastruleclass=\count135
 \@thisrulewidth=\dimen139
 )
+<<<<<<< HEAD
 ("C:\Users\JeanLuc\AppData\Local\Programs\MiKTeX 2.9\tex\latex\siunitx\siunitx.
 sty"
 ("C:\Users\JeanLuc\AppData\Local\Programs\MiKTeX 2.9\tex\latex\l3kernel\expl3.s
@@ -478,6 +690,41 @@ Package: expl3 2017/07/19 L3 programming layer (code)
 \l__iow_line_target_int=\count145
 \l__iow_one_indent_int=\count146
 \l__iow_indent_int=\count147
+=======
+(/usr/local/texlive/2016/texmf-dist/tex/latex/siunitx/siunitx.sty
+(/usr/local/texlive/2016/texmf-dist/tex/latex/l3kernel/expl3.sty
+Package: expl3 2016/05/18 v6512 L3 programming layer (loader) 
+
+(/usr/local/texlive/2016/texmf-dist/tex/latex/l3kernel/expl3-code.tex
+Package: expl3 2016/05/18 v6512 L3 programming layer (code)
+L3 Module: l3bootstrap 2016/02/12 v6412 L3 Bootstrap code
+L3 Module: l3names 2016/03/11 v6433 L3 Namespace for primitives
+L3 Module: l3basics 2015/11/22 v6315 L3 Basic definitions
+L3 Module: l3expan 2015/09/10 v5983 L3 Argument expansion
+L3 Module: l3tl 2016/03/26 v6465 L3 Token lists
+L3 Module: l3str 2016/03/24 v6441 L3 Strings
+L3 Module: l3seq 2015/08/05 v5777 L3 Sequences and stacks
+L3 Module: l3int 2016/03/24 v6441 L3 Integers
+\c_max_int=\count135
+\l_tmpa_int=\count136
+\l_tmpb_int=\count137
+\g_tmpa_int=\count138
+\g_tmpb_int=\count139
+L3 Module: l3quark 2015/08/17 v5855 L3 Quarks
+L3 Module: l3prg 2015/11/01 v6216 L3 Control structures
+\g__prg_map_int=\count140
+L3 Module: l3clist 2015/09/02 v5901 L3 Comma separated lists
+L3 Module: l3token 2016/04/03 v6470 L3 Experimental token manipulation
+L3 Module: l3prop 2016/01/05 v6366 L3 Property lists
+L3 Module: l3msg 2016/03/26 v6464 L3 Messages
+L3 Module: l3file 2016/03/25 v6458 L3 File and I/O operations
+\l_iow_line_count_int=\count141
+\l__iow_target_count_int=\count142
+\l__iow_current_line_int=\count143
+\l__iow_current_word_int=\count144
+\l__iow_current_indentation_int=\count145
+L3 Module: l3skip 2016/01/05 v6366 L3 Dimensions and skips
+>>>>>>> c048dae5c846e4cc25c70dd60c14d2bfc49e420a
 \c_zero_dim=\dimen140
 \c_max_dim=\dimen141
 \l_tmpa_dim=\dimen142
@@ -496,6 +743,7 @@ Package: expl3 2017/07/19 L3 programming layer (code)
 \l_tmpb_muskip=\muskip15
 \g_tmpa_muskip=\muskip16
 \g_tmpb_muskip=\muskip17
+<<<<<<< HEAD
 \l_keys_choice_int=\count148
 \c__fp_leading_shift_int=\count149
 \c__fp_middle_shift_int=\count150
@@ -567,6 +815,22 @@ Package: expl3 2017/07/19 L3 programming layer (code)
 \l__regex_submatch_int=\count282
 \l__regex_zeroth_submatch_int=\count283
 \g__debug_trace_regex_int=\count284
+=======
+L3 Module: l3keys 2015/11/17 v6284 L3 Key-value interfaces
+\g__keyval_level_int=\count146
+\l_keys_choice_int=\count147
+L3 Module: l3fp 2016/03/26 v6465 L3 Floating points
+\c__fp_leading_shift_int=\count148
+\c__fp_middle_shift_int=\count149
+\c__fp_trailing_shift_int=\count150
+\c__fp_big_leading_shift_int=\count151
+\c__fp_big_middle_shift_int=\count152
+\c__fp_big_trailing_shift_int=\count153
+\c__fp_Bigg_leading_shift_int=\count154
+\c__fp_Bigg_middle_shift_int=\count155
+\c__fp_Bigg_trailing_shift_int=\count156
+L3 Module: l3box 2015/08/09 v5822 L3 Experimental boxes
+>>>>>>> c048dae5c846e4cc25c70dd60c14d2bfc49e420a
 \c_empty_box=\box43
 \l_tmpa_box=\box44
 \l_tmpb_box=\box45
@@ -844,6 +1108,7 @@ File: siunitx-version-1.cfg 2017/08/02 v2.7j siunitx: Version 1 settings
 . Defining command \requiresiconfigs with sig. 'm' on line 729.
 .................................................
 ))
+<<<<<<< HEAD
 ("C:\Users\JeanLuc\AppData\Local\Programs\MiKTeX 2.9\tex\latex\multirow\multiro
 w.sty"
 Package: multirow 2016/11/25 v2.2 Span multiple rows of a table
@@ -851,6 +1116,16 @@ Package: multirow 2016/11/25 v2.2 Span multiple rows of a table
 \multirow@cntb=\count308
 \multirow@dima=\skip95
 \bigstrutjot=\dimen185
+=======
+(/usr/local/texlive/2016/texmf-dist/tex/latex/multirow/multirow.sty
+\bigstrutjot=\dimen185
+)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/appendix/appendix.sty
+Package: appendix 2009/09/02 v1.2b extra appendix facilities
+\c@@pps=\count180
+\c@@ppsavesec=\count181
+\c@@ppsaveapp=\count182
+>>>>>>> c048dae5c846e4cc25c70dd60c14d2bfc49e420a
 )
 ("C:\Users\JeanLuc\AppData\Local\Programs\MiKTeX 2.9\tex\latex\appendix\appendi
 x.sty"
@@ -879,6 +1154,7 @@ LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 76.
 LaTeX Font Info:    ... okay on input line 76.
 LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 76.
 LaTeX Font Info:    ... okay on input line 76.
+<<<<<<< HEAD
 
 ("C:\Users\JeanLuc\AppData\Local\Programs\MiKTeX 2.9\tex\context\base\supp-pdf.
 mkii"
@@ -901,6 +1177,25 @@ Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
 
 ("C:\Users\JeanLuc\AppData\Local\Programs\MiKTeX 2.9\tex\latex\oberdiek\grfext.
 sty"
+=======
+ (/usr/local/texlive/2016/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count183
+\scratchdimen=\dimen186
+\scratchbox=\box66
+\nofMPsegments=\count184
+\nofMParguments=\count185
+\everyMPshowfont=\toks23
+\MPscratchCnt=\count186
+\MPscratchDim=\dimen187
+\MPnumerator=\count187
+\makeMPintoPDFobject=\count188
+\everyMPtoPDFconversion=\toks24
+) (/usr/local/texlive/2016/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
+Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
+
+(/usr/local/texlive/2016/texmf-dist/tex/latex/oberdiek/grfext.sty
+>>>>>>> c048dae5c846e4cc25c70dd60c14d2bfc49e420a
 Package: grfext 2016/05/16 v1.2 Manage graphics extensions (HO)
 )
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
@@ -909,13 +1204,26 @@ Package grfext Info: Graphics extension search list:
 (grfext)             [.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPE
 G,.JBIG2,.JB2,.eps]
 (grfext)             \AppendGraphicsExtensions on input line 456.
+<<<<<<< HEAD
 )
+=======
+
+(/usr/local/texlive/2016/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
+e
+))
+>>>>>>> c048dae5c846e4cc25c70dd60c14d2bfc49e420a
 \AtBeginShipoutBox=\box67
 Package hyperref Info: Link coloring ON on input line 76.
 LaTeX Info: Redefining \ref on input line 76.
 LaTeX Info: Redefining \pageref on input line 76.
 LaTeX Info: Redefining \nameref on input line 76.
+<<<<<<< HEAD
  (write_up.out) (write_up.out)
+=======
+
+(./write_up.out) (./write_up.out)
+>>>>>>> c048dae5c846e4cc25c70dd60c14d2bfc49e420a
 \@outlinefile=\write3
 \openout3 = `write_up.out'.
 
@@ -2103,15 +2411,22 @@ File: siunitx-abbreviations.cfg 2017/08/02 v2.7j siunitx: Abbreviated units
 . 
 . Defining command \ms with sig. '' on line 76.
 .................................................
+<<<<<<< HEAD
 \c__siunitx_mathsf_int=\count318
 LaTeX Font Info:    Try loading font information for U+msa on input line 76.
 
 ("C:\Users\JeanLuc\AppData\Local\Programs\MiKTeX 2.9\tex\latex\amsfonts\umsa.fd
 "
+=======
+\c__siunitx_mathsf_int=\count189
+LaTeX Font Info:    Try loading font information for U+msa on input line 76.
+ (/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/umsa.fd
+>>>>>>> c048dae5c846e4cc25c70dd60c14d2bfc49e420a
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
 LaTeX Font Info:    Try loading font information for U+msb on input line 76.
 
+<<<<<<< HEAD
 ("C:\Users\JeanLuc\AppData\Local\Programs\MiKTeX 2.9\tex\latex\amsfonts\umsb.fd
 "
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
@@ -2119,10 +2434,20 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 \c__siunitx_mathtt_int=\count319
 LaTeX Font Info:    Try loading font information for OMS+cmr on input line 78.
  ("C:\Users\JeanLuc\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\omscmr.fd"
+=======
+(/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+\c__siunitx_mathtt_int=\count190
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 78.
+
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/omscmr.fd
+>>>>>>> c048dae5c846e4cc25c70dd60c14d2bfc49e420a
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <8> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 78.
+<<<<<<< HEAD
  [1{C:/Users/JeanLuc/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}
 
 ]
@@ -2165,6 +2490,50 @@ Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 258.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 258.
 Package rerunfilecheck Info: File `write_up.out' has not changed.
 (rerunfilecheck)             Checksum: 8CEA424418F15AD74B6D1FB43424AAFF;673.
+=======
+ [1{/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
+
+] [2]
+
+LaTeX Warning: Reference `fig:results' on page 3 undefined on input line 144.
+
+[3]
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 147.
+ [4] <pcb_corr.jpeg, id=108, 481.8pt x 481.8pt>
+File: pcb_corr.jpeg Graphic file (type jpg)
+ <use pcb_corr.jpeg>
+Package pdftex.def Info: pcb_corr.jpeg used on input line 178.
+(pdftex.def)             Requested size: 346.89731pt x 346.90308pt.
+
+<results.jpeg, id=109, 528.2937pt x 305.4612pt>
+File: results.jpeg Graphic file (type jpg)
+ <use results.jpeg>
+Package pdftex.def Info: results.jpeg used on input line 206.
+(pdftex.def)             Requested size: 346.89731pt x 200.57959pt.
+ [5 <./pcb_corr.jpeg>] [6 <./results.jpeg>]
+<Surrogate_residuals.png, id=122, 616.3025pt x 436.63126pt>
+File: Surrogate_residuals.png Graphic file (type png)
+
+<use Surrogate_residuals.png>
+Package pdftex.def Info: Surrogate_residuals.png used on input line 240.
+(pdftex.def)             Requested size: 303.53267pt x 215.04382pt.
+ <qqplot.png, id=124, 616.3025pt x 436.63126pt>
+File: qqplot.png Graphic file (type png)
+
+<use qqplot.png>
+Package pdftex.def Info: qqplot.png used on input line 247.
+(pdftex.def)             Requested size: 303.53267pt x 215.04382pt.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 255.
+ [7 <./Surrogate_residuals.png>] [8 <./qqplot.png>]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 255.
+
+(./write_up.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 255.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 255.
+Package rerunfilecheck Info: File `write_up.out' has not changed.
+(rerunfilecheck)             Checksum: F46A99E9982BF87B2521AEF2217CECCD;879.
+>>>>>>> c048dae5c846e4cc25c70dd60c14d2bfc49e420a
 
 
 LaTeX Warning: There were undefined references.
@@ -2174,6 +2543,7 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
+<<<<<<< HEAD
  21017 strings out of 493324
  395982 string characters out of 3129169
  517129 words of memory out of 3000000
@@ -2201,4 +2571,30 @@ PDF statistics:
  166 PDF objects out of 1000 (max. 8388607)
  33 named destinations out of 1000 (max. 500000)
  109 words of extra memory for PDF output out of 10000 (max. 10000000)
+=======
+ 19721 strings out of 493014
+ 374038 string characters out of 6133351
+ 511938 words of memory out of 5000000
+ 23050 multiletter control sequences out of 15000+600000
+ 11517 words of font info for 44 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 39i,13n,50p,10359b,11628s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts
+/cm/cmbx10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/
+cm/cmbx12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/c
+m/cmcsc10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/c
+m/cmex10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm
+/cmmi10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/
+cmmi8.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cm
+r10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8
+.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pf
+b></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb
+></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
+Output written on write_up.pdf (8 pages, 505550 bytes).
+PDF statistics:
+ 191 PDF objects out of 1000 (max. 8388607)
+ 162 compressed objects within 2 object streams
+ 41 named destinations out of 1000 (max. 500000)
+ 133 words of extra memory for PDF output out of 10000 (max. 10000000)
+>>>>>>> c048dae5c846e4cc25c70dd60c14d2bfc49e420a
 

@@ -236,13 +236,13 @@ Future directions: add quadratic term to age since gestations at a young and an 
 \subsection{Model Checking}
 \textcolor{red}{RIHUI'S JOB. FIX IT AND MAKE IT BETTER READABLE. WHAT ARE THE SURROGATE RESIDUALS? WE NEED AN EXPLANATION. THIS IS NOT SUFFICIENT.}
 
-Since the ordinal data is used here, the common residual plot model checking is not applicable here. Instead, the surrogate residual method suggested by (%$\ref{zz2017}$
-) is used. If the model assumption is satisfied, the surrogate residual $R_S$ should display three features: 
+Since the ordinal data is used, the common residual plot model checking is not applicable here. Instead, the surrogate residual method suggested by (%$\ref{zz2017}$
+) is used. The surrogate residual is defined as $R_S=S-E(S|X)$, where $S$ is some continuous variable generated from the conditional distribution of latent variables given $Y$. If the model assumption is satisfied, the surrogate residual $R_S$ should display three characteristics: 
 
 \begin{enumerate}
 	\item $E(R_S|X)=0$
 	\item $Var(R_S|X)=c$, the conditional variance of $R_S$ is constant
-	\item The emprical distribution of $R_S$ resembles an explicit distribution that is related to the link function $G^{-1}(\cdot)$. Specifically, $R_S\sim G(c+\int ud G(u))$.
+	\item The emprical distribution of $R_S$ resembles an explicit distribution that is related to the link function $G^{-1}(\cdot)$. Specifically, $R_S\sim G(c+\int ud G(u))$, where $c$ is a constant.
 \end{enumerate}
 
 The scatterplot (Figure\ref{fig:surrogateresid}) indicates that feature 1 and 2 are roughly satisfied. The QQ plot indicates that feature 3 is roughly satisfied, although the tail of our sample distribution is lighter than that of the theoretical one. 

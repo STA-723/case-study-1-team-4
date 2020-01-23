@@ -36,6 +36,7 @@
 \usepackage[toc,page]{appendix}
 
 
+
 % start article
 % \titlebreak
 % \footnote{}
@@ -79,6 +80,7 @@
 
 \begin{abstract}
 
+\cite{Li_Long_Duns}
 \end{abstract}
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -106,7 +108,7 @@ The data set consists of 2,380 pregnant women that visited a hospital during the
 
 \subsection{Feature Engineering}
 \label{sec:feature}
-As a first step, we divide the women into three groups, labelled as "Dangerous Preterm", "Preterm" and "At term" based upon the lenght of thei gestation (shorter than $33$ weeks, between $34$ and $36$ weeks and longer than $37$ weeks, respectively). The groups are mean to capture the danger associated to the birth for the child himself. While a delivery after 37 weeks is considered normal, the main organs (especially the respiratory system) develop between week 34 and 37, making a birth before 34 weeks more dangerous. Second, as the twelve PCB measurements showed a high correlation (see \figureref{fig:corr}), we aggregate them into a unique variable by taking their standardized average \footnote{We first standardize each single PCB to to prevent one measurement to dominate the aggregate variable.}. Third, we combine the measurements of chemical in blood with the fat-related variables to estimate the initial level of DDE and PCBs to which the women were exposed from the environment. In particular, we calculate the total amount of fatty tissues using the formula in \todo{PHILLIPS (1989) BERNET (2007)}
+As a first step, we divide the women into three groups, labelled as "Dangerous Preterm", "Preterm" and "At term" based upon the lenght of thei gestation (shorter than $33$ weeks, between $34$ and $36$ weeks and longer than $37$ weeks, respectively). The groups are mean to capture the danger associated to the birth for the child himself. While a delivery after 37 weeks is considered normal, the main organs (especially the respiratory system) develop between week 34 and 37, making a birth before 34 weeks more dangerous. Second, as the twelve PCB measurements showed a high correlation (see \figureref{fig:corr} in \appendixref{appendix:fig}), we aggregate them into a unique variable by taking their standardized average \footnote{We first standardize each single PCB to to prevent one measurement to dominate the aggregate variable.}. Third, we combine the measurements of chemical in blood with the fat-related variables to estimate the initial level of DDE and PCBs to which the women were exposed from the environment. In particular, we calculate the total amount of fatty tissues using the formula in \todo{PHILLIPS (1989) BERNET (2007)}
 
 \begin{equation}
 \label{eq:fat}
@@ -141,29 +143,7 @@ In order to conduct a sensitivity analysis, we run the Bayesian model using two 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% EDA
 \subsection{EDA}
 
-\figureref{fig:corr} presents the correlation matrix of the $12$ PCB measurements. We can observe that they are highly correlated with each other. This is not surprising since they correspond to breakdown products of PCB. This provides a rationale for aggregating these measurements into one variable that attempts to approximate the total amount of PCB in the women's blood (see \sectionref{sec:feature}). \figureref{fig:center} presents the distribution of gestational outcome across the different centers. There exists a wide spread of outcome among the centers: for instance, while center $31$ did not have any delivery that was \textit{dangerous}, more than a third of the deliveries realized in the centers $15, 62, 37$ occurred pre-term. \figureref{fig:center} shows the distribution of the estimated exposure to PCB and DDE per gestational outcome and per race. We can observe a negative weak association between gestational outcome and DDE. We also note that the distribution of the chemicals vary across the two race levels. This indicates that we need to control for race in the regression model in order to prevent the variable from acting like a confounder.
-
-\begin{figure}[htbp]
-	\floatconts
-	{fig:corr}
-	{\caption{Correlation among the 12 PCBs variables.}}
-	{\includegraphics[width=0.5\linewidth]{pcb_corr}}
-\end{figure}
-
-\begin{figure}[htbp]
-	\floatconts
-	{fig:center}
-	{\caption{Gestational outcome per hospital center.}}
-	{\includegraphics[width=0.6\linewidth]{outcome_per_center}}
-\end{figure}
-
-\begin{figure}[htbp]
-	\floatconts
-	{fig:center}
-	{\caption{Distribution of estimated exposure to PCB and DDE per gestational outcome and per race.}}
-	{\includegraphics[width=0.6\linewidth]{pcb_dde_per_gest}}
-\end{figure}
-
+\figureref{fig:corr} presents the correlation matrix of the $12$ PCB measurements. We can observe that they are highly correlated with each other. This is not surprising since they correspond to breakdown products of PCB. This provides a rationale for aggregating these measurements into one variable that attempts to approximate the total amount of PCB in the women's blood (see \sectionref{sec:feature}). \figureref{fig:center} presents the distribution of gestational outcome across the different centers. There exists a wide spread of outcome among the centers: for instance, while center $31$ did not have any delivery that was \textit{dangerous}, more than a third of the deliveries realized in the centers $15, 62, 37$ occurred pre-term. \figureref{fig:pcb} shows the distribution of the estimated exposure to PCB and DDE per gestational outcome and per race. We can observe a negative weak association between gestational outcome and DDE. We also note that the distribution of the chemicals vary across the two race levels. This indicates that we need to control for race in the regression model in order to prevent the variable from acting like a confounder.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% MAIN FINDINGS
@@ -183,15 +163,6 @@ In order to conduct a sensitivity analysis, we run the Bayesian model using two 
 	\end{tabular}
 	\caption{\label{tab:confints} 90\% credible intervals and posterior mean of coefficients}
 \end{table}
-
-\begin{figure}[htbp]
-	\floatconts
-	{fig:corr}
-	{\caption{Estimated probability of gestation outcomes in function of race, and exposure to DDE and PCB.}}
-	{\includegraphics[width=0.8\linewidth]{results}}
-\end{figure}
-
-\textcolor{red}{ADD HERE THE SAME PLOT UNDER A R2 PRIOR.}
 
 
 \textcolor{red}{RIHUI: MAKING A LISTED DOT LIKE WE DID IN THE SLIDES IS NOT A GOOD IDEA WHEN YOU HAVE TO SUMMARIZE EVERYTHING IN THREE PAGES. THIS SECTION NEEDS TO BE REVISED.}
@@ -219,21 +190,81 @@ RAPAHEL: SHOULD WE INCLUDE THE FREQUENTIST ESTIMATES ASWELL?}
 
 Future directions: add quadratic term to age since gestations at a young and an old age are more at risk of complications, consider interaction between PCB and DDE (chemicals commonly interact with each other), model the effect of the chemicals in a non-linear way since small levels of exposure are likely to have no effect on human health and we expect the effect tha stabilize past a certain threshold.
 
+mice. Conducting variable selection on on mean-imputed data reduces the chance of the imputed variables to be selected. Our selection procedure drops the three variable that are mean imputed.
+
+
+
+\begin{thebibliography}{99} % Beamer does not support BibTeX so references must be inserted manually as below
+	
+	\bibitem[Li et al, 2013]{Li_Long_Duns} Li, D; Longnecker, M.P.; and Dunson, D.B. \\
+	\newblock Lipid Adjustment for Chemical Exposures: Accounting for Concomitant Variables.\\
+	\newblock \emph{Epidemiology}, Nov 2013
+	
+	\bibitem[Phillips et al.(1989)]{Phillips1989}Phillips, D; Pirke, J., Burse, V.; Bernert, J.; Henderson, L.; Needham, L.\\
+	\newblock Chlorinated hydrocarbon levels in human serum: Effects of fasting and feeding.\\
+	\newblock \emph{Archives of Environmental Contamination and Toxicology}, 1989
+	
+	\bibitem[Bernert et al, 2007]{Bernert2007} Bernert, JT.; Turner, WE.;, Patterson, DG. Jr;, Needham, LL.\\
+	\newblock Calculation of serum total lipid concentrations for the adjustment of persistent organohalogen toxicant measurements in human samples.\\
+	\newblock \emph{Chemosphere}, 2007
+	
+	\bibitem[Liu and Zhang, 2018]{Liu2018} Liu, D.; and Zhang, H.;\\
+	\newblock Residuals and Diagnostics for Ordinal Regression Models: A Surrogate Approach\\
+	\newblock \emph{Journal of the Americal Statistical Association}, 2018
+	
+\end{thebibliography}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % APPENDIX
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \appendix
-\section{Appendix}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% BOX COX
-\subsection{Box-Cox analysis for lipid adjustment.}
+\section{Figures}
+\label{appendix:fig}
+
+\begin{figure}[htbp]
+	\centering
+	\caption{Correlation among the 12 PCBs variables.}
+	\includegraphics[width=0.5\linewidth]{pcb_corr}
+	\label{fig:corr}
+\end{figure}
+
+\begin{figure}[htbp]
+	\centering
+	\caption{Gestational outcome per hospital center.}
+	\includegraphics[width=0.7\linewidth]{outcome_per_center}
+	\label{fig:center}
+\end{figure}
+
+\begin{figure}[htbp]
+	\centering
+	\caption{Distribution of estimated exposure to PCB and DDE per gestational outcome and per race.}
+	\includegraphics[width=0.7\linewidth]{pcb_dde_per_gest}
+	\label{fig:pcb}
+\end{figure}
+
+\begin{figure}[htbp]
+	\centering
+	\caption{Estimated probability of gestation outcomes in function of race, and exposure to DDE and PCB.}
+	\includegraphics[width=0.7\linewidth]{results}
+	\label{fig:results}
+\end{figure}
+
+
+\newpage % ensures that all figures remain together in appendix A.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% BOX COX
+\section{Box-Cox analysis for lipid adjustment.}
 \textcolor{red}{ALESSANDRO'S JOB}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% AIC VARIABLE SELECTION
-\subsection{Variable selection procedure}
+\section{Variable selection procedure}
 \textcolor{red}{RIHUI'S JOB. WE NEED TO SHOW THE RESULT OF OUR AIC CODE. MORE IN GENERAL, WE NEED TO SHOW SOME FREQUENTIST RESULTS.}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% MODEL CHECKING
-\subsection{Model Checking}
+\section{Model Checking}
 \textcolor{red}{RIHUI'S JOB. FIX IT AND MAKE IT BETTER READABLE. WHAT ARE THE SURROGATE RESIDUALS? WE NEED AN EXPLANATION. THIS IS NOT SUFFICIENT.}
 
 Since the ordinal data is used, the common residual plot model checking is not applicable here. Instead, the surrogate residual method suggested by (%$\ref{zz2017}$
@@ -260,6 +291,8 @@ The scatterplot (Figure\ref{fig:surrogateresid}) indicates that feature 1 and 2 
 	\caption{QQ plot of the Surrogate residuals}
 	\label{fig:qqplot}
 \end{figure}
+
+
 
 
 

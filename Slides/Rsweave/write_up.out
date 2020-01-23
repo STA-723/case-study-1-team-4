@@ -1,0 +1,14 @@
+\BOOKMARK [1][-]{section.0.1}{Introduction}{}% 1
+\BOOKMARK [1][-]{section.0.2}{Methods}{}% 2
+\BOOKMARK [2][-]{subsection.0.2.1}{Data}{section.0.2}% 3
+\BOOKMARK [2][-]{subsection.0.2.2}{Feature Engineering}{section.0.2}% 4
+\BOOKMARK [2][-]{subsection.0.2.3}{Ordinal Logistic Regression Model}{section.0.2}% 5
+\BOOKMARK [1][-]{section.0.3}{Results}{}% 6
+\BOOKMARK [2][-]{subsection.0.3.1}{EDA}{section.0.3}% 7
+\BOOKMARK [2][-]{subsection.0.3.2}{Main Findings}{section.0.3}% 8
+\BOOKMARK [2][-]{subsection.0.3.3}{Sensitivity Analysis}{section.0.3}% 9
+\BOOKMARK [1][-]{section.0.4}{Conclusions and further discussion}{}% 10
+\BOOKMARK [1][-]{section.0.A}{Figures}{}% 11
+\BOOKMARK [1][-]{section.0.B}{Box-Cox analysis for lipid adjustment.}{}% 12
+\BOOKMARK [1][-]{section.0.C}{Variable selection procedure}{}% 13
+\BOOKMARK [1][-]{section.0.D}{Model Checking}{}% 14

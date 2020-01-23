@@ -622,7 +622,7 @@ posterior_interval(m) %>% round(2) %>% kable("latex",booktabs=TRUE)
 
 ```{r}
 plot(m,"hist")
-my_ggsave("XXX.jpeg")
+my_ggsave("hists.jpeg")
 ```
 
 

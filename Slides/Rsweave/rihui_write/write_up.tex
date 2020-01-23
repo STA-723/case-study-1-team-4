@@ -1,0 +1,191 @@
+%\documentclass[wcp,gray]{jmlr} % test grayscale version
+\documentclass[wcp]{jmlr}% former name JMLR W\&CP
+%\documentclass[pmlr]{jmlr}% new name PMLR (Proceedings of Machine Learning)
+
+ % The following packages will be automatically loaded:
+ % amsmath, amssymb, natbib, graphicx, url, algorithm2e
+ \usepackage{amsmath,amssymb,graphicx,url}
+
+ %\usepackage{rotating}% for sideways figures and tables
+\usepackage{longtable}% for long tables
+
+ % The booktabs package is used by this sample document
+ % (it provides \toprule, \midrule and \bottomrule).
+ % Remove the next line if you don't require it.
+\usepackage{booktabs}
+ % The siunitx package is used by this sample document
+ % to align numbers in a column by their decimal point.
+ % Remove the next line if you don't require it.
+\usepackage[load-configurations=version-1]{siunitx} % newer version
+ %\usepackage{siunitx}
+
+% Package to make table with multi rows and columns
+\usepackage{multirow}
+ 
+ % to do
+\usepackage{xcolor}
+\newcommand\todo[1]{\textcolor{red}{#1}}
+
+ % change the arguments, as appropriate, in the following:
+\jmlrvolume{}
+\jmlryear{}
+\jmlrworkshop{STA723 -- Case Study 1}
+\jmlrproceedings{}{}
+
+
+\usepackage[toc,page]{appendix}
+
+
+% start article
+% \titlebreak
+% \footnote{}
+% \textsf
+
+
+
+\begin{document}
+
+
+
+
+\section{Prior on $R^2$}
+We vary different priors to check if the model is sensitive to priors. Our 
+
+ \begin{table}
+ 	\footnotesize
+ 	\begin{tabular}[t]{l|r|r}
+		\hline
+		  & 5\% & 95\%\\
+		\hline
+		dde\_env\_bc & -0.05 & 0.01\\
+		\hline
+		pcb\_env\_bc & -2.87 & -0.81\\
+		\hline
+		race\_aggwhite & 0.11 & 0.89\\
+		\hline
+		center10 & -0.10 & 0.83\\
+		\hline
+		center15 & -1.16 & -0.31\\
+		\hline
+		center31 & -0.25 & 0.82\\
+		\hline
+		center37 & -1.05 & -0.34\\
+		\hline
+		center45 & -0.46 & 0.36\\
+		\hline
+		center50 & -0.55 & 0.24\\
+		\hline
+		center55 & -0.80 & 0.07\\
+		\hline
+		center60 & -0.68 & 0.15\\
+		\hline
+		center66 & -0.50 & 0.19\\
+		\hline
+		center71 & -0.48 & 0.29\\
+		\hline
+		center82 & -1.13 & -0.33\\
+		\hline
+		smoking\_status1 & -0.34 & -0.01\\
+		\hline
+		dde\_env\_bc:race\_aggwhite & -0.12 & 0.02\\
+		\hline
+		pcb\_env\_bc:race\_aggwhite & 0.10 & 3.29\\
+		\hline
+		Dangerous|Pre term & -3.27 & -2.55\\
+		\hline
+		Pre term|At term & -1.91 & -1.24\\
+		\hline
+		\end{tabular}
+ 	\hfill
+	    \begin{tabular}[t]{l|r|r}
+	\hline
+	  & 5\% & 95\%\\
+	\hline
+	dde\_env\_bc & -0.05 & 0.01\\
+	\hline
+	pcb\_env\_bc & -2.96 & -0.87\\
+	\hline
+	race\_aggwhite & 0.13 & 0.91\\
+	\hline
+	center10 & -0.10 & 0.89\\
+	\hline
+	center15 & -1.18 & -0.35\\
+	\hline
+	center31 & -0.26 & 0.88\\
+	\hline
+	center37 & -1.09 & -0.36\\
+	\hline
+	center45 & -0.48 & 0.36\\
+	\hline
+	center50 & -0.58 & 0.23\\
+	\hline
+	center55 & -0.83 & 0.06\\
+	\hline
+	center60 & -0.72 & 0.12\\
+	\hline
+	center66 & -0.52 & 0.19\\
+	\hline
+	center71 & -0.50 & 0.30\\
+	\hline
+	center82 & -1.17 & -0.34\\
+	\hline
+	smoking\_status1 & -0.34 & -0.01\\
+	\hline
+	dde\_env\_bc:race\_aggwhite & -0.13 & 0.01\\
+	\hline
+	pcb\_env\_bc:race\_aggwhite & 0.00 & 3.48\\
+	\hline
+	Dangerous|Pre term & -3.30 & -2.56\\
+	\hline
+	Pre term|At term & -1.93 & -1.23\\
+	\hline
+	\end{tabular}
+
+ 	\hfill
+ \begin{tabular}[t]{l|r|r}
+\hline
+  & 5\% & 95\%\\
+\hline
+dde\_env\_bc & -0.05 & 0.01\\
+\hline
+pcb\_env\_bc & -2.96 & -0.87\\
+\hline
+race\_aggwhite & 0.13 & 0.91\\
+\hline
+center10 & -0.10 & 0.89\\
+\hline
+center15 & -1.18 & -0.35\\
+\hline
+center31 & -0.26 & 0.88\\
+\hline
+center37 & -1.09 & -0.36\\
+\hline
+center45 & -0.48 & 0.36\\
+\hline
+center50 & -0.58 & 0.23\\
+\hline
+center55 & -0.83 & 0.06\\
+\hline
+center60 & -0.72 & 0.12\\
+\hline
+center66 & -0.52 & 0.19\\
+\hline
+center71 & -0.50 & 0.30\\
+\hline
+center82 & -1.17 & -0.34\\
+\hline
+smoking\_status1 & -0.34 & -0.01\\
+\hline
+dde\_env\_bc:race\_aggwhite & -0.13 & 0.01\\
+\hline
+pcb\_env\_bc:race\_aggwhite & 0.00 & 3.48\\
+\hline
+Dangerous|Pre term & -3.30 & -2.56\\
+\hline
+Pre term|At term & -1.93 & -1.23\\
+\hline
+\end{tabular}
+ 	\caption{99 most frequent hashtags in the data set.}
+ \end{table}
+
+\end{document}

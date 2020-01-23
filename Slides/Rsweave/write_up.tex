@@ -144,27 +144,11 @@ for $j=0$ (=Dangerous)$,1$ (=Preterm), where $\beta_{j0}$ is the baseline coeffi
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% MAIN FINDINGS
 \subsection{Main Findings}
-
-\textcolor{red}{RIHUI: MAKING A LISTED DOT LIKE WE DID IN THE SLIDES IS NOT A GOOD IDEA WHEN YOU HAVE TO SUMMARIZE EVERYTHING IN THREE PAGES. THIS SECTION NEEDS TO BE REVISED.}
-We fit our Bayesian model via {\t Stan} using $10$ chains of $10,000$ iterations each.
-Main findings: the effect of the chemicals on the risk of early delivery is race dependent. Exposure to DDE has a particularly detrimental impact on the gestation process among white women, while exposure to PCB affects non-white more (see \figureref{fig:results})).
-We gave the 90\% credible intervals for coefficients and their posterior mean. (Table \ref{tab:confints_unif}). The interpretation of coefficients are as follow:
-\begin{itemize}
-	\item $\text{DDE}_{\text{exposure}}$: For a 1 unit increase of $\text{DDE}_{\text{exposure}}$, holding other covariates constant,
-		    \begin{itemize}
-		    	\item \textbf{Nonwhite}: the odds of having a more dangerous delivery increase by $(e^{(0.02)}-1)*100\%=2.02\%$. The 90\% credible interval is $[-2.00\%, 4.12\%]$.
-		    	\item \textbf{White}:  the same odds increase by $(e^{(0.02+0.05)}-1)*100\%=7.25\%$
-		    \end{itemize}
-	\item $\text{PCB}_{\text{exposure}}$: For a $0.1$ unit increase of $\text{PCB}_{\text{exposure}}$, holding other covariates constant,
-			\begin{itemize}
-				\item \textbf{Nonwhite}: the odds of having a more dangerous delivery increase by $(e^{(1.76)*0.1}-1)*100\%=19.22\%$. The 90\% credible interval is $[6.47\%,30.65\%]$.
-				\item \textbf{White}:  the same odds increase by $(e^{0.1*(1.76-1.60)}-1)*100\%=1.595\%$
-			\end{itemize}
-\end{itemize}
+We fit our Bayesian model with uniform prior via {\tt Stan} using $10$ chains of $10,000$ iterations each. Table \todo{XXXX} reports the mean of the posterior parameters, as long as the associated 95\% confidence intervals, of the DDE and PCB variables and their interaction with race group. All the other coefficients, including the center effects, are reported in the appendix. Two main facts are worth underlining. First, we see that the estimates are in line with what we expected: an increase in either the  PCB or DDE concentration in blood leads to higher odds of having a dangerous delivery. In particular, a 1 unit increase of $\text{DDE}_{\text{exposure}}$ increments the odds of a more adverse preterm by $2.02\%$ for non whites and by $7.25\%$ for white women\footnote{Say that $\beta$ is our coefficient associated to the variable $x$ in the ordinal logistic regression. Then, if the outcomes are ordered from worst to best (like in our example), an increase in 1 unit of $x$ is associated with a variation of the odds of the worst outcome by $(e^{\beta}-1)*100\%$. }. On the other hand, increments by 0.1 units of $\text{PCB}_{\text{exposure}}$ increases the odds of the worst delivery by $19.22\%$ for non-white women, and by $1.595\%$ for white ones. The above percentages highlight the second noticeable fact in our analysis, that is the race dependency of the exposures. This fact is particularly evident from figure \todo{XXX}, which plots how the predicted probabilities of each delivery group vary for higher levels of PCB and DDE\footnote{The curves are computed with reference to center "5" and for non-smoking individuals. Probabilities for DDE variations are predicted holding PCB constant a his mean, and viceversa.}. We see that, as the adjusted exposures increase, the probability of delivering at term decreases (with whites more sensitive to DDE and non-whites to PCB).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% SENSITIVITY ANALYSIS
 \subsection{Sensitivity Analysis}
-We vary different priors (prior on $R^2$ with location $0.3$, $0.5$ and $0.8$ respectively) to check if the model is sensitive to priors (See Table \ref{tab:priors}). We attempted to check with other priors, like Cauchy, but it's impossible to specify such prior in the $stan\_polr$ function of this package. To conclude, our method is not sensitive to the choice of priors.
+To further check the robustness of our finding, we test the model with a different prior and varying hyperparameters. In particular, we set an $R^2$ prior with location at $0.3$, $0.5$ and $0.8$ respectively. Table \ref{tab:priors}) reports the estimated means of the posterior coefficient and the confidence intervals. We see that the effects do not vary significantly in magnitude. For example, \todo{Add a little interpretation as well, maybe for one group}. To conclude, our method is not sensitive to the choice of priors.
 
 \section{Conclusions and further discussion}
 \label{sec:conclusion}

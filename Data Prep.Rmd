@@ -21,7 +21,7 @@ library(rstanarm)
 library(ggpubr)
 library(knitr)
 library(corrplot)
-library(mice)
+#library(mice)
 library(RColorBrewer)
 library(purrr) # partial()
 ggplot2::theme_set(ggplot2::theme_bw())
@@ -259,7 +259,7 @@ d_boxcox_check= d %>%
   dplyr::select(gestgroup,race,maternal_age,score_occupation,
                 center,score_income,score_education, smoking_status)
 # Compute the boxcox
-lambda_list = seq(0,2,0.05)
+lambda_list = seq(0,3,0.05)
 BOXCOX = NULL
 for(lambda in lambda_list){
   d_boxcox_check$dde_check = d$dde/boxcox_transfomation(d$fat, lambda)
@@ -273,7 +273,13 @@ for(lambda in lambda_list){
     BOXCOX = rbind(BOXCOX, data.frame("lambda"=lambda, "log_likelihood" = log_likelihood))
 }
 ggplot(BOXCOX)+
-  geom_point(aes(x=lambda, y=log_likelihood))
+  geom_point(aes(x=lambda, y=log_likelihood)) +
+  facet_grid(~"Log-likelihood across adjustments") +
+  geom_line(aes(x=lambda, y=log_likelihood)) +
+  ylab("Log-Likelihood") +
+  xlab(expression(lambda))
+  
+my_ggsave("BocCox.jpeg")  
 ```
 
 -Model Checking (i) residuals 

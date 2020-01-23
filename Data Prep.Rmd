@@ -19,11 +19,20 @@ library(MASS)
 library(sure) # Surrogate Residuals
 library(rstanarm)
 library(ggpubr)
+library(knitr)
 library(corrplot)
 library(mice)
 library(RColorBrewer)
+library(purrr) # partial()
 ggplot2::theme_set(ggplot2::theme_bw())
 my_standardize <- function(x) (x - mean(x, na.rm = T)) / sd(x, na.rm = T)
+
+fig_height <- 3.5
+fig_width <- 5
+fig_path <- "Slides/Rsweave"
+legend_size <-  13
+
+my_ggsave <- purrr::partial(ggsave, path = fig_path, width= fig_width, height = fig_height)
 ```
 
 ## Data Preparation
@@ -79,31 +88,31 @@ d <- readRDS("Longnecker.rds") %>%
 ## EDA
 
 - justify aggregation of pcb: they are all correlated, tell the same story, reduce number of predictor (more stable parameter estimation).
-- dde & pcb per outcome_3: (i) white less exposed to dde, (ii) "dangerous" has larger value of dde, (iii) no clear relationship for pcb
+- dde & pcb per gestgroup: (i) white less exposed to dde, (ii) "dangerous" has larger value of dde, (iii) no clear relationship for pcb
 - fat per race
 - gestation per race & per center
 
 ```{r, echo=FALSE, fig.align='center', fig.height=3, fig.width=5}
-# PCB and outcome_3
+# PCB and gestgroup
 pcb_race = ggplot(d) +
   geom_boxplot(aes(x=gestgroup, y=pcb_env_bc, fill=race_agg))+
   ylab("Adjusted PCB")+
   labs(fill="Race")+
   xlab("")+
-  facet_grid(~"Adjusted PCB by group")
+  facet_grid(~"Adjusted PCB by group")  + theme(legend.text=element_text(size=legend_size))
 
-# DDE and outcome_3
+# DDE and gestgroup
 dde_race = ggplot(d) +
   geom_boxplot(aes(x=gestgroup, y=dde_env_bc, fill=race_agg))+
   ylab("Adjusted DDE")+
   labs(fill="Race")+
   xlab("")+
-  facet_grid(~"Adjusted DDE by group")
+  facet_grid(~"Adjusted DDE by group")  + theme(legend.text=element_text(size=legend_size))
 
 ggarrange(pcb_race, dde_race, ncol=2, 
           common.legend = T, legend = "bottom")
 
-ggsave("pcb_dde_per_gest.jpeg", path = "Slides/Rsweave")
+my_ggsave("pcb_dde_per_gest.jpeg")
 ```
 
 ```{r}
@@ -121,9 +130,9 @@ d %>%
    geom_bar(position = "fill") +
    scale_fill_brewer(name = "Outcome", palette = "Spectral") +
    labs(x = "Centers", y = "Count") +
-   theme(legend.position = "bottom")
+   theme(legend.position = "bottom")  + theme(legend.text=element_text(size=legend_size))
 
-ggsave("outcome_per_center.jpeg", path = "Slides/Rsweave")
+my_ggsave("outcome_per_center.jpeg")
 ```
 
 
@@ -139,10 +148,10 @@ $$
 The cumulative logistics model is fitted. First, we detect the full model. Then, we make a variable selection.
 ```{r}
 d_subset= d %>% 
-  dplyr::select(outcome_3, dde_env,
+  dplyr::select(gestgroup, dde_env,
                 pcb_env,race,maternal_age,score_occupation,
                 center,score_income,score_education, smoking_status)
-cumlogit_model_env_full = polr(outcome_3 ~ . + center*dde_env 
+cumlogit_model_env_full = polr(gestgroup ~ . + center*dde_env 
                                + center*pcb_env +
                                  race*dde_env +
                                  race*pcb_env, data=d_subset,
@@ -152,10 +161,10 @@ summary(cumlogit_model_env_full)
 without the correction for fat
 ```{r}
 d_subset= d %>% 
-  dplyr::select(outcome_3, dde,
+  dplyr::select(gestgroup, dde,
                 pcb,race,maternal_age,score_occupation,
                 center,score_income,score_education)
-cumlogit_model_env_full = polr(outcome_3 ~ . + center*dde 
+cumlogit_model_env_full = polr(gestgroup ~ . + center*dde 
                                + center*pcb +
                                  race*dde +
                                  race*pcb, data=d_subset,
@@ -184,17 +193,17 @@ Interpretation: following the reasoning in the UCLA guide, the odds of of being 
 
 ```{r}
 d_subset= d %>% 
-  dplyr::select(outcome_3, dde_env_bc,
+  dplyr::select(gestgroup, dde_env_bc,
                 pcb_env_bc,race_agg,maternal_age,score_occupation,
                 center,score_income,score_education, smoking_status)
-cum_logit_model_bc= polr(outcome_3 ~ . + dde_env_bc*race_agg + pcb_env_bc*race_agg + dde_env_bc*center + pcb_env_bc*center, data=d_subset,method = c("logistic"))
+cum_logit_model_bc= polr(gestgroup ~ . + dde_env_bc*race_agg + pcb_env_bc*race_agg + dde_env_bc*center + pcb_env_bc*center, data=d_subset,method = c("logistic"))
 cumlogit_model_env_selected=stepAIC(cum_logit_model_bc,direction="both")
 summary(cumlogit_model_env_selected)
 exp(-coef(cumlogit_model_env_selected))
 #summary(cum_logit_model_bc)
 #exp(-coef(cum_logit_model_bc))
 ```
-After box-cox transformation & stepwise AIC selection, the final model we choose is "outcome_3 ~ dde_env_bc + pcb_env_bc + race_agg + center + smoking_status + dde_env_bc:race_agg + pcb_env_bc:race_agg".
+After box-cox transformation & stepwise AIC selection, the final model we choose is "gestgroup ~ dde_env_bc + pcb_env_bc + race_agg + center + smoking_status + dde_env_bc:race_agg + pcb_env_bc:race_agg".
 ```{r}
 res=resids(cum_logit_model_bc) #surrogate residuals
 autoplot(res, what = "covariate", x =d$pcb_env_bc, xlab = "PCB/Lipids")
@@ -205,7 +214,7 @@ autoplot(res, what = "qq", x =d$DDE_env_bc, xlab = "DDE/Lipid")
 
 ```{r}
 cumlogit_model_env=polr(
-  outcome_3 ~ dde_env + pcb_env + race + maternal_age + score_occupation + center + score_income + score_education, 
+  gestgroup ~ dde_env + pcb_env + race + maternal_age + score_occupation + center + score_income + score_education, 
   d, 
   method = c("logistics"))
 summary(cumlogit_model_env)
@@ -219,7 +228,7 @@ Cumulative Logit model w/o env considering lipid is fitted.
 ```{r}
 ###Model 1_
 library(MASS)
-cumlogit_model=polr(outcome_3 ~ dde + pcb + race + maternal_age + score_occupation + center + score_income+score_education,             d, 
+cumlogit_model=polr(gestgroup ~ dde + pcb + race + maternal_age + score_occupation + center + score_income+score_education,             d, 
      method = c("logistic"))
 summary(cumlogit_model)
 #exp(-coef(cumlogit_model))
@@ -229,7 +238,7 @@ summary(cumlogit_model)
 ### Variable Selection
 =======
 -Variable Selection (AIC)
-Stepwise regression by AIC is used to select variables. The final model we choose is "outcome_3 ~ dde_env + pcb_env + center + score_education".
+Stepwise regression by AIC is used to select variables. The final model we choose is "gestgroup ~ dde_env + pcb_env + center + score_education".
 ```{r}
 finalmodel=stepAIC(cumlogit_model_env,direction="both")
 ```
@@ -247,7 +256,7 @@ boxcox_transfomation = function(y, lambda){
 }
 # Import the original data
 d_boxcox_check= d %>% 
-  dplyr::select(outcome_3,race,maternal_age,score_occupation,
+  dplyr::select(gestgroup,race,maternal_age,score_occupation,
                 center,score_income,score_education, smoking_status)
 # Compute the boxcox
 lambda_list = seq(0,2,0.05)
@@ -255,7 +264,7 @@ BOXCOX = NULL
 for(lambda in lambda_list){
   d_boxcox_check$dde_check = d$dde/boxcox_transfomation(d$fat, lambda)
   d_boxcox_check$pcb_check = d$pcb/boxcox_transfomation(d$fat, lambda)
-    model_lambda = polr(outcome_3 ~ . + center*dde_check 
+    model_lambda = polr(gestgroup ~ . + center*dde_check 
                                    + center*pcb_check +
                                      race*dde_check +
                                      race*pcb_check, data=d_boxcox_check,
@@ -392,7 +401,7 @@ predict_DDE_w = tibble(dde = seq(0,k-1),
   geom_ribbon(aes(ymin = low, ymax = upp, fill = Outcome), alpha = 0.1) +
   theme(legend.position = "bottom")+
   xlab("Adjusted DDE") +
-  facet_grid(~"Race = White")
+  facet_grid(~"Race = White")  + theme(legend.text=element_text(size=legend_size))
 ```
 
 Plot Pr(Y=j|pcb) vs pcb
@@ -444,11 +453,8 @@ predict_PCB_w = tibble(pcb = seq(-0.3,.8,length.out =k ),
   geom_ribbon(aes(ymin = low, ymax = upp, fill = Outcome), alpha = 0.1) +
   theme(legend.position = "bottom")+
   facet_grid(~"Race = White") +
-  xlab("Adjusted PCB")
+  xlab("Adjusted PCB")  + theme(legend.text=element_text(size=legend_size))
 
-```
-```{r}
-#ggarrange(predict_DDE, predict_PCB, ncol=2,common.legend = TRUE , legend = "bottom")
 ```
 
 For non-white people prob vs dde
@@ -499,7 +505,7 @@ predict_DDE_nw = tibble(dde = seq(0,k-1),
   geom_ribbon(aes(ymin = low, ymax = upp, fill = Outcome), alpha = 0.1) +
   theme(legend.position = "bottom")+
   xlab("Adjusted DDE") +
-  facet_grid(~"Race = Non-white")
+  facet_grid(~"Race = Non-white")  + theme(legend.text=element_text(size=legend_size))
 ```
 For non-white prob vs pcb
 ```{r}
@@ -550,12 +556,14 @@ predict_PCB_nw = tibble(pcb = seq(-0.3,.8,length.out =k ),
   geom_ribbon(aes(ymin = low, ymax = upp, fill = Outcome), alpha = 0.1) +
   theme(legend.position = "bottom")+
   facet_grid(~"Race = Non-white")+
-  xlab("Adjusted PCB")
+  xlab("Adjusted PCB") + theme(legend.text=element_text(size=legend_size))
 ```
 Last Plot
 ```{r}
 ggarrange(predict_DDE_w, predict_PCB_w, predict_DDE_nw, predict_PCB_nw, 
-          nrow =2, ncol=2,common.legend = TRUE , legend = "bottom") 
+          nrow =2, ncol=2,common.legend = TRUE , legend = "bottom")
+
+my_ggsave("results.jpeg")
 ```
 
 ##Sensitvity analysis
@@ -587,15 +595,18 @@ m_r2_08 <- stan_polr(
 ```
 Look at the credible intervals for .3
 ```{r}
-posterior_interval(m_r2_03)
+posterior_interval(m) %>% round(2) %>% kable("latex")
+```
+```{r} 
+posterior_interval(m_r2_03) %>% round(2) %>% kable("latex")
 ```
 for .5
 ```{r}
-posterior_interval(m_r2_05)
+posterior_interval(m_r2_05) %>% round(2) %>% kable("latex")
 ```
 for .8
 ```{r}
-posterior_interval(m_r2_08)
+posterior_interval(m_r2_08) %>% round(2) %>% kable("latex")
 ```
 Our method is not sensitive to priors.
 

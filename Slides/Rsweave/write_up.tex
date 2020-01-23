@@ -146,9 +146,9 @@ for $j=0$ (=Dangerous)$,1$ (=Preterm), where $\beta_{j0}$ is the baseline coeffi
 \subsection{Main Findings}
 
 \textcolor{red}{RIHUI: MAKING A LISTED DOT LIKE WE DID IN THE SLIDES IS NOT A GOOD IDEA WHEN YOU HAVE TO SUMMARIZE EVERYTHING IN THREE PAGES. THIS SECTION NEEDS TO BE REVISED.}
-We fit our Bayesian model via {\tt Stan} using $10$ chains of $10,000$ iterations each.
+We fit our Bayesian model via {\t Stan} using $10$ chains of $10,000$ iterations each.
 Main findings: the effect of the chemicals on the risk of early delivery is race dependent. Exposure to DDE has a particularly detrimental impact on the gestation process among white women, while exposure to PCB affects non-white more (see \figureref{fig:results})).
-We gave the 90\% credible intervals for coefficients and their posterior mean. (Table \ref{tab:confints}). The interpretation of coefficients are as follow:
+We gave the 90\% credible intervals for coefficients and their posterior mean. (Table \ref{tab:confints_unif}). The interpretation of coefficients are as follow:
 \begin{itemize}
 	\item $\text{DDE}_{\text{exposure}}$: For a 1 unit increase of $\text{DDE}_{\text{exposure}}$, holding other covariates constant,
 		    \begin{itemize}
@@ -181,7 +181,7 @@ mice. Conducting variable selection on on mean-imputed data reduces the chance o
 	\newblock Lipid Adjustment for Chemical Exposures: Accounting for Concomitant Variables.\\
 	\newblock \emph{Epidemiology}, Nov 2013
 	
-	\bibitem[Phillips et al.(1989)]{Phillips1989}Phillips, D; Pirke, J., Burse, V.; Bernert, J.; Henderson, L.; Needham, L.\\
+	\bibitem[Phillips et al.(1989)]{Phillips1989} Phillips, D; Pirke, J., Burse, V.; Bernert, J.; Henderson, L.; Needham, L.\\
 	\newblock Chlorinated hydrocarbon levels in human serum: Effects of fasting and feeding.\\
 	\newblock \emph{Archives of Environmental Contamination and Toxicology}, 1989
 	
@@ -235,58 +235,74 @@ mice. Conducting variable selection on on mean-imputed data reduces the chance o
 \end{figure}
 
 
-\begin{table}
-	\footnotesize
-	\begin{tabular}{lrrr}
-		\toprule
-		  & mean & 95\% & 5\%\\
-		\midrule
-		adjDDE & -0.02 & 0.01 & -0.05\\
-		adjPCB & -1.87 & -0.81 & -2.87\\
-		adjDDE*white & -0.06 & 0.02 & -0.12\\
-		adjPCB*white & 1.69 & 3.36 & 0.08\\
-		\bottomrule
-	\end{tabular}
-	\hfill
-	\begin{tabular}{lrrr}
-		\toprule
-		  & mean & 95\% & 5\%\\
-		\midrule
-		adjDDE & -0.02 & 0.01 & -0.05\\
-		adjPCB & -1.88 & -0.82 & -2.90\\
-		adjDDE*white & -0.06 & 0.02 & -0.13\\
-		adjPCB*white & 1.74 & 3.47 & 0.02\\
-		\bottomrule
-	\end{tabular}
-	\hfill
-	\begin{tabular}{lrrr}
-		\toprule
-		  & mean & 95\% & 5\%\\
-		\midrule
-		adjDDE & -0.02 & 0.01 & -0.05\\
-		adjPCB & -1.94 & -0.88 & -2.96\\
-		adjDDE*white & -0.06 & 0.01 & -0.13\\
-		adjPCB*white & 1.77 & 3.60 & 0.04\\
-		\bottomrule
-	\end{tabular}
-	\label{tab:priors} 
-	\caption{90\% credible intervals for all coefficients, under prior on $R^2$ with location $0.3$ (Left),  under prior on $R^2$ with location $0.5$ (Middle) under prior on $R^2$ with location $0.8$ (Right)}
-\end{table}
 
 \begin{table}
 	\centering
+	\label{tab:confints_unif}
 	\begin{tabular}{lrrr}
 		\toprule
 		& mean & 95\% & 5\%\\
 		\midrule
 		$\text{DDE}_{\text{exposure}}$ & -0.02 & 0.01 & -0.05\\
-		$\text{PCB}_{\text{exposure}}$& -1.76 & -0.72 & -2.75\\
+		$\text{PCB}_{\text{exposure}}$ & -1.76 & -0.72 & -2.75\\
 		$\text{DDE}_{\text{exposure}}$*white & -0.05 & 0.02 & -0.12\\
 		$\text{PCB}_{\text{exposure}}$*white & 1.60 & 3.26 & -0.02\\
 		\bottomrule
 	\end{tabular}
-	\caption{\label{tab:confints} 90\% credible intervals and posterior mean of coefficients}
+	\caption{ 90\% credible intervals and posterior mean of coefficients under a uniform prior.}
 \end{table}
+
+
+
+
+\begin{table}[htbp]
+	\centering
+	\label{tab:confintsR}
+	{%
+		\subtable[Location $0.3$]{%
+			\label{tab:Rfirst}%
+			\begin{tabular}{lrrr}
+				\toprule
+				& mean & 95\% & 5\%\\
+				\midrule
+				$\text{DDE}_{\text{exposure}}$ & -0.02 & 0.01 & -0.05\\
+				$\text{PCB}_{\text{exposure}}$ & -1.87 & -0.81 & -2.87\\
+				$\text{DDE}_{\text{exposure}}$*white & -0.06 & 0.02 & -0.12\\
+				$\text{PCB}_{\text{exposure}}$*white & 1.69 & 3.36 & 0.08\\
+				\bottomrule
+			\end{tabular}
+		}\qquad
+		\subtable[Location 0.5]{%
+			\label{tab:Rsecond}%
+			\begin{tabular}{lrrr}
+				\toprule
+				& mean & 95\% & 5\%\\
+				\midrule
+				$\text{DDE}_{\text{exposure}}$ & -0.02 & 0.01 & -0.05\\
+				$\text{DDE}_{\text{exposure}}$ & -1.88 & -0.82 & -2.90\\
+				$\text{DDE}_{\text{exposure}}$*white & -0.06 & 0.02 & -0.13\\
+				$\text{DDE}_{\text{exposure}}$*white & 1.74 & 3.47 & 0.02\\
+				\bottomrule
+			\end{tabular}
+		}\qquad
+		\subtable[Location 0.8]{%
+			\label{tab:Rthird}%
+			\begin{tabular}{lrrr}
+				\toprule
+				& mean & 95\% & 5\%\\
+				\midrule
+				$\text{DDE}_{\text{exposure}}$ & -0.02 & 0.01 & -0.05\\
+				$\text{DDE}_{\text{exposure}}$ & -1.94 & -0.88 & -2.96\\
+				$\text{DDE}_{\text{exposure}}$*white & -0.06 & 0.01 & -0.13\\
+				$\text{DDE}_{\text{exposure}}$*white & 1.77 & 3.60 & 0.04\\
+				\bottomrule
+			\end{tabular}
+		}
+	}
+{\caption{90\% credible intervals and posterior mean of coefficients under three $R^2$ priors with different locations.}}
+\end{table}
+
+
 \newpage  % ensures that all figures remain together in appendix B
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% BOX COX
@@ -330,8 +346,7 @@ We can see that the value at which the log likelihood peaks is 0. This suggests 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% MODEL CHECKING
 \section{Model Checking}
 
-Since the ordinal data is used, the common residual model checking plot is no longer applicable. Instead, the surrogate residual method suggested by (%$\ref{zz2017}$
-) is used. 
+Since the ordinal data is used, the common residual model checking plot is no longer applicable. Instead, the surrogate residual method suggested by \cite{Liu2018} is used. 
 
 Latent variables $Z$ can be used to parameterize the Bayesian logistics model. Specifically, $Z=-X\beta+\epsilon$ and $Y=j$ if $Z\in[\alpha_{j-1},\alpha_{j}]$, where $\epsilon$ is a random variable with cumulative distribution $G(\cdot)$ and $\alpha_{j}$ is some threshold value. $G^{-1}(\cdot)$ is the link function of the model. Surrogate residual is defined as $R_S=S-E(S|X)$, where $S$ is some continuous variable generated from the conditional distribution of latent variables $Z$ given observation $Y$. If the model assumptions are satisfied, the surrogate residual $R_S$ should display three characteristics: 
 
@@ -369,12 +384,13 @@ The comprehensive output of our model is also included (See Table \ref{tab:fullc
 \end{itemize}
 
 \begin{table}
+	\centering
 	\begin{tabular}{lrrr}
 		\toprule
 		 & 5\% & 95\% & mean\\
 		\midrule
-		dde\_env\_bc & -0.05 & 0.01 & -0.02\\
-		pcb\_env\_bc & -2.73 & -0.75 & -1.76\\
+		$\text{DDE}_{\text{exposure}}$ & -0.05 & 0.01 & -0.02\\
+		$\text{PCB}_{\text{exposure}}$ & -2.73 & -0.75 & -1.76\\
 		race\_aggwhite & 0.10 & 0.85 & 0.47\\
 		center10 & -0.13 & 0.77 & 0.31\\
 		center15 & -1.11 & -0.28 & -0.69\\
@@ -391,8 +407,8 @@ The comprehensive output of our model is also included (See Table \ref{tab:fullc
 		center82 & -1.09 & -0.29 & -0.69\\
 		smoking\_status1 & -0.31 & 0.00 & -0.16\\
 		\addlinespace
-		dde\_env\_bc:race\_aggwhite & -0.12 & 0.02 & -0.05\\
-		pcb\_env\_bc:race\_aggwhite & 0.01 & 3.21 & 1.61\\
+		$\text{DDE}_{\text{exposure}}$*white & -0.12 & 0.02 & -0.05\\
+		$\text{DDE}_{\text{exposure}}$*white & 0.01 & 3.21 & 1.61\\
 		\bottomrule
 		\end{tabular}
 	\label{tab:fullcoef}
@@ -402,7 +418,7 @@ The comprehensive output of our model is also included (See Table \ref{tab:fullc
 \begin{figure}
 	\centering
 	\includegraphics[width=\textwidth]{hists.jpeg}
-	\caption{Histogram of 90\% credible intervals}
+	\caption{Histogram of posterior draws.}
 	\label{fig:hists}
 \end{figure}
 

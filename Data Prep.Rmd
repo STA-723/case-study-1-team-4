@@ -599,50 +599,6 @@ posterior_interval(m_r2_08)
 ```
 Our method is not sensitive to priors.
 
-### Mice packages
-Use tge MICE package
-```{r}
-d <- readRDS("Longnecker.rds") %>%
-  
-  mutate_at(vars(center, smoking_status), factor) %>%
-  dplyr::select(-albumin) %>% # too many NAs
-  
-  # Dependent Variable
-  filter(gestational_age <= 45) %>% # more accurate treatment would be to allow for error in measurement since the number of weeks is only estimated (there is room for error)
-  mutate(outcome_2 = case_when(gestational_age <= 37 ~ "Pre term",
-                               TRUE                  ~ "At term"),
-         gestgroup = case_when(gestational_age <= 34 ~ "Dangerous",
-                               gestational_age <= 37 ~ "Pre term",
-                               TRUE                  ~ "At term")) %>%
-  mutate(gestgroup = gestgroup %>% factor %>% fct_relevel("Dangerous", "Pre term", "At term")) %>%
-  
-  # Aggregate PCBs
-  mutate_at(vars(starts_with("pcb")), my_standardize) %>% # standardize pcb's to give them all equal weight in the aggregate pcb variable
-  rowwise() %>%
-  mutate(pcb = mean(c(pcb_028, pcb_052, pcb_074, pcb_105, pcb_118, pcb_153, pcb_170, pcb_138, pcb_180, pcb_194, pcb_203))) %>%
-  ungroup %>%
-  
-  # Fat
-  mutate(fat = 2.27 * cholesterol + triglycerides + 0.623) %>% # https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3893492/
-  
-  # Exposure
-  mutate(dde_env_bc = dde / log(fat),
-         pcb_env_bc = pcb / log(fat)) %>%
-  
-  # Race
-  mutate(race_agg = case_when(race == "white" ~ "white",
-                              TRUE            ~ "non white") ) %>%
-  # NA
-  mice(m=5,maxit=50,meth='pmm',seed=500)
-```
-```{r}
-m_r2 <- stan_polr(
-  gestgroup ~ dde_env_bc + pcb_env_bc + race_agg + center + smoking_status + dde_env_bc:race_agg + pcb_env_bc:race_agg,
-  d,
-  iter=8*1e3,
-  chains=1,
-  method = "logistic", 
-  prior = R2(.5))
-```
+
 
 

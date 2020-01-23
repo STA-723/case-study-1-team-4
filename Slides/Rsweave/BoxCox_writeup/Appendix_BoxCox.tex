@@ -1,0 +1,126 @@
+%\documentclass[wcp,gray]{jmlr} % test grayscale version
+\documentclass[wcp]{jmlr}% former name JMLR W\&CP
+%\documentclass[pmlr]{jmlr}% new name PMLR (Proceedings of Machine Learning)
+
+ % The following packages will be automatically loaded:
+ % amsmath, amssymb, natbib, graphicx, url, algorithm2e
+ \usepackage{amsmath,amssymb,graphicx,url}
+
+ %\usepackage{rotating}% for sideways figures and tables
+\usepackage{longtable}% for long tables
+
+ % The booktabs package is used by this sample document
+ % (it provides \toprule, \midrule and \bottomrule).
+ % Remove the next line if you don't require it.
+\usepackage{booktabs}
+ % The siunitx package is used by this sample document
+ % to align numbers in a column by their decimal point.
+ % Remove the next line if you don't require it.
+\usepackage[load-configurations=version-1]{siunitx} % newer version
+ %\usepackage{siunitx}
+
+% Package to make table with multi rows and columns
+\usepackage{multirow}
+ 
+ % to do
+\usepackage{xcolor}
+\newcommand\todo[1]{\textcolor{red}{#1}}
+
+ % change the arguments, as appropriate, in the following:
+\jmlrvolume{}
+\jmlryear{}
+\jmlrworkshop{STA723 -- Case Study 1}
+\jmlrproceedings{}{}
+
+
+\usepackage[toc,page]{appendix}
+
+
+% start article
+% \titlebreak
+% \footnote{}
+% \textsf
+
+\title[DDE and PCB effect on Premature delivery]{Assessing Effects of Exposures to DDE and PCBs on Premature Delivery via Ordinal Logistic Regression}	%\titletag{\thanks{XXX}} % leave empty?
+
+ % Use \Name{Author Name} to specify the name.
+ % If the surname contains spaces, enclose the surname
+ % in braces, e.g. \Name{John {Smith Jones}} similarly
+ % if the name has a "von" part, e.g \Name{Jane {de Winter}}.
+ % If the first letter in the forenames is a diacritic
+ % enclose the diacritic in braces, e.g. \Name{{\'E}louise Smith}
+
+ % Authors with different addresses:
+ 
+ \author[Morsomme, Ou, Zito]{Raphael Morsomme \and Rihui Ou \and Alessandro Zito}
+ \date{\today} % Date, can be changed to a custom date
+
+ % Three or more authors with the same address:
+ % \author{\Name{Author Name1} \Email{an1@sample.com}\\
+ %  \Name{Author Name2} \Email{an2@sample.com}\\
+ %  \Name{Author Name3} \Email{an3@sample.com}\\
+ %  \addr Address}
+
+ % Authors with different addresses:
+ % \author{\Name{Author Name1} \Email{abc@sample.com}\\
+ % \addr Address 1
+ % \AND
+ % \Name{Author Name2} \Email{xyz@sample.com}\\
+ % \addr Address 2
+ %}
+
+% leave editor's section empty?
+%\editor{Editor's name}
+% \editors{List of editors' names}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+
+\end{abstract}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% APPENDIX
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\appendix
+\section{Appendix}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% BOX COX
+\subsection{Box-Cox analysis for lipid adjustment.}
+Part of the issue with the exposures of interest in our study (DDE and PCB) is that the substances are lipophilic. This may require to adjust their measurement by the total serum lipid concentration in the blood, so to have an estimate for the excess exposure that comes from the environment. The work by \todo{LI LONGNECKER DUNSON} suggests a possible correction based on a Box- Cox analysis. In particular, let $s_i$ be the measure for the total lipids serum concentration, and $x_i$ the exposure. The adjusted exposure can be computed by setting 
+\begin{equation}
+x_i^* = x_i/g(s_i)
+\end{equation} 
+where $g$ is a function to be estimated. A way to do this is by letting $g$ being equal to the Box-Cox correction, that is
+\begin{equation}
+g(s_i,\lambda) = 
+\begin{cases} 
+\frac{s_i^\lambda-1}{\lambda} & \lambda \neq 0 \\
+\log(s_i) & \lambda =0 
+\end{cases}
+\end{equation}
+Assuming that there is a unique $\lambda$ correction for each level of chemical exposure, we can plot the Log-Likelihood across varying levels of $\lambda$, and then choose the one that maximizes it. In such a way, we can get rid of the potential case in which serum lipids do not have any impact on the covariate. Under such a scenario, the likelihood should pick at a $\lambda$ that minimizes the effect of lipids (making the effect of $x_i$ and $x_i^*$) practically identical. 
+
+Following the above reasoning, we plot the Log-Likelihood across varying levels of $\lambda$  under the transformations
+\begin{equation}
+\textrm{DDE}_{\text{exposure}} = \frac{DDE}{g(\text{lipid})} \qquad \textrm{PCB}_{\text{exposure}} = \frac{PCB}{g(\text{lipid})}
+\end{equation} (\ref{figure Box Cox})
+\todo{INSERT FIGURE HERE}
+
+
+
+
+
+
+
+
+
+
+
+
+
+%\bibliography{bibliography}
+\end{document}

@@ -1,0 +1,35 @@
+\subsection{Box-Cox analysis for lipid adjustment.}
+Part of the issue with the exposures of interest in our study (DDE and PCB) is that the substances are lipophilic. This may require to adjust their measurement by the total serum lipid concentration in the blood, so to have an estimate for the excess exposure that comes from the environment. The work by \todo{LI LONGNECKER DUNSON} suggests a possible correction based on a Box- Cox analysis. In particular, let $s_i$ be the measure for the total lipids serum concentration, and $x_i$ the exposure. The adjusted exposure can be computed by setting 
+\begin{equation}
+x_i^* = x_i/g(s_i)
+\end{equation} 
+where $g$ is a function to be estimated. A way to do this is by letting $g$ being equal to the Box-Cox correction, that is
+\begin{equation}
+g(s_i,\lambda) = 
+\begin{cases} 
+\frac{s_i^\lambda-1}{\lambda} & \lambda \neq 0 \\
+\log(s_i) & \lambda =0 
+\end{cases}
+\end{equation}
+Assuming that there is a unique $\lambda$ correction for each level of chemical exposure, we can plot the Log-Likelihood across varying levels of $\lambda$, and then choose the one that maximizes it. In such a way, we can get rid of the potential case in which serum lipids do not have any impact on the covariate. Under such a scenario, the likelihood should pick at a $\lambda$ that minimizes the effect of lipids (making the effect of $x_i$ and $x_i^*$) practically identical. 
+
+Following the above reasoning, we plot the Log-Likelihood across varying levels of $\lambda$  under the transformations
+\begin{equation}
+\textrm{DDE}_{\text{exposure}} = \frac{DDE}{g(\text{lipid})} \qquad \textrm{PCB}_{\text{exposure}} = \frac{PCB}{g(\text{lipid})}
+\end{equation} (\ref{figure Box Cox})
+\todo{INSERT FIGURE HERE}
+We can see that the value at which the log likelihood peaks is 0. This suggests that a $\log$-transformation of  both variables in preferable. Note that we do not consider any negative transformation for interpretability reasons.  
+
+
+
+
+
+
+
+
+
+
+
+
+%\bibliography{bibliography}
+\end{document}

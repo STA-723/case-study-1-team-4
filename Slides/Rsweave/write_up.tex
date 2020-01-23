@@ -1,5 +1,5 @@
 %\documentclass[wcp,gray]{jmlr} % test grayscale version
-\documentclass[wcp]{jmlr}% former name JMLR W\&CP
+\documentclass[10pt]{jmlr}% former name JMLR W\&CP
 %\documentclass[pmlr]{jmlr}% new name PMLR (Proceedings of Machine Learning)
 
  % The following packages will be automatically loaded:
@@ -34,6 +34,7 @@
 
 
 \usepackage[toc,page]{appendix}
+
 
 
 % start article
@@ -79,6 +80,7 @@
 
 \begin{abstract}
 
+\cite{Li_Long_Duns}
 \end{abstract}
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -106,13 +108,13 @@ The data set consists of 2,380 pregnant women that visited a hospital during the
 
 \subsection{Feature Engineering}
 \label{sec:feature}
-As a first step, we divide the women into three groups, labelled as "Dangerous Preterm", "Preterm" and "At term" based upon the lenght of thei gestation (shorter than $33$ weeks, between $34$ and $36$ weeks and longer than $37$ weeks, respectively). The groups are mean to capture the danger associated to the birth for the child himself. While a delivery after 37 weeks is considered normal, the main organs (especially the respiratory system) develop between week 34 and 37, making a birth before 34 weeks more dangerous. Second, as the twelve PCB measurements showed a high correlation (see \figureref{fig:corr}), we aggregate them into a unique variable by taking their standardized average \footnote{We first standardize each single PCB to to prevent one measurement to dominate the aggregate variable.}. Third, we combine the measurements of chemical in blood with the fat-related variables to estimate the initial level of DDE and PCBs to which the women were exposed from the environment. In particular, we calculate the total amount of fatty tissues using the formula in \todo{PHILLIPS (1989) BERNET (2007)}
+As a first step, we divide the women into three groups, labelled as "Dangerous Preterm", "Preterm" and "At term" based upon the lenght of thei gestation (shorter than $33$ weeks, between $34$ and $36$ weeks and longer than $37$ weeks, respectively). The groups are mean to capture the danger associated to the birth for the child himself. While a delivery after 37 weeks is considered normal, the main organs (especially the respiratory system) develop between week 34 and 37, making a birth before 34 weeks more dangerous. Second, as the twelve PCB measurements showed a high correlation (see \figureref{fig:corr} in \appendixref{appendix:fig}), we aggregate them into a unique variable by taking their standardized average \footnote{We first standardize each single PCB to to prevent one measurement to dominate the aggregate variable.}. Third, we combine the measurements of chemical in blood with the fat-related variables to estimate the initial level of DDE and PCBs to which the women were exposed from the environment. In particular, we calculate the total amount of fatty tissues using the formula in \cite{Phillips1989} and \cite{Bernert2007}
 
 \begin{equation}
 \label{eq:fat}
 \text{lipid} = 2.27 * \text{cholesterol} + \text{triglycerides} + 0.623.
 \end{equation}
-Then, since the amount of chemical absorbed is proportional to the amount of fatty tissue one has, we divide the concentration of PCB and DDE in blood by the log of the level of lipid\footnote{This correction derives from a Box-Cox analysis of our model, following the basic procedure in (\todo{LI LONGNECKER DUNSON (2013)}). See the appendix for further details.}.
+Then, since the amount of chemical absorbed is proportional to the amount of fatty tissue one has, we adjust the concentration of PCB and DDE in blood by dividing by the log of the level of lipid\footnote{This correction derives from a Box-Cox analysis of our model, following the basic procedure in \cite{Li_Long_Duns}. See the appendix for further details.}.
 \begin{equation}
 \label{eq:exp_dde_pcb}
 \text{DDE}_{\text{exposure}} = \dfrac{\text{DDE}}{\log(\text{lipid})} \qquad \text{PCB}_{\text{exposure}} = \dfrac{\text{PCB}_\text{aggregate}}{\log(\text{lipid})}.
@@ -127,10 +129,7 @@ $\text{DDE}_{\text{exposure}}$ and $\text{PCB}_{\text{exposure}}$ are our variab
 \text{logit}(P(gestgroup \le j)) = \beta_{0j} - \mathbf{X} \boldsymbol{\beta}
 \end{equation}
 
-In order to incorporate our model uncertainty, we wish to adopt a Bayesian model averaging (BMA). Yet, since we are not aware of existing computing to realize BMA on an ordinal logistic regression model, we first selected variables using a forward and backward AIC-based procedure. The procedures selects \todo{XXX} and drops \todo{YYY}. We then use the selected variables as predictors in a Bayesian ordinal logistic regression model. The model was fit on stan and we $10$ chains of $10,000$ iterations each were run.
-
-\subsection*{Sensitivity Analysis}
-In order to conduct a sensitivity analysis, we run the Bayesian model using two different priors: uniform and $R^2$. The results are consistent under the two priors (see \todo{refer tables})
+for $j=0$ (=Dangerous)$,1$ (=Preterm), where $\beta_{j0}$ is the baseline coefficient for category $j$, $\boldsymbol{\beta}$ is the effect of each covariate on the log odds and $\mathbf{X}$ is the matrix of regressors. In order to incorporate the model uncertainty into the analysis, we adopt a Bayesian approach. In particular, we first run a forward and backward AIC-based variable selection, which leads to an $\mathbf{X}$ that includes $\text{DDE}_{\text{exposure}}$, $\text{PCB}_{\text{exposure}}$, smoke, center, race and the interactions between $(\text{DDE}_{\text{exposure}}$ and race and between $\text{PCB}_{\text{exposure}}$ and race.\footnote{Ideally, we wish to adopt a Bayesian model averaging (BMA) approach. However, as we are not aware of existing computing resources to apply BMA on an ordinal logistic regression model, we carry out the selection using a frequentist procedure. The variables dropped from the full model are three scores, mother age, and the interactions between $\text{DDE}_{\text{exposure}}$ and center, and between $\text{PCB}_{\text{exposure}}$ and center.}. Second, we set a uniform prior over each coefficent. To further check the robustness of the model, we apply a $R^2$-prior as well.The followign section reports and summarises our findings.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % RESULTS
@@ -141,60 +140,14 @@ In order to conduct a sensitivity analysis, we run the Bayesian model using two 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% EDA
 \subsection{EDA}
 
-\figureref{fig:corr} presents the correlation matrix of the $12$ PCB measurements. We can observe that they are highly correlated with each other. This is not surprising since they correspond to breakdown products of PCB. This provides a rationale for aggregating these measurements into one variable that attempts to approximate the total amount of PCB in the women's blood (see \sectionref{sec:feature}). \figureref{fig:center} presents the distribution of gestational outcome across the different centers. There exists a wide spread of outcome among the centers: for instance, while center $31$ did not have any delivery that was \textit{dangerous}, more than a third of the deliveries realized in the centers $15, 62, 37$ occurred pre-term. \figureref{fig:center} shows the distribution of the estimated exposure to PCB and DDE per gestational outcome and per race. We can observe a negative weak association between gestational outcome and DDE. We also note that the distribution of the chemicals vary across the two race levels. This indicates that we need to control for race in the regression model in order to prevent the variable from acting like a confounder.
-
-\begin{figure}[htbp]
-	\floatconts
-	{fig:corr}
-	{\caption{Correlation among the 12 PCBs variables.}}
-	{\includegraphics[width=0.5\linewidth]{pcb_corr}}
-\end{figure}
-
-\begin{figure}[htbp]
-	\floatconts
-	{fig:center}
-	{\caption{Gestational outcome per hospital center.}}
-	{\includegraphics[width=0.6\linewidth]{outcome_per_center}}
-\end{figure}
-
-\begin{figure}[htbp]
-	\floatconts
-	{fig:center}
-	{\caption{Distribution of estimated exposure to PCB and DDE per gestational outcome and per race.}}
-	{\includegraphics[width=0.6\linewidth]{pcb_dde_per_gest}}
-\end{figure}
-
+\figureref{fig:corr} presents the correlation matrix of the $11$ PCB measurements. We can observe that they are highly correlated with each other. This is not surprising since they correspond to breakdown products of PCB. This provides a rationale for aggregating these measurements into one variable that attempts to approximate the total amount of PCB in the women's blood (see \sectionref{sec:feature}). \figureref{fig:center} presents the distribution of gestational outcome across the different centers. There exists a wide spread of outcome among the centers: for instance, while center $31$ does not have any \textit{dangerous} delivery, more than a third of the deliveries recorded in centers $15, 62, 37$ occurred pre-term. \figureref{fig:pcb} shows the distribution of the estimated exposure to PCB and DDE per gestational outcome and per race. We can observe a negative weak association between gestational outcome and DDE. We also note that the distribution of the chemicals vary across the two race groups. This indicates that we need to control for race in the regression model in order to prevent the variable from acting as a confounder.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% MAIN FINDINGS
 \subsection{Main Findings}
 
-\begin{table}
-	\centering
-	\begin{tabular}{lrrr}
-		\toprule
-		& mean & 5\% & 95\%\\
-		\midrule
-		$\text{DDE}_{\text{exposure}}$ & 0.02 & -0.01 & 0.05\\
-		$\text{PCB}_{\text{exposure}}$& 1.76 & 0.72 & 2.75\\
-		$\text{DDE}_{\text{exposure}}$*white & 0.05 & -0.02 & 0.12\\
-		$\text{PCB}_{\text{exposure}}$*white & -1.60 & -3.26 & 0.02\\
-		\bottomrule
-	\end{tabular}
-	\caption{\label{tab:confints} 90\% credible intervals and posterior mean of coefficients}
-\end{table}
-
-\begin{figure}[htbp]
-	\floatconts
-	{fig:corr}
-	{\caption{Estimated probability of gestation outcomes in function of race, and exposure to DDE and PCB.}}
-	{\includegraphics[width=0.8\linewidth]{results}}
-\end{figure}
-
-\textcolor{red}{ADD HERE THE SAME PLOT UNDER A R2 PRIOR.}
-
-
 \textcolor{red}{RIHUI: MAKING A LISTED DOT LIKE WE DID IN THE SLIDES IS NOT A GOOD IDEA WHEN YOU HAVE TO SUMMARIZE EVERYTHING IN THREE PAGES. THIS SECTION NEEDS TO BE REVISED.}
+We fit our Bayesian model via {\tt Stan} using $10$ chains of $10,000$ iterations each.
 Main findings: the effect of the chemicals on the risk of early delivery is race dependent. Exposure to DDE has a particularly detrimental impact on the gestation process among white women, while exposure to PCB affects non-white more (see \figureref{fig:results})).
 We gave the 90\% credible intervals for coefficients and their posterior mean. (Table \ref{tab:confints}). The interpretation of coefficients are as follow:
 \begin{itemize}
@@ -219,21 +172,127 @@ RAPAHEL: SHOULD WE INCLUDE THE FREQUENTIST ESTIMATES ASWELL?}
 
 Future directions: add quadratic term to age since gestations at a young and an old age are more at risk of complications, consider interaction between PCB and DDE (chemicals commonly interact with each other), model the effect of the chemicals in a non-linear way since small levels of exposure are likely to have no effect on human health and we expect the effect tha stabilize past a certain threshold.
 
+mice. Conducting variable selection on on mean-imputed data reduces the chance of the imputed variables to be selected. Our selection procedure drops the three variable that are mean imputed.
+
+
+\newpage %%%% Ensures that Bibliography stays in one separate page.
+\begin{thebibliography}{99} % Beamer does not support BibTeX so references must be inserted manually as below
+	
+	\bibitem[Li et al, 2013]{Li_Long_Duns} Li, D; Longnecker, M.P.; and Dunson, D.B. \\
+	\newblock Lipid Adjustment for Chemical Exposures: Accounting for Concomitant Variables.\\
+	\newblock \emph{Epidemiology}, Nov 2013
+	
+	\bibitem[Phillips et al.(1989)]{Phillips1989}Phillips, D; Pirke, J., Burse, V.; Bernert, J.; Henderson, L.; Needham, L.\\
+	\newblock Chlorinated hydrocarbon levels in human serum: Effects of fasting and feeding.\\
+	\newblock \emph{Archives of Environmental Contamination and Toxicology}, 1989
+	
+	\bibitem[Bernert et al, 2007]{Bernert2007} Bernert, JT.; Turner, WE.;, Patterson, DG. Jr;, Needham, LL.\\
+	\newblock Calculation of serum total lipid concentrations for the adjustment of persistent organohalogen toxicant measurements in human samples.\\
+	\newblock \emph{Chemosphere}, 2007
+	
+	\bibitem[Liu and Zhang, 2018]{Liu2018} Liu, D.; and Zhang, H.;\\
+	\newblock Residuals and Diagnostics for Ordinal Regression Models: A Surrogate Approach\\
+	\newblock \emph{Journal of the Americal Statistical Association}, 2018
+	
+\end{thebibliography}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % APPENDIX
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \appendix
-\section{Appendix}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% BOX COX
-\subsection{Box-Cox analysis for lipid adjustment.}
-\textcolor{red}{ALESSANDRO'S JOB}
+\section{Figures}
+\label{appendix:fig}
+
+\begin{figure}[htbp]
+	\centering
+	\caption{Correlation among the 12 PCBs variables.}
+	\includegraphics[width=0.5\linewidth]{pcb_corr}
+	\label{fig:corr}
+\end{figure}
+
+\begin{figure}[htbp]
+	\centering
+	\caption{Gestational outcome per hospital center.}
+	\includegraphics[width=0.7\linewidth]{outcome_per_center}
+	\label{fig:center}
+\end{figure}
+
+\begin{figure}[htbp]
+	\centering
+	\caption{Distribution of estimated exposure to PCB and DDE per gestational outcome and per race.}
+	\includegraphics[width=0.7\linewidth]{pcb_dde_per_gest}
+	\label{fig:pcb}
+\end{figure}
+
+\begin{figure}[htbp]
+	\centering
+	\caption{Estimated probability of gestation outcomes in function of race, and exposure to DDE and PCB.}
+	\includegraphics[width=0.7\linewidth]{results}
+	\label{fig:results}
+\end{figure}
+
+
+\newpage % ensures that all figures remain together in appendix A
+\section{Tables}
+\begin{table}
+	\centering
+	\begin{tabular}{lrrr}
+		\toprule
+		& mean & 5\% & 95\%\\
+		\midrule
+		$\text{DDE}_{\text{exposure}}$ & 0.02 & -0.01 & 0.05\\
+		$\text{PCB}_{\text{exposure}}$& 1.76 & 0.72 & 2.75\\
+		$\text{DDE}_{\text{exposure}}$*white & 0.05 & -0.02 & 0.12\\
+		$\text{PCB}_{\text{exposure}}$*white & -1.60 & -3.26 & 0.02\\
+		\bottomrule
+	\end{tabular}
+	\caption{\label{tab:confints} 90\% credible intervals and posterior mean of coefficients}
+\end{table}
+\newpage  % ensures that all figures remain together in appendix B
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% BOX COX
+\section{Box-Cox analysis for lipid adjustment.}
+
+Part of the issue with the exposures of interest in our study (DDE and PCB) is that the substances are lipophilic. This may require to adjust their measurement by the total serum lipid concentration in the blood, so to have an estimate for the excess exposure that comes from the environment. The work by \cite{Li_Long_Duns} suggests a possible correction based on a Box- Cox analysis. In particular, let $s_i$ be the measure for the total lipids serum concentration, and $x_i$ the exposure. The adjusted exposure can be computed by setting 
+\begin{equation}
+x_i^* = x_i/g(s_i)
+\end{equation} 
+where $g$ is a function to be estimated. A way to do this is by letting $g$ being equal to the Box-Cox correction, that is
+\begin{equation}
+g(s_i,\lambda) = 
+\begin{cases} 
+\frac{s_i^\lambda-1}{\lambda} & \lambda \neq 0 \\
+\log(s_i) & \lambda =0 
+\end{cases}
+\end{equation}
+Assuming that there is a unique $\lambda$ correction for each level of chemical exposure, we can plot the Log-Likelihood across varying levels of $\lambda$, and then choose the one that maximizes it. In such a way, we can get rid of the potential case in which serum lipids do not have any impact on the covariate. Under such a scenario, the likelihood should pick at a $\lambda$ that minimizes the effect of lipids (making the effect of $x_i$ and $x_i^*$) practically identical. 
+
+Following the above reasoning, we plot the Log-Likelihood across varying levels of $\lambda$  under the transformations
+\begin{equation}
+\textrm{DDE}_{\text{exposure}} = \frac{DDE}{g(\text{lipid})} \qquad \textrm{PCB}_{\text{exposure}} = \frac{PCB}{g(\text{lipid})}
+\end{equation}
+
+
+\begin{figure}[htbp]
+	\centering
+	\caption{Log-likelihood for different values of $\lambda$.}
+	\includegraphics[width=0.7\linewidth]{BocCox}
+	\label{fig:boxcox}
+\end{figure}
+
+We can see that the value at which the log likelihood peaks is 0. This suggests that a $\log$-transformation o  both variables in preferable. Note that we do not consider any negative transformation for interpretability reasons. 
+
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% AIC VARIABLE SELECTION
-\subsection{Variable selection procedure}
+\section{Variable selection procedure}
 \textcolor{red}{RIHUI'S JOB. WE NEED TO SHOW THE RESULT OF OUR AIC CODE. MORE IN GENERAL, WE NEED TO SHOW SOME FREQUENTIST RESULTS.}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% MODEL CHECKING
-\subsection{Model Checking}
+\section{Model Checking}
 \textcolor{red}{RIHUI'S JOB. FIX IT AND MAKE IT BETTER READABLE. WHAT ARE THE SURROGATE RESIDUALS? WE NEED AN EXPLANATION. THIS IS NOT SUFFICIENT.}
 
 Since the ordinal data is used, the common residual plot model checking is not applicable here. Instead, the surrogate residual method suggested by (%$\ref{zz2017}$
@@ -260,6 +319,8 @@ The scatterplot (Figure\ref{fig:surrogateresid}) indicates that feature 1 and 2 
 	\caption{QQ plot of the Surrogate residuals}
 	\label{fig:qqplot}
 \end{figure}
+
+
 
 
 

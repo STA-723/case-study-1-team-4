@@ -604,17 +604,26 @@ Look at the credible intervals for .3
 posterior_interval(m) %>% round(2) %>% kable("latex")
 ```
 ```{r} 
-posterior_interval(m_r2_03) %>% round(2) %>% kable("latex")
+posterior_interval(m_r2_03) %>% round(2) %>% kable("latex", booktabs = TRUE)
 ```
 for .5
 ```{r}
-posterior_interval(m_r2_05) %>% round(2) %>% kable("latex")
+posterior_interval(m_r2_05) %>% round(2) %>% kable("latex", booktabs = TRUE)
 ```
 for .8
 ```{r}
-posterior_interval(m_r2_08) %>% round(2) %>% kable("latex")
+posterior_interval(m_r2_08) %>% round(2) %>% kable("latex", booktabs = TRUE)
 ```
 Our method is not sensitive to priors.
+
+```{r}
+posterior_interval(m) %>% round(2) %>% kable("latex",booktabs=TRUE)
+```
+
+```{r}
+plot(m,"hist")
+my_ggsave("XXX.jpeg")
+```
 
 
 

@@ -79,7 +79,7 @@
 \maketitle
 
 \begin{abstract}
-This report focuses on the adverse effects of exposures to DDE and PCB chemicals on the chance of premature birth delivery, which may be associated to a weaker health status for the newborn. In particular, we analyze the gestation length in weeks of a sample 2380 women of different race and economic status collected across 11 medical centers. We first divide the women into three groups ("Dangerous preterm", "Preterm" and "At term").  As DDE and PCB are lipophilic substances, we correct their concentration measurement to control for an estimate of the lipids in the blood, and later use these adjusted measures as explanatory variables in a Bayesian ordinal logistic regression model with the women's group as outcome. We find that the effects of the chemicals are essentially race dependent: increases in PCB levels are more detrimental to non-whites, while increases in DDE enhance the odds of a more dangerous delivery on white. 
+This report focuses on the adverse effects of exposures to DDE and PCB chemicals on the chance of premature birth delivery, which may be associated to a weaker health status for the newborn. In particular, we analyze the gestation length of a sample 2380 women of different races and socio-economic status collected across 11 medical centers. We first divide the women into three groups ("Dangerous preterm", "Preterm" and "At term"). As DDE and PCB are lipophilic substances, we correct their concentration measurement to control for an estimate of the lipids in the blood, and later use these adjusted measures as explanatory variables in a Bayesian ordinal logistic regression model with the women's group as outcome. We find that the effects of the chemicals are essentially race dependent: increases in PCB exposure are more detrimental to non-white women, while increases in DDE exposure enhance the odds of a more dangerous delivery on white women. 
 \end{abstract}
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -88,11 +88,11 @@ This report focuses on the adverse effects of exposures to DDE and PCB chemicals
 \section{Introduction}
 \label{sec:intro}
 
-Dichlorodiphenyldichloroethylene (DDE) and Polychlorinated Biphenyls (PCB) are two chemical elements which were commonly useD in the United States for agricultural purpouses and were banned during the 70's due to their detrimental effect on human health. In particular, exposure to these chemical products has been linked to neurobehavioral and developmental deficits in newborns. As the human body stores them in its fatty tissues, studying their impact on human health is particularly important.
+Dichlorodiphenyldichloroethylene (DDE) and Polychlorinated Biphenyls (PCB) are two chemical elements that were commonly used in the United States for agricultural purposes and which were banned during the 70's due to their detrimental effect on human health. In particular, exposure to these chemical products has been linked to neurobehavioral and developmental deficits in newborns. As these elements remain in fatty tissues for a long period of time, studying their impact on human health is particularly important.
 
-In this report, we examine the effect of DDE and PCB on fetuses; more precisely, we assess the potential association between the exposure to these chemicals and the chance of early delivery. Ideally, a higher exposure to the substances induces a preterm delivery, which may have adverse consequences for the child. To verify this theory, we construct an ordinal logistic regression model over three delivery groups defined by the recorded lenght of the gestation period.  We find that the impact of the substances is essentially race specific: exposure to DDE increases the risk of early childbirth among white people and exposure to PCB increases the risk among non-white ones. 
+In this report, we examine the effect of exposure to DDE and PCB experienced by pregnant women during their lives on birth outcome; more precisely, we assess the potential association between the exposure to these chemicals and the chance of early delivery. We hypothesize that a higher level of exposure to these substances induces a preterm delivery, which may have adverse consequences for the child. To verify this theory, we construct an ordinal logistic regression model over three delivery groups defined by the recorded lenght of the gestation period.  We find that the impact of the substances is essentially race specific: exposure to DDE increases the risk of early childbirth among white women while exposure to PCB increases the risk among non-white women. 
 
-The report is divided as follows: \sectionref{sec:method} presents the data and our methodology,  \sectionref{sec:results} reports our findings, \sectionref{sec:conclusion} discusses the results and concludes.
+The report is divided as follows: \sectionref{sec:method} presents the data and our methodology,  \sectionref{sec:results} reports our findings and \sectionref{sec:conclusion} discusses the results and concludes.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -103,17 +103,17 @@ The report is divided as follows: \sectionref{sec:method} presents the data and 
 
 \subsection{Data}
 \label{sec:data}
-The data set consists of 2,380 pregnant women that visited a hospital during their pregnancy in 2001. It contains the length of the gestation in weeks, the concentration doses of DDE and the twelve PCB breakdown products in the blood, the concentration of cholesterol and triglycerides and several demographic information (race, level of education, income, occupation, age, smoking status and the center attended by the woman). However, 43 women showed a length of gestation superior to 45 weeks (the second longest gestation period ever recorded), and 1 women did not show any records of the PCBs levels. Thus, we decide to drop them, reducing the number of women to 2,336. Finally, we mean impute the missing data on the income, education and occupational scores\footnote{Note that these scores will not end up in the final model.}. The following subsection describes the construction of the relevant variable in our analysis.
+The data set consists of $2,380$ pregnant women that visited one of 11 selected american medical centers during their pregnancy in 2001. It contains the length of the gestation in weeks, the concentration doses of DDE and the twelve PCB breakdown products in the women's blood, the concentration of cholesterol and triglycerides, the center attended by the woman along with several demographic information (race, level of education, income, occupation, age and smoking status). We remove the $43$ women with a length of gestation superior to $45$ weeks (which corresponds to the second longest gestation period ever recorded), and the one woman with no value for her PCBs concentrations. Finally, we mean impute the missing data on the income, education and occupational scores\footnote{Note that these scores will not end up in the final model.}. 
 
 \subsection{Feature Engineering}
 \label{sec:feature}
-As a first step, we divide the women into three groups, labelled as "Dangerous Preterm", "Preterm" and "At term" based upon the lenght of thei gestation (shorter than $33$ weeks, between $34$ and $36$ weeks and longer than $37$ weeks, respectively). The groups are mean to capture the danger associated to the birth for the child himself. While a delivery after 37 weeks is considered normal, the main organs (especially the respiratory system) develop between week 34 and 37, making a birth before 34 weeks more dangerous. Second, as the twelve PCB measurements showed a high correlation (see \figureref{fig:corr} in \appendixref{appendix:fig}), we aggregate them into a unique variable by taking their standardized average \footnote{We first standardize each single PCB to to prevent one measurement to dominate the aggregate variable.}. Third, we combine the measurements of chemical in blood with the fat-related variables to estimate the initial level of DDE and PCBs to which the women were exposed from the environment. In particular, we calculate the total amount of fatty tissues using the formula in \cite{Phillips1989} and \cite{Bernert2007}
+As a first step towards constructing variables relevant to our analysis, we divide the women into three groups, labelled as "Dangerous Preterm", "Preterm" and "At term" based upon the lenght of their gestation (shorter than $33$ weeks, between $34$ and $36$ weeks and longer than $37$ weeks, respectively). The groups are meant to capture the danger associated with the birth of the child. The main organs (especially the respiratory system) develop between week 34 and 37, making a birth before 34 weeks more dangerous. Second, as the twelve PCB measurements showed a high correlation (see \figureref{fig:corr} in \appendixref{appendix:fig}), we aggregate them into a unique variable by taking their standardized average \footnote{We first standardize each single PCB in order to prevent one measurement from dominating the aggregate variable.}. Third, we combine the measurements of chemical in blood with the fat-related variables to estimate the level of DDE and PCBs to which the women were exposed during their live. In particular, we calculate the total amount of fatty tissues using the formula suggested in \cite{Phillips1989} and confirmed \cite{Bernert2007}
 
 \begin{equation}
 \label{eq:fat}
 \text{lipid} = 2.27 * \text{cholesterol} + \text{triglycerides} + 0.623.
 \end{equation}
-Then, since the amount of chemical absorbed is proportional to the amount of fatty tissue one has, we adjust the concentration of PCB and DDE in blood by dividing by the log of the level of lipid\footnote{This correction derives from a Box-Cox analysis of our model, following the basic procedure in \cite{Li_Long_Duns}. See the appendix for further details.}.
+Then, since the amount of chemical absorbed is proportional to the amount of fatty tissue one has, we adjust the concentration of PCB and DDE in blood by dividing by the log of the level of lipid\footnote{This correction derives from a Box-Cox analysis of our model, following the basic procedure in \cite{Li_Long_Duns}. See \appendixref{appendix:boxcox} for further details.}.
 \begin{equation}
 \label{eq:exp_dde_pcb}
 \text{DDE}_{\text{exposure}} = \dfrac{\text{DDE}}{\log(\text{lipid})} \qquad \text{PCB}_{\text{exposure}} = \dfrac{\text{PCB}_\text{aggregate}}{\log(\text{lipid})}.
@@ -127,8 +127,7 @@ $\text{DDE}_{\text{exposure}}$ and $\text{PCB}_{\text{exposure}}$ are our variab
 \label{eq:ordi_logit}
 \text{logit}(P(gestgroup \le j)) = \beta_{0j} - \mathbf{X} \boldsymbol{\beta}
 \end{equation}
-
-for $j=0$ (=Dangerous)$,1$ (=Preterm), where $\beta_{j0}$ is the baseline coefficient for category $j$, $\boldsymbol{\beta}$ is the effect of each covariate on the log odds and $\mathbf{X}$ is the matrix of regressors. In order to incorporate the model uncertainty into the analysis, we adopt a Bayesian approach. In particular, we first run a forward and backward AIC-based variable selection, which leads to an $\mathbf{X}$ that includes $\text{DDE}_{\text{exposure}}$, $\text{PCB}_{\text{exposure}}$, smoke, center, race and the interactions between $(\text{DDE}_{\text{exposure}}$ and race and between $\text{PCB}_{\text{exposure}}$ and race.\footnote{Ideally, we wish to adopt a Bayesian model averaging (BMA) approach. However, as we are not aware of existing computing resources to apply BMA on an ordinal logistic regression model, we carry out the selection using a frequentist procedure. The variables dropped from the full model are three scores, mother age, and the interactions between $\text{DDE}_{\text{exposure}}$ and center, and between $\text{PCB}_{\text{exposure}}$ and center.}. Second, we set a uniform prior over each coefficent. To further check the robustness of the model, we apply a $R^2$-prior as well. The following section reports and summarises our findings. Ordinal logistic model assumptions are checked in the appendix.
+for $j=0$ (Dangerous), $1$ (Preterm), where $\beta_{j0}$ is the baseline coefficient for category $j$, $\boldsymbol{\beta}$ is the effect of each covariate on the log odds and $\mathbf{X}$ is the matrix of regressors. In order to incorporate the model uncertainty into the analysis, we adopt a Bayesian approach. In particular, we first run a forward and backward AIC-based variable selection, which leads to an $\mathbf{X}$ that includes $\text{DDE}_{\text{exposure}}$, $\text{PCB}_{\text{exposure}}$, smoke, center, race and the interactions between $(\text{DDE}_{\text{exposure}}$ and race and between $\text{PCB}_{\text{exposure}}$ and race.\footnote{Ideally, we wish to adopt a Bayesian model averaging (BMA) approach. However, as we are not aware of existing computing resources to apply BMA on an ordinal logistic regression model, we carry out the selection using a frequentist procedure. The variables dropped from the full model are three scores, mother age, and the interactions between $\text{DDE}_{\text{exposure}}$ and center, and between $\text{PCB}_{\text{exposure}}$ and center.}. Second, we set a uniform prior over each coefficent. To further check the robustness of the model, we apply a $R^2$-prior as well. The following section reports and summarises our findings. Ordinal logistic model assumptions are checked in the appendix.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % RESULTS
@@ -144,16 +143,16 @@ for $j=0$ (=Dangerous)$,1$ (=Preterm), where $\beta_{j0}$ is the baseline coeffi
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% MAIN FINDINGS
 \subsection{Main Findings}
-We fit our Bayesian model with uniform prior via {\tt Stan} using $10$ chains of $10,000$ iterations each. Table \todo{XXXX} reports the mean of the posterior parameters, as long as the associated 95\% confidence intervals, of the DDE and PCB variables and their interaction with race group. All the other coefficients, including the center effects, are reported in the appendix. Two main facts are worth underlining. First, we see that the estimates are in line with what we expected: an increase in either the  PCB or DDE concentration in blood leads to higher odds of having a dangerous delivery. In particular, a 1 unit increase of $\text{DDE}_{\text{exposure}}$ increments the odds of a more adverse preterm by $2.02\%$ for non whites and by $7.25\%$ for white women\footnote{Say that $\beta$ is our coefficient associated to the variable $x$ in the ordinal logistic regression. Then, if the outcomes are ordered from worst to best (like in our example), an increase in 1 unit of $x$ is associated with a variation of the odds of the worst outcome by $(e^{-\beta}-1)*100\%$. }. On the other hand, increments by 0.1 units of $\text{PCB}_{\text{exposure}}$ increases the odds of the worst delivery by $19.22\%$ for non-white women, and by $1.595\%$ for white ones. The above percentages highlight the second noticeable fact in our analysis, that is the race dependency of the exposures. This fact is particularly evident from figure \todo{XXX}, which plots how the predicted probabilities of each delivery group vary for higher levels of PCB and DDE\footnote{The curves are computed with reference to center "5" and for non-smoking individuals. Probabilities for DDE variations are predicted holding PCB constant a his mean, and viceversa.}. We see that, as the adjusted exposures increase, the probability of delivering at term decreases (with whites more sensitive to DDE and non-whites to PCB).
+We fit our Bayesian model with uniform prior via {\tt Stan} using $10$ chains of $10,000$ iterations each. \tableref{tab:confintsunif} reports the mean of the posterior parameters, as long as the associated 95\% confidence intervals, of the DDE and PCB variables and their interaction with race group. All the other coefficients, including the center effects, are reported in the appendix. Two main facts are worth underlining. First, we see that the estimates are in line with what we expected: an increase in either the  PCB or DDE concentration in blood leads to higher odds of having a dangerous delivery. In particular, a 1 unit increase of $\text{DDE}_{\text{exposure}}$ increments the odds of a more adverse preterm by $2.02\%$ for non whites and by $7.25\%$ for white women\footnote{Say that $\beta$ is our coefficient associated to the variable $x$ in the ordinal logistic regression. Then, if the outcomes are ordered from worst to best (like in our example), an increase in 1 unit of $x$ is associated with a variation of the odds of the worst outcome by $(e^{-\beta}-1)*100\%$. }. On the other hand, increments by 0.1 units of $\text{PCB}_{\text{exposure}}$ increases the odds of the worst delivery by $19.22\%$ for non-white women, and by $1.595\%$ for white ones. The above percentages highlight the second noticeable fact in our analysis, that is the race dependency of the exposures. This fact is particularly evident from \figureref{fig:results}, which plots how the predicted probabilities of each delivery group vary for higher levels of PCB and DDE\footnote{The curves are computed with reference to center "5" and for non-smoking individuals. Probabilities for DDE variations are predicted holding PCB constant a his mean, and viceversa.}. We see that, as the adjusted exposures increase, the probability of delivering at term decreases (with whites more sensitive to DDE and non-whites to PCB).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% SENSITIVITY ANALYSIS
 \subsection{Sensitivity Analysis}
-To further check the robustness of our finding, we test the model with a different prior and varying hyperparameters. In particular, we set an $R^2$ prior with location at $0.3$, $0.5$ and $0.8$ respectively. Table \ref{tab:priors}) reports the estimated means of the posterior coefficient and the confidence intervals. We see that the effects do not vary significantly in magnitude. For example, a 0.1 unit increase in PCB leads to a $20.56\%$, $20.68\%$ and $21.41\%$  increase in the odds of the most adverse delivery for non-whites under a $0.3$,$0.5$ and $0.8$ location, respectively.Similar results can be checked for the other coefficients. To conclude, our method is not sensitive to the choice of priors.
+To further check the robustness of our finding, we test the model with a different prior and varying hyperparameters. In particular, we set an $R^2$ prior with location at $0.3$, $0.5$ and $0.8$ respectively. \tableref{tab:confintsR} reports the estimated means of the posterior coefficient and the confidence intervals. We see that the effects do not vary significantly in magnitude. For example, a 0.1 unit increase in PCB leads to a $20.56\%$, $20.68\%$ and $21.41\%$  increase in the odds of the most adverse delivery for non-whites under a $0.3$,$0.5$ and $0.8$ location, respectively.Similar results can be checked for the other coefficients. To conclude, our method is not sensitive to the choice of priors.
 
 \section{Conclusions and further discussion}
 \label{sec:conclusion}
 
-Future directions: add quadratic term to age since gestations at a young and an old age are more at risk of complications, consider interaction between PCB and DDE (chemicals commonly interact with each other), model the effect of the chemicals in a non-linear way since small levels of exposure are likely to have no effect on human health and we expect the effect tha stabilize past a certain threshold.
+Future directions: add quadratic term to age since gestations at a young and an old age are more at risk of complications, consider interaction between PCB and DDE (chemicals commonly interact with each other), model the effect of the chemicals in a non-linear way since small levels of exposure are likely to have no effect on human health and we expect the effect to stabilize past a certain threshold.
 
 mice. Conducting variable selection on on mean-imputed data reduces the chance of the imputed variables to be selected. Our selection procedure drops the three variable that are mean imputed.
 
@@ -222,7 +221,6 @@ mice. Conducting variable selection on on mean-imputed data reduces the chance o
 
 \begin{table}
 	\centering
-	\label{tab:confints_unif}
 	\begin{tabular}{lrrr}
 		\toprule
 		& mean & 95\% & 5\%\\
@@ -234,6 +232,7 @@ mice. Conducting variable selection on on mean-imputed data reduces the chance o
 		\bottomrule
 	\end{tabular}
 	\caption{ 90\% credible intervals and posterior mean of coefficients under a uniform prior.}
+	\label{tab:confintsunif}
 \end{table}
 
 
@@ -241,7 +240,6 @@ mice. Conducting variable selection on on mean-imputed data reduces the chance o
 
 \begin{table}[htbp]
 	\centering
-	\label{tab:confintsR}
 	{%
 		\subtable[Location $0.3$]{%
 			\label{tab:Rfirst}%
@@ -283,7 +281,8 @@ mice. Conducting variable selection on on mean-imputed data reduces the chance o
 			\end{tabular}
 		}
 	}
-{\caption{90\% credible intervals and posterior mean of coefficients under three $R^2$ priors with different locations.}}
+\caption{90\% credible intervals and posterior mean of coefficients under three $R^2$ priors with different locations.}
+\label{tab:confintsR}
 \end{table}
 
 
@@ -291,6 +290,7 @@ mice. Conducting variable selection on on mean-imputed data reduces the chance o
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% BOX COX
 \section{Box-Cox analysis for lipid adjustment.}
+\label{(appendix:boxcox)}
 
 Part of the issue with the exposures of interest in our study (DDE and PCB) is that the substances are lipophilic. This may require to adjust their measurement by the total serum lipid concentration in the blood, so to have an estimate for the excess exposure that comes from the environment. The work by \cite{Li_Long_Duns} suggests a possible correction based on a Box- Cox analysis. In particular, let $s_i$ be the measure for the total lipids serum concentration, and $x_i$ the exposure. The adjusted exposure can be computed by setting 
 \begin{equation}
